@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<!-- 引入Thymeleaf模板、shiro标签 -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>计划绑定PD单</title>
+    <!-- 导入bootstrap样式 -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- title图标 -->
+    <link rel="icon" th:href="@{/image/favicon.ico}" type="images/x-ico"/>
+    <!-- 引用jquery -->
+    <script th:src="@{/bootstrap/js/jquery-3.1.1.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/laydate/laydate.js}"></script>
+    <script th:src="@{/js/ajaxAll.js}"></script>
+    <script th:src="@{/js/geelyBillUpload.js}"></script>
+    <script type="text/javascript">
+        //定义全局变量
+        var updateData=false;
+        var deleteData=false;
+    </script>
+    <style>
+        #search-collapse input{
+            height: 30px;
+            padding-left:10px ;
+        }
+        #search-collapse select{
+            height: 30px;
+        }
+        #billTable{
+            white-space: nowrap;
+        }
+        #billTable th{
+            white-space: nowrap;
+        }
+        table tbody tr:hover{
+            color: rgba(78, 84, 78, 0.82);
+        }
+    </style>
+</head>
+<body>
+<shiro:hasPermission name="planCacheUpdate">
+    <script>updateData=true</script>
+</shiro:hasPermission>
+<shiro:hasPermission name="planCacheDelete">
+    <script>deleteData=true</script>
+</shiro:hasPermission>
+<!-- 面包屑导航 -->
+<ul class="breadcrumb" style="margin:0">
+    <li class="active">缺件计划</li>
+    <li class="active">计划绑定PD单</li>
+</ul>
+
+<!-- 搜索导航 -->
+<div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search-collapse">
+        筛选条件<span class="glyphicon glyphicon-chevron-down"></span>
+    </button>
+</div>
+<div class="collapse navbar-collapse" id="search-collapse">
+    <button class="btn btn-primary btn-sm form-inline" type="button" onclick="toUpload()">上传PD单<span
+            class="glyphicon glyphicon-upload"></span></button>
+</div>
+
+<p align="center" style="font-weight: bolder"><span id="span_supplierCode"></span> <span id="span_supplierName"></span></p>
+
+<table class="table table-condensed table-bordered table-hover" id="billTable">
+    <thead>
+    <tr>
+        <th style="display:none">id</th>
+        <th>物料编号</th>
+        <th>物料名称</th>
+        <th>计划数量</th>
+        <th>取货数量</th>
+        <th>计划日期</th>
+        <th>所属线路</th>
+        <th>所属工厂</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody id="table_data"></tbody>
+</table>
+
+<!-- 选择供应商模态框 -->
+<div class="modal fade" id="supplierModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" align="center">填入供应商名称</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" id="input_supplier" placeholder="输入供应商名称" class="form-control" data-toggle="dropdown">
+                    <ul class="dropdown-menu" id="ul_supplier" style="display:none"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 显示对应PD单记录的模态框 -->
+<div class="modal fade" id="billModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 align="center">选择PD单记录</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="input_planCacheId" style="display: none">
+                <table class="table table-condensed table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th style="display: none">id</th>
+                        <th>全选<input type="checkbox" id="allCheckBox"></th>
+                        <th>单号</th>
+                        <th>物料编号</th>
+                        <th>物料名称</th>
+                        <th>数量</th>
+                        <th>批次</th>
+                    </tr>
+                    </thead>
+                    <tbody id="table_billCache"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="bind()">绑定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--上传模态框 -->
+<div class="modal fade" id="uploadModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 align="center">批量添加</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>选择工厂</label>
+                    <select class="form-control" id="select_factoryId"></select>
+                </div>
+                <div class="form-group">
+                    <form method="post" enctype="multipart/form-data" id="uploadForm" role="form">
+                        <input type="file" name="file" id="uploadFile" accept="application/pdf" multiple="multiple" class="form-control">
+                    </form>
+                </div>
+                <div class="form-group">
+                    <table class="table table-condensed table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>文件名称</th>
+                            <th>结果</th>
+                            <th>上传时间</th>
+                        </tr>
+                        </thead>
+                        <tbody id="table_upload"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="button" onclick="upload()">导入</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 页面加载提示 -->
+<div id="div_loading"
+     style="display:none;z-index:9999;position:absolute;width:100%;height:100%;top:0;left:0;background:#ffffff;">
+    <img alt="加载中..." th:src="@{/image/loading.gif}"
+         style="position:absolute;left:50%;top:50%;transform: translate(-50%,-50%);">
+</div>
+
+</body>
+</html>

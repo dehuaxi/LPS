@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.PlanTakeMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.PlanTake" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="plancacheid" property="plancacheid" jdbcType="INTEGER" />
+    <result column="plannumber" property="plannumber" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="realcount" property="realcount" jdbcType="INTEGER" />
+    <result column="boxcount" property="boxcount" jdbcType="INTEGER" />
+    <result column="length" property="length" jdbcType="DECIMAL" />
+    <result column="volume" property="volume" jdbcType="DECIMAL" />
+    <result column="weight" property="weight" jdbcType="DECIMAL" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="startname" property="startname" jdbcType="VARCHAR" />
+    <result column="startnumber" property="startnumber" jdbcType="VARCHAR" />
+    <result column="endname" property="endname" jdbcType="VARCHAR" />
+    <result column="endnumber" property="endnumber" jdbcType="VARCHAR" />
+    <result column="routetype" property="routetype" jdbcType="VARCHAR" />
+    <result column="cartype" property="cartype" jdbcType="VARCHAR" />
+    <result column="highlength" property="highlength" jdbcType="INTEGER" />
+    <result column="highheight" property="highheight" jdbcType="INTEGER" />
+    <result column="lowlength" property="lowlength" jdbcType="INTEGER" />
+    <result column="lowheight" property="lowheight" jdbcType="INTEGER" />
+    <result column="carheight" property="carheight" jdbcType="INTEGER" />
+    <result column="carwidth" property="carwidth" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <association column="goodid" property="good" select="com.defei.lps.dao.GoodMapper.selectByPrimaryKey" javaType="com.defei.lps.entity.Good"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, plancacheid,plannumber, goodid, count, realcount,boxcount, length, volume, weight, date, startname,
+    startnumber, endname, endnumber, routetype, cartype, highlength, highheight, lowlength, 
+    lowheight, carheight,carwidth, username, createtime
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from plantake
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!-- 根据计划编号查询 -->
+  <select id="selectByPlannumber" resultMap="BaseResultMap">
+    select p.id,p.plannumber, p.goodid, p.count,p.realcount, p.boxcount, p.length, p.volume, p.weight,
+    p.date, p.startname, p.startnumber, p.endname, p.endnumber, p.routetype, p.cartype, p.highlength,
+    p.highheight, p.lowlength, p.lowheight, p.carheight,p.carwidth, p.username, p.createtime
+    from plantake p,good g,supplier s
+    where p.goodid=g.id and g.supplierid=s.id
+    and p.plannumber=#{plannumber}
+    order by s.suppliercode
+  </select>
+  <!-- 根据计划编号查询,并以物料id分组，把数量求和 -->
+  <select id="selectGroupByPlannumber" resultMap="BaseResultMap">
+    select plannumber, goodid, sum(count) as count, realcount,boxcount, length, volume, weight, date, startname,
+    startnumber, endname, endnumber, routetype, cartype, highlength, highheight, lowlength,
+    lowheight, carheight,carwidth, username, createtime
+    from plantake p,good g,supplier s
+    where p.goodid=g.id and g.supplierid=s.id
+    and p.plannumber=#{plannumber}
+    group by p.goodid
+    order by s.suppliercode,g.goodcode
+  </select>
+  <!-- 条件分页查询 -->
+  <select id="selectLimitByCondition" resultMap="BaseResultMap">
+    select plannumber,sum(count) as count,sum(realcount) as realcount, sum(boxcount) as boxcount,sum(length) as length, sum(volume) as volume, sum(weight) as weight, date, startname,
+    startnumber, endname, endnumber, routetype, cartype, highlength,
+    highheight, lowlength,lowheight, carwidth, username, createtime
+    from plantake p,good g,supplier s
+    where p.goodid=g.id and g.supplierid=s.id
+    <if test="plannumber!=null and plannumber!=''">
+      and p.plannumber like '%${plannumber}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="routeid!=0">
+      and s.routeid = #{routeid}
+    </if>
+    <if test="date!=null and date!=''">
+      and p.date =#{date}
+    </if>
+    <if test="startname!=null and startname!=''">
+      and p.startname = #{startname}
+    </if>
+    <if test="endname!=null and endname!=''">
+      and p.endname = #{endname}
+    </if>
+    <if test="username!=null and username!=''">
+      and p.username like '%${username}%'
+    </if>
+    group by plannumber
+    order by date desc,createtime desc limit #{index},30
+  </select>
+  <!-- 条件分页查询总数量 -->
+  <select id="selectCountByCondition" resultType="java.lang.Integer">
+    select count(*) from (
+    select plannumber, sum(count) as count,sum(realcount) as realcount, sum(boxcount) as boxcount,sum(length) as length, sum(volume) as volume, sum(weight) as weight, date, startname,
+    startnumber, endname, endnumber, routetype, cartype, highlength,
+    highheight, lowlength,lowheight, carwidth, username, createtime
+    from plantake p,good g,supplier s
+    where p.goodid=g.id and g.supplierid=s.id
+    <if test="plannumber!=null and plannumber!=''">
+      and p.plannumber like '%${plannumber}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="routeid!=0">
+      and s.routeid = #{routeid}
+    </if>
+    <if test="date!=null and date!=''">
+      and p.date =#{date}
+    </if>
+    <if test="startname!=null and startname!=''">
+      and p.startname = #{startname}
+    </if>
+    <if test="endname!=null and endname!=''">
+      and p.endname = #{endname}
+    </if>
+    <if test="username!=null and username!=''">
+      and p.username like '%${username}%'
+    </if>
+    group by plannumber
+    ) as a
+  </select>
+  <!-- 条件查询 -->
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select plannumber, goodid, count,realcount, boxcount, length, volume, weight, date, startname,
+    startnumber, endname, endnumber, routetype, cartype, highlength, highheight, lowlength,
+    lowheight, carheight,carwidth, username, createtime
+    from plantake p,good g,supplier s
+    where p.goodid=g.id and g.supplierid=s.id
+    <if test="plannumber!=null and plannumber!=''">
+      and p.plannumber like '%${plannumber}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="routeid!=0">
+      and s.routeid = #{routeid}
+    </if>
+    <if test="date!=null and date!=''">
+      and p.date =#{date}
+    </if>
+    <if test="startname!=null and startname!=''">
+      and p.startname = #{startname}
+    </if>
+    <if test="endname!=null and endname!=''">
+      and p.endname = #{endname}
+    </if>
+    <if test="username!=null and username!=''">
+      and p.username like '%${username}%'
+    </if>
+    order by date desc,plannumber,s.suppliercode
+  </select>
+  <!-- 根据计划编号、物料id查询 -->
+  <select id="selectByPlannumberAndGoodid" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" /> from plantake
+    where goodid = #{goodid,jdbcType=INTEGER}
+    and plannumber=#{plannumber}
+  </select>
+  <!-- 根据在途计划id查询，并以取货计划编号分组 -->
+  <select id="selectGroupPlannumberByPlancacheid" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" /> from plantake
+    where plancacheid = #{plancacheid,jdbcType=INTEGER}
+    group by plannumber=#{plannumber}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from plantake
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByPlannumber">
+    delete from plantake
+    where plannumber = #{plannumber}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.PlanTake" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into plantake
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="plancacheid != null" >
+        plancacheid,
+      </if>
+      <if test="plannumber != null" >
+        plannumber,
+      </if>
+      <if test="good != null" >
+        goodid,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="realcount != null" >
+        realcount,
+      </if>
+      <if test="boxcount != null" >
+        boxcount,
+      </if>
+      <if test="length != null" >
+        length,
+      </if>
+      <if test="volume != null" >
+        volume,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="startname != null" >
+        startname,
+      </if>
+      <if test="startnumber != null" >
+        startnumber,
+      </if>
+      <if test="endname != null" >
+        endname,
+      </if>
+      <if test="endnumber != null" >
+        endnumber,
+      </if>
+      <if test="routetype != null" >
+        routetype,
+      </if>
+      <if test="cartype != null" >
+        cartype,
+      </if>
+      <if test="highlength != null" >
+        highlength,
+      </if>
+      <if test="highheight != null" >
+        highheight,
+      </if>
+      <if test="lowlength != null" >
+        lowlength,
+      </if>
+      <if test="lowheight != null" >
+        lowheight,
+      </if>
+      <if test="carheight != null" >
+        carheight,
+      </if>
+      <if test="carwidth != null" >
+        carwidth,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="plancacheid != null" >
+        #{plancacheid,jdbcType=INTEGER},
+      </if>
+      <if test="plannumber != null" >
+        #{plannumber,jdbcType=VARCHAR},
+      </if>
+      <if test="good != null" >
+        #{good.id,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="realcount != null" >
+        #{realcount,jdbcType=INTEGER},
+      </if>
+      <if test="boxcount != null" >
+        #{boxcount,jdbcType=INTEGER},
+      </if>
+      <if test="length != null" >
+        #{length,jdbcType=DECIMAL},
+      </if>
+      <if test="volume != null" >
+        #{volume,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="startname != null" >
+        #{startname,jdbcType=VARCHAR},
+      </if>
+      <if test="startnumber != null" >
+        #{startnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="endname != null" >
+        #{endname,jdbcType=VARCHAR},
+      </if>
+      <if test="endnumber != null" >
+        #{endnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="routetype != null" >
+        #{routetype,jdbcType=VARCHAR},
+      </if>
+      <if test="cartype != null" >
+        #{cartype,jdbcType=VARCHAR},
+      </if>
+      <if test="highlength != null" >
+        #{highlength,jdbcType=INTEGER},
+      </if>
+      <if test="highheight != null" >
+        #{highheight,jdbcType=INTEGER},
+      </if>
+      <if test="lowlength != null" >
+        #{lowlength,jdbcType=INTEGER},
+      </if>
+      <if test="lowheight != null" >
+        #{lowheight,jdbcType=INTEGER},
+      </if>
+      <if test="carheight != null" >
+        #{carheight,jdbcType=INTEGER},
+      </if>
+      <if test="carwidth != null" >
+        #{carwidth,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!--批量插入-->
+  <insert id="insertBatch">
+    insert into plantake (plancacheid,plannumber, goodid, count, realcount,boxcount,
+    length, volume, weight, date, startname,
+    startnumber, endname, endnumber, routetype, cartype, highlength, highheight, lowlength,
+    lowheight, carheight,carwidth, username, createtime) values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.plancacheid},#{item.plannumber},#{item.good.id},#{item.count},#{item.realcount},
+      #{item.boxcount},#{item.length},#{item.volume},#{item.weight},#{item.date},#{item.startname},
+      #{item.startnumber},#{item.endname},#{item.endnumber},#{item.routetype},#{item.cartype},
+      #{item.highlength},#{item.highheight},#{item.lowlength},#{item.lowheight},#{item.carheight},
+      #{item.carwidth},#{item.username},#{item.createtime})
+    </foreach>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.PlanTake" >
+    update plantake
+    <set >
+      <if test="plancacheid != null" >
+        plancacheid = #{plancacheid,jdbcType=INTEGER},
+      </if>
+      <if test="plannumber != null" >
+        plannumber = #{plannumber,jdbcType=VARCHAR},
+      </if>
+      <if test="good != null" >
+        goodid = #{good.id,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="realcount != null" >
+        realcount = #{realcount,jdbcType=INTEGER},
+      </if>
+      <if test="boxcount != null" >
+        boxcount = #{boxcount,jdbcType=INTEGER},
+      </if>
+      <if test="length != null" >
+        length = #{length,jdbcType=DECIMAL},
+      </if>
+      <if test="volume != null" >
+        volume = #{volume,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="startname != null" >
+        startname = #{startname,jdbcType=VARCHAR},
+      </if>
+      <if test="startnumber != null" >
+        startnumber = #{startnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="endname != null" >
+        endname = #{endname,jdbcType=VARCHAR},
+      </if>
+      <if test="endnumber != null" >
+        endnumber = #{endnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="routetype != null" >
+        routetype = #{routetype,jdbcType=VARCHAR},
+      </if>
+      <if test="cartype != null" >
+        cartype = #{cartype,jdbcType=VARCHAR},
+      </if>
+      <if test="highlength != null" >
+        highlength = #{highlength,jdbcType=INTEGER},
+      </if>
+      <if test="highheight != null" >
+        highheight = #{highheight,jdbcType=INTEGER},
+      </if>
+      <if test="lowlength != null" >
+        lowlength = #{lowlength,jdbcType=INTEGER},
+      </if>
+      <if test="lowheight != null" >
+        lowheight = #{lowheight,jdbcType=INTEGER},
+      </if>
+      <if test="carheight != null" >
+        carheight = #{carheight,jdbcType=INTEGER},
+      </if>
+      <if test="carwidth != null" >
+        carwidth = #{carwidth,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

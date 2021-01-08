@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.WarehouseTakeMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.WarehouseTake" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="billnumber" property="billnumber" jdbcType="VARCHAR" />
+    <result column="geelybillnumber" property="geelybillnumber" jdbcType="VARCHAR" />
+    <result column="geelycount" property="geelycount" jdbcType="INTEGER" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="oneboxcount" property="oneboxcount" jdbcType="INTEGER" />
+    <result column="boxcount" property="boxcount" jdbcType="INTEGER" />
+    <result column="packstate" property="packstate" jdbcType="VARCHAR" />
+    <result column="length" property="length" jdbcType="DECIMAL" />
+    <result column="volume" property="volume" jdbcType="DECIMAL" />
+    <result column="weight" property="weight" jdbcType="DECIMAL" />
+    <result column="startname" property="startname" jdbcType="VARCHAR" />
+    <result column="startnumber" property="startnumber" jdbcType="VARCHAR" />
+    <result column="endname" property="endname" jdbcType="VARCHAR" />
+    <result column="endnumber" property="endnumber" jdbcType="VARCHAR" />
+    <result column="routetype" property="routetype" jdbcType="VARCHAR" />
+    <result column="cartype" property="cartype" jdbcType="VARCHAR" />
+    <result column="highlength" property="highlength" jdbcType="INTEGER" />
+    <result column="highheight" property="highheight" jdbcType="INTEGER" />
+    <result column="lowlength" property="lowlength" jdbcType="INTEGER" />
+    <result column="lowheight" property="lowheight" jdbcType="INTEGER" />
+    <result column="carheight" property="carheight" jdbcType="INTEGER" />
+    <result column="carwidth" property="carwidth" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <association column="goodid" property="good" select="com.defei.lps.dao.GoodMapper.selectByPrimaryKey" javaType="com.defei.lps.entity.Good"/>
+    <association column="warehouseid" property="warehouse" select="com.defei.lps.dao.WarehouseMapper.selectByPrimaryKey" javaType="com.defei.lps.entity.Warehouse"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, billnumber, goodid, geelybillnumber, geelycount, batch, count,oneboxcount, boxcount, packstate,length,
+    volume, weight, startname, startnumber, endname, endnumber, routetype, cartype, highlength, 
+    highheight, lowlength, lowheight, carheight, carwidth, username, createtime,warehouseid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from warehousetake
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!-- 条件分页查询 -->
+  <select id="selectBillLimitByCondition" resultMap="BaseResultMap" >
+    select billnumber,sum(length) as length,sum(volume) as volume,sum(weight) as weight,
+    startname, startnumber, endname, endnumber, cartype,username, createtime
+    from warehousetake
+    <trim prefix="where" prefixOverrides="and">
+      <if test="billnumber!=null and billnumber!=''">
+        and billnumber like '%${billnumber}%'
+      </if>
+      <if test="cartype!=null and cartype!=''">
+        and cartype = #{cartype,jdbcType=VARCHAR}
+      </if>
+      <if test="startname!=null and startname!=''">
+        and startname = #{startname,jdbcType=VARCHAR}
+      </if>
+      <if test="endname!=null and endname!=''">
+        and endname = #{endname,jdbcType=VARCHAR}
+      </if>
+      <if test="username!=null and username!=''">
+        and username like '%${username}%'
+      </if>
+    </trim>
+    group by billnumber
+    order by createtime desc limit #{index},30
+  </select>
+  <!-- 条件分页查询总数量 -->
+  <select id="selectBillCountByCondition" resultType="java.lang.Integer">
+    select count(*) from (
+    select billnumber,sum(length) as length,sum(volume) as volume,sum(weight) as weight,
+    startname, startnumber, endname, endnumber, cartype,username, createtime
+    from warehousetake
+    <trim prefix="where" prefixOverrides="and">
+      <if test="billnumber!=null and billnumber!=''">
+        and billnumber like '%${billnumber}%'
+      </if>
+      <if test="cartype!=null and cartype!=''">
+        and cartype = #{cartype,jdbcType=VARCHAR}
+      </if>
+      <if test="startname!=null and startname!=''">
+        and startname = #{startname,jdbcType=VARCHAR}
+      </if>
+      <if test="endname!=null and endname!=''">
+        and endname = #{endname,jdbcType=VARCHAR}
+      </if>
+      <if test="username!=null and username!=''">
+        and username like '%${username}%'
+      </if>
+    </trim>
+    group by billnumber
+    ) as a
+  </select>
+  <!-- 根据装载方案编号查询 -->
+  <select id="selectByBillnumber" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from warehousetake
+    where billnumber = #{billnumber}
+  </select>
+  <!--根据装载方案编号查询,并以物料id分组，把数量求和-->
+  <select id="selectGroupGoodidByBillnumber" resultMap="BaseResultMap">
+    select billnumber, goodid, geelybillnumber, geelycount, batch, sum(count) as count,oneboxcount,
+    sum(boxcount) as boxcount, packstate,sum(length) as length, sum(volume) as volume,
+    sum(weight) as weight, startname, startnumber, endname, endnumber, routetype,
+    cartype, highlength, highheight, lowlength, lowheight, carheight, carwidth,
+    username, createtime,warehouseid from warehousetake
+    where billnumber = #{billnumber}
+    group by goodid
+  </select>
+  <!-- 据方案编号、物料id、批次查询 -->
+  <select id="selectByBillnumberAndGoodidAndBatch" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from warehousetake
+    where billnumber = #{billnumber}
+    and goodid=#{goodid}
+    and batch=#{batch}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from warehousetake
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <!--批量根据id删除-->
+  <delete id="deleteBatch">
+    delete from warehousetake where id in
+    <foreach collection="list" item="item" open="(" separator="," close=")">
+      #{item.id}
+    </foreach>
+  </delete>
+  <!--根据编号删除-->
+  <delete id="deleteByBillnumber" parameterType="java.lang.String" >
+    delete from warehousetake
+    where billnumber = #{billnumber}
+  </delete>
+  <!--据方案编号、物料id、批次删除-->
+  <delete id="deleteByBillnumberAndGoodidAndBatch">
+    delete from warehousetake
+    where billnumber = #{billnumber}
+    and goodid=#{goodid}
+    and batch=#{batch}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.WarehouseTake" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into warehousetake
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="billnumber != null" >
+        billnumber,
+      </if>
+      <if test="good != null" >
+        goodid,
+      </if>
+      <if test="geelybillnumber != null" >
+        geelybillnumber,
+      </if>
+      <if test="geelycount != null" >
+        geelycount,
+      </if>
+      <if test="batch != null" >
+        batch,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="oneboxcount != null" >
+        oneboxcount,
+      </if>
+      <if test="boxcount != null" >
+        boxcount,
+      </if>
+      <if test="packstate != null" >
+        packstate,
+      </if>
+      <if test="length != null" >
+        length,
+      </if>
+      <if test="volume != null" >
+        volume,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="startname != null" >
+        startname,
+      </if>
+      <if test="startnumber != null" >
+        startnumber,
+      </if>
+      <if test="endname != null" >
+        endname,
+      </if>
+      <if test="endnumber != null" >
+        endnumber,
+      </if>
+      <if test="routetype != null" >
+        routetype,
+      </if>
+      <if test="cartype != null" >
+        cartype,
+      </if>
+      <if test="highlength != null" >
+        highlength,
+      </if>
+      <if test="highheight != null" >
+        highheight,
+      </if>
+      <if test="lowlength != null" >
+        lowlength,
+      </if>
+      <if test="lowheight != null" >
+        lowheight,
+      </if>
+      <if test="carheight != null" >
+        carheight,
+      </if>
+      <if test="carwidth != null" >
+        carwidth,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="warehouse != null" >
+        warehouseid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="billnumber != null" >
+        #{billnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="good != null" >
+        #{good.id,jdbcType=INTEGER},
+      </if>
+      <if test="geelybillnumber != null" >
+        #{geelybillnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="geelycount != null" >
+        #{geelycount,jdbcType=INTEGER},
+      </if>
+      <if test="batch != null" >
+        #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="oneboxcount != null" >
+        #{oneboxcount,jdbcType=INTEGER},
+      </if>
+      <if test="boxcount != null" >
+        #{boxcount,jdbcType=INTEGER},
+      </if>
+      <if test="packstate != null" >
+        #{packstate,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null" >
+        #{length,jdbcType=DECIMAL},
+      </if>
+      <if test="volume != null" >
+        #{volume,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="startname != null" >
+        #{startname,jdbcType=VARCHAR},
+      </if>
+      <if test="startnumber != null" >
+        #{startnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="endname != null" >
+        #{endname,jdbcType=VARCHAR},
+      </if>
+      <if test="endnumber != null" >
+        #{endnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="routetype != null" >
+        #{routetype,jdbcType=VARCHAR},
+      </if>
+      <if test="cartype != null" >
+        #{cartype,jdbcType=VARCHAR},
+      </if>
+      <if test="highlength != null" >
+        #{highlength,jdbcType=INTEGER},
+      </if>
+      <if test="highheight != null" >
+        #{highheight,jdbcType=INTEGER},
+      </if>
+      <if test="lowlength != null" >
+        #{lowlength,jdbcType=INTEGER},
+      </if>
+      <if test="lowheight != null" >
+        #{lowheight,jdbcType=INTEGER},
+      </if>
+      <if test="carheight != null" >
+        #{carheight,jdbcType=INTEGER},
+      </if>
+      <if test="carwidth != null" >
+        #{carwidth,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warehouse != null" >
+        #{warehouse.id,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.WarehouseTake" >
+    update warehousetake
+    <set >
+      <if test="billnumber != null" >
+        billnumber = #{billnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="good != null" >
+        goodid = #{good.id,jdbcType=INTEGER},
+      </if>
+      <if test="geelybillnumber != null" >
+        geelybillnumber = #{geelybillnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="geelycount != null" >
+        geelycount = #{geelycount,jdbcType=INTEGER},
+      </if>
+      <if test="batch != null" >
+        batch = #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="oneboxcount != null" >
+        oneboxcount = #{oneboxcount,jdbcType=INTEGER},
+      </if>
+      <if test="boxcount != null" >
+        boxcount = #{boxcount,jdbcType=INTEGER},
+      </if>
+      <if test="packstate != null" >
+        packstate = #{packstate,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null" >
+        length = #{length,jdbcType=DECIMAL},
+      </if>
+      <if test="volume != null" >
+        volume = #{volume,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="startname != null" >
+        startname = #{startname,jdbcType=VARCHAR},
+      </if>
+      <if test="startnumber != null" >
+        startnumber = #{startnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="endname != null" >
+        endname = #{endname,jdbcType=VARCHAR},
+      </if>
+      <if test="endnumber != null" >
+        endnumber = #{endnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="routetype != null" >
+        routetype = #{routetype,jdbcType=VARCHAR},
+      </if>
+      <if test="cartype != null" >
+        cartype = #{cartype,jdbcType=VARCHAR},
+      </if>
+      <if test="highlength != null" >
+        highlength = #{highlength,jdbcType=INTEGER},
+      </if>
+      <if test="highheight != null" >
+        highheight = #{highheight,jdbcType=INTEGER},
+      </if>
+      <if test="lowlength != null" >
+        lowlength = #{lowlength,jdbcType=INTEGER},
+      </if>
+      <if test="lowheight != null" >
+        lowheight = #{lowheight,jdbcType=INTEGER},
+      </if>
+      <if test="carheight != null" >
+        carheight = #{carheight,jdbcType=INTEGER},
+      </if>
+      <if test="carwidth != null" >
+        carwidth = #{carwidth,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warehouse != null" >
+        warehouseid = #{warehouse.id,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

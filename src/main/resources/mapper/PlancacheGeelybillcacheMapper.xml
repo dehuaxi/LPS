@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.PlancacheGeelybillcacheMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.PlancacheGeelybillcache" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="plancacheid" property="plancacheid" jdbcType="INTEGER" />
+    <result column="geelybillcacheid" property="geelybillcacheid" jdbcType="INTEGER" />
+    <result column="returnstate" property="returnstate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, plancacheid, geelybillcacheid, returnstate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from plancache_geelybillcache
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--根据在途吉利单id查询-->
+  <select id="selectByGeelybillcacheid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" />
+    from plancache_geelybillcache
+    where geelybillcacheid = #{geelybillcacheid,jdbcType=INTEGER}
+  </select>
+  <!--根据计划id、传入的吉利单据id查询非传入的吉利单据id的记录-->
+  <select id="selectExcludeGeelybillcacheidByPlancacheid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" />
+    from plancache_geelybillcache
+    where plancacheid = #{plancacheid,jdbcType=INTEGER}
+    and geelybillcacheid!=#{geelybillcacheid}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from plancache_geelybillcache
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.defei.lps.entity.PlancacheGeelybillcache" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into plancache_geelybillcache (plancacheid, geelybillcacheid, returnstate
+      )
+    values (#{plancacheid,jdbcType=INTEGER}, #{geelybillcacheid,jdbcType=INTEGER}, #{returnstate,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.PlancacheGeelybillcache" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into plancache_geelybillcache
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="plancacheid != null" >
+        plancacheid,
+      </if>
+      <if test="geelybillcacheid != null" >
+        geelybillcacheid,
+      </if>
+      <if test="returnstate != null" >
+        returnstate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="plancacheid != null" >
+        #{plancacheid,jdbcType=INTEGER},
+      </if>
+      <if test="geelybillcacheid != null" >
+        #{geelybillcacheid,jdbcType=INTEGER},
+      </if>
+      <if test="returnstate != null" >
+        #{returnstate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.PlancacheGeelybillcache" >
+    update plancache_geelybillcache
+    <set >
+      <if test="plancacheid != null" >
+        plancacheid = #{plancacheid,jdbcType=INTEGER},
+      </if>
+      <if test="geelybillcacheid != null" >
+        geelybillcacheid = #{geelybillcacheid,jdbcType=INTEGER},
+      </if>
+      <if test="returnstate != null" >
+        returnstate = #{returnstate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.defei.lps.entity.PlancacheGeelybillcache" >
+    update plancache_geelybillcache
+    set plancacheid = #{plancacheid,jdbcType=INTEGER},
+      geelybillcacheid = #{geelybillcacheid,jdbcType=INTEGER},
+      returnstate = #{returnstate,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

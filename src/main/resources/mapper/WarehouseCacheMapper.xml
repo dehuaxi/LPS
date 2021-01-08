@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.WarehouseCacheMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.WarehouseCache" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="geelybillnumber" property="geelybillnumber" jdbcType="VARCHAR" />
+    <result column="geelycount" property="geelycount" jdbcType="INTEGER" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="plancount" property="plancount" jdbcType="INTEGER" />
+    <result column="oneboxcount" property="oneboxcount" jdbcType="INTEGER" />
+    <result column="boxcount" property="boxcount" jdbcType="INTEGER" />
+    <result column="packstate" property="packstate" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <association column="goodid" property="good" select="com.defei.lps.dao.GoodMapper.selectByPrimaryKey" javaType="com.defei.lps.entity.Good"/>
+    <association column="warehouseid" property="warehouse" select="com.defei.lps.dao.WarehouseMapper.selectByPrimaryKey" javaType="com.defei.lps.entity.Warehouse"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goodid, geelybillnumber, geelycount, batch, count,plancount,oneboxcount, boxcount, packstate,createtime, warehouseid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from warehousecache
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!-- 条件分页查询 -->
+  <select id="selectLimitByCondition" resultMap="BaseResultMap" >
+    select w.id, w.goodid, w.geelybillnumber, w.geelycount, w.batch,
+    w.count, w.plancount,w.oneboxcount,w.boxcount, w.packstate,w.createtime, w.warehouseid
+    from warehousecache w,good g,supplier s
+    where w.goodid=g.id and g.supplierid=s.id
+    <if test="goodcode!=null and goodcode!=''">
+      and g.goodcode like '%${goodcode}%'
+    </if>
+    <if test="goodname!=null and goodname!=''">
+      and g.goodname like '%${goodname}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="geelybillnumber!=null and geelybillnumber!=''">
+      and w.geelybillnumber like '%${geelybillnumber}%'
+    </if>
+    <if test="packstate!=null and packstate!=''">
+      and w.packstate = #{packstate}
+    </if>
+    <if test="warehouseid!=0">
+      and w.warehouseid = #{warehouseid}
+    </if>
+    <if test="date!=null and date!=''">
+      and to_days(w.createtime) =to_days(#{date})
+    </if>
+    order by w.createtime desc,w.geelybillnumber limit #{index},30
+  </select>
+  <!-- 条件分页查询总数量 -->
+  <select id="selectCountByCondition" resultType="java.lang.Integer">
+    select count(*) from (
+    select w.id, w.goodid, w.geelybillnumber, w.geelycount, w.batch,
+    w.count, w.plancount,w.oneboxcount,w.boxcount, w.packstate,w.createtime, w.warehouseid
+    from warehousecache w,good g,supplier s
+    where w.goodid=g.id and g.supplierid=s.id
+    <if test="goodcode!=null and goodcode!=''">
+      and g.goodcode like '%${goodcode}%'
+    </if>
+    <if test="goodname!=null and goodname!=''">
+      and g.goodname like '%${goodname}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="geelybillnumber!=null and geelybillnumber!=''">
+      and w.geelybillnumber like '%${geelybillnumber}%'
+    </if>
+    <if test="packstate!=null and packstate!=''">
+      and w.packstate = #{packstate}
+    </if>
+    <if test="warehouseid!=0">
+      and w.warehouseid = #{warehouseid}
+    </if>
+    <if test="date!=null and date!=''">
+      and to_days(w.createtime) =to_days(#{date})
+    </if>
+    ) as a
+  </select>
+  <!-- 条件查询 -->
+  <select id="selectByCondition" resultMap="BaseResultMap" >
+    select w.id, w.goodid, w.geelybillnumber, w.geelycount, w.batch,
+    w.count, w.plancount,w.oneboxcount,w.boxcount, w.packstate,w.createtime, w.warehouseid
+    from warehousecache w,good g,supplier s
+    where w.goodid=g.id and g.supplierid=s.id
+    <if test="goodcode!=null and goodcode!=''">
+      and g.goodcode like '%${goodcode}%'
+    </if>
+    <if test="goodname!=null and goodname!=''">
+      and g.goodname like '%${goodname}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="geelybillnumber!=null and geelybillnumber!=''">
+      and w.geelybillnumber like '%${geelybillnumber}%'
+    </if>
+    <if test="packstate!=null and packstate!=''">
+      and w.packstate = #{packstate}
+    </if>
+    <if test="warehouseid!=0">
+      and w.warehouseid = #{warehouseid}
+    </if>
+    <if test="date!=null and date!=''">
+      and to_days(w.createtime) =to_days(#{date})
+    </if>
+    order by w.createtime desc,w.geelybillnumber
+  </select>
+  <!--根据吉利单号、批次、物料id、收容数查询-->
+  <select id="selectByGeelybillnumberAndGoodidAndBatchAndOneboxcount" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from warehousecache
+    where geelybillnumber = #{geelybillnumber}
+    and goodid=#{goodid,jdbcType=INTEGER}
+    and batch=#{batch}  and oneboxcount=#{oneboxcount,jdbcType=INTEGER}
+  </select>
+  <!--根据线路id集合查询-->
+  <select id="selectByRouteids" resultMap="BaseResultMap">
+    select w.id, w.goodid, w.geelybillnumber, w.geelycount, w.batch, w.count,
+    w.plancount,w.oneboxcount, w.boxcount, w.packstate,w.createtime, w.warehouseid
+    from warehousecache w,good g,supplier s
+    where w.goodid=g.id and g.supplierid=s.id
+    and s.routeid in
+    <foreach collection="routeList" item="item" open="(" separator="," close=")">
+      #{item.id}
+    </foreach>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from warehousecache
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <!--批量删除-->
+  <delete id="deleteBatch">
+    delete from warehousecache  where id in
+    <foreach collection="list" item="item" open="(" separator="," close=")">
+      #{item.id}
+    </foreach>
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.WarehouseCache" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into warehousecache
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="good != null" >
+        goodid,
+      </if>
+      <if test="geelybillnumber != null" >
+        geelybillnumber,
+      </if>
+      <if test="geelycount != null" >
+        geelycount,
+      </if>
+      <if test="batch != null" >
+        batch,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="plancount != null" >
+        plancount,
+      </if>
+      <if test="oneboxcount != null" >
+        oneboxcount,
+      </if>
+      <if test="boxcount != null" >
+        boxcount,
+      </if>
+      <if test="packstate != null" >
+        packstate,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="warehouse != null" >
+        warehouseid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="good != null" >
+        #{good.id,jdbcType=INTEGER},
+      </if>
+      <if test="geelybillnumber != null" >
+        #{geelybillnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="geelycount != null" >
+        #{geelycount,jdbcType=INTEGER},
+      </if>
+      <if test="batch != null" >
+        #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="plancount != null" >
+        #{plancount,jdbcType=INTEGER},
+      </if>
+      <if test="oneboxcount != null" >
+        #{oneboxcount,jdbcType=INTEGER},
+      </if>
+      <if test="boxcount != null" >
+        #{boxcount,jdbcType=INTEGER},
+      </if>
+      <if test="packstate != null" >
+        #{packstate,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warehouse != null" >
+        #{warehouse.id,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.WarehouseCache" >
+    update warehousecache
+    <set >
+      <if test="good != null" >
+        goodid = #{good.id,jdbcType=INTEGER},
+      </if>
+      <if test="geelybillnumber != null" >
+        geelybillnumber = #{geelybillnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="geelycount != null" >
+        geelycount = #{geelycount,jdbcType=INTEGER},
+      </if>
+      <if test="batch != null" >
+        batch = #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="plancount != null" >
+        plancount = #{plancount,jdbcType=INTEGER},
+      </if>
+      <if test="oneboxcount != null" >
+        oneboxcount = #{oneboxcount,jdbcType=INTEGER},
+      </if>
+      <if test="boxcount != null" >
+        boxcount = #{boxcount,jdbcType=INTEGER},
+      </if>
+      <if test="packstate != null" >
+        packstate = #{packstate,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warehouse != null" >
+        warehouseid = #{warehouse.id,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--批量更新数量、方案数量-->
+  <update id="updateBatch" parameterType="list">
+    update warehousecache
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="count =case" suffix="end,">
+        <foreach collection="list" item="item" index="index">
+          <if test="item.count!=null">
+            when id=#{item.id} then #{item.count}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix=" plancount =case" suffix="end,">
+        <foreach collection="list" item="item" index="index">
+          <if test="item.plancount!=null">
+            when id=#{item.id} then #{item.plancount}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where
+    <foreach collection="list" separator="or" item="item" index="index" >
+      id=#{item.id}
+    </foreach>
+  </update>
+</mapper>

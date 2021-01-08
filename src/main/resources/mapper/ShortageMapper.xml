@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.ShortageMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.Shortage" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="needcount" property="needcount" jdbcType="INTEGER" />
+    <result column="lastneedcount" property="lastneedcount" jdbcType="INTEGER" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
+    <result column="laststock" property="laststock" jdbcType="INTEGER" />
+    <association column="goodid" property="good" select="com.defei.lps.dao.GoodMapper.selectByPrimaryKey" javaType="com.defei.lps.entity.Good"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goodid, date, needcount,lastneedcount, stock,laststock
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from shortage where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByGoodidAndDate" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from shortage
+    where goodid = #{goodid,jdbcType=INTEGER} and date=#{date}
+  </select>
+  <select id="selectByGoodidAndDatestartAndDateend" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from shortage
+    where goodid = #{goodid,jdbcType=INTEGER}
+    <if test="datestart!=null and datestart!=''">
+      and to_days(date) &gt;= to_days(#{datestart})
+    </if>
+    <if test="dateend!=null and dateend!=''">
+      and to_days(date) &lt;= to_days(#{dateend})
+    </if>
+    order by date
+  </select>
+  <select id="selectMaxDate" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from shortage order by date desc limit 0,1
+  </select>
+  <select id="selectGreatTodayDateList" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" /> from shortage
+    where to_days(date) &gt;= to_days(now())
+    group by date
+    order by date
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from shortage
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.Shortage" >
+    insert into shortage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="good != null" >
+        goodid,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="needcount != null" >
+        needcount,
+      </if>
+      <if test="lastneedcount != null" >
+        lastneedcount,
+      </if>
+      <if test="stock != null" >
+        stock,
+      </if>
+      <if test="laststock != null" >
+        laststock,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="good != null" >
+        #{good.id},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="needcount != null" >
+        #{needcount,jdbcType=INTEGER},
+      </if>
+      <if test="lastneedcount != null" >
+        #{lastneedcount,jdbcType=INTEGER},
+      </if>
+      <if test="stock != null" >
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="laststock != null" >
+        #{laststock,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.Shortage" >
+    update shortage
+    <set >
+      <if test="good != null" >
+        goodid = #{good.id},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="needcount != null" >
+        needcount = #{needcount,jdbcType=INTEGER},
+      </if>
+      <if test="lastneedcount != null" >
+        lastneedcount = #{lastneedcount,jdbcType=INTEGER},
+      </if>
+      <if test="stock != null" >
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="laststock != null" >
+        laststock = #{laststock,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

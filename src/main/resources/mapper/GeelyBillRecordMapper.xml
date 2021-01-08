@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.GeelyBillRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.GeelyBillRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="geelybillcacheid" property="geelybillcacheid" jdbcType="INTEGER" />
+    <result column="billnumber" property="billnumber" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="receivecount" property="receivecount" jdbcType="INTEGER" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="urgent" property="urgent" jdbcType="VARCHAR" />
+    <result column="needbind" property="needbind" jdbcType="VARCHAR" />
+    <result column="bindbillnumber" property="bindbillnumber" jdbcType="VARCHAR" />
+    <result column="uploadtime" property="uploadtime" jdbcType="VARCHAR" />
+    <result column="receivetime" property="receivetime" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <association column="goodid" property="good" select="com.defei.lps.dao.GoodMapper.selectByPrimaryKey" javaType="com.defei.lps.entity.Good"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,geelybillcacheid, billnumber, goodid, count,receivecount,batch, urgent,needbind,bindbillnumber, uploadtime, receivetime,remarks
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from geelybillrecord where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--根据物料id、单号查询-->
+  <select id="selectByGoodidAndBillnumber" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" /> from geelybillrecord
+    where goodid = #{goodid,jdbcType=INTEGER}
+    and billnumber=#{billnumber}
+  </select>
+  <!-- 条件分页查询 -->
+  <select id="selectLimitByCondition" resultMap="BaseResultMap" >
+    select b.id,b.geelybillcacheid, b.billnumber, b.goodid, b.count,b.receivecount,b.batch,
+    b.urgent,b.needbind,b.bindbillnumber, b.uploadtime, b.receivetime,b.remarks
+    from geelybillrecord b,good g,supplier s
+    where b.goodid=g.id and g.supplierid=s.id
+    <if test="goodcode!=null and goodcode!=''">
+      and g.goodcode like '%${goodcode}%'
+    </if>
+    <if test="goodname!=null and goodname!=''">
+      and g.goodname like '%${goodname}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="billnumber!=null and billnumber!=''">
+      and b.billnumber like '%${billnumber}%'
+    </if>
+    <if test="batch!=null and batch!=''">
+      and b.batch like '%${batch}%'
+    </if>
+    <if test="needbind!=null and needbind!=''">
+      and b.needbind =#{needbind}
+    </if>
+    <if test="bindbillnumber!=null and bindbillnumber!=''">
+      and s.bindbillnumber like '%${bindbillnumber}%'
+    </if>
+    <if test="uploaddate!=null and uploaddate!=''">
+      and to_days(b.uploadtime) = to_days(#{uploaddate,jdbcType=VARCHAR})
+    </if>
+    <if test="receivedatestart!=null and receivedatestart!=''">
+      and to_days(b.receivetime) &gt;= to_days(#{receivedatestart,jdbcType=VARCHAR})
+    </if>
+    <if test="receivedateend!=null and receivedateend!=''">
+      and to_days(b.receivetime) &lt;= to_days(#{receivedateend,jdbcType=VARCHAR})
+    </if>
+    order by b.receivetime desc,b.billnumber limit #{index},30
+  </select>
+  <!-- 条件分页查询总数量 -->
+  <select id="selectCountByCondition" resultType="java.lang.Integer">
+    select count(*) from (
+    select b.id,b.geelybillcacheid, b.billnumber, b.goodid, b.count,b.receivecount,b.batch,
+    b.urgent,b.needbind,b.bindbillnumber, b.uploadtime, b.receivetime,b.remarks
+    from geelybillrecord b,good g,supplier s
+    where b.goodid=g.id and g.supplierid=s.id
+    <if test="goodcode!=null and goodcode!=''">
+      and g.goodcode like '%${goodcode}%'
+    </if>
+    <if test="goodname!=null and goodname!=''">
+      and g.goodname like '%${goodname}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="billnumber!=null and billnumber!=''">
+      and b.billnumber like '%${billnumber}%'
+    </if>
+    <if test="batch!=null and batch!=''">
+      and b.batch like '%${batch}%'
+    </if>
+    <if test="needbind!=null and needbind!=''">
+      and b.needbind =#{needbind}
+    </if>
+    <if test="bindbillnumber!=null and bindbillnumber!=''">
+      and s.bindbillnumber like '%${bindbillnumber}%'
+    </if>
+    <if test="uploaddate!=null and uploaddate!=''">
+      and to_days(b.uploadtime) = to_days(#{uploaddate,jdbcType=VARCHAR})
+    </if>
+    <if test="receivedatestart!=null and receivedatestart!=''">
+      and to_days(b.receivetime) &gt;= to_days(#{receivedatestart,jdbcType=VARCHAR})
+    </if>
+    <if test="receivedateend!=null and receivedateend!=''">
+      and to_days(b.receivetime) &lt;= to_days(#{receivedateend,jdbcType=VARCHAR})
+    </if>
+    ) as a
+  </select>
+  <!-- 条件分页查询 -->
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select b.id,b.geelybillcacheid, b.billnumber, b.goodid, b.count,b.receivecount,b.batch,
+    b.urgent,b.needbind,b.bindbillnumber, b.uploadtime, b.receivetime,b.remarks
+    from geelybillrecord b,good g,supplier s
+    where b.goodid=g.id and g.supplierid=s.id
+    <if test="goodcode!=null and goodcode!=''">
+      and g.goodcode like '%${goodcode}%'
+    </if>
+    <if test="goodname!=null and goodname!=''">
+      and g.goodname like '%${goodname}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="billnumber!=null and billnumber!=''">
+      and b.billnumber like '%${billnumber}%'
+    </if>
+    <if test="batch!=null and batch!=''">
+      and b.batch like '%${batch}%'
+    </if>
+    <if test="needbind!=null and needbind!=''">
+      and b.needbind =#{needbind}
+    </if>
+    <if test="bindbillnumber!=null and bindbillnumber!=''">
+      and s.bindbillnumber like '%${bindbillnumber}%'
+    </if>
+    <if test="uploaddate!=null and uploaddate!=''">
+      and to_days(b.uploadtime) = to_days(#{uploaddate,jdbcType=VARCHAR})
+    </if>
+    <if test="receivedatestart!=null and receivedatestart!=''">
+      and to_days(b.receivetime) &gt;= to_days(#{receivedatestart,jdbcType=VARCHAR})
+    </if>
+    <if test="receivedateend!=null and receivedateend!=''">
+      and to_days(b.receivetime) &lt;= to_days(#{receivedateend,jdbcType=VARCHAR})
+    </if>
+    order by b.receivetime desc,b.billnumber
+  </select>
+  <!--询需要绑定的数量-->
+  <select id="selectCountNeedBind" resultType="java.lang.Integer">
+    select count(*) from(
+    select needbind from geelybillrecord
+    where needbind = '是'
+    ) as a
+  </select>
+  <!--根据PD单号查询-->
+  <select id="selectByBillnumber" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" /> from geelybillrecord
+    where billnumber = #{billnumber}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from geelybillrecord
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.GeelyBillRecord" >
+    insert into geelybillrecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="geelybillcacheid != null" >
+        geelybillcacheid,
+      </if>
+      <if test="billnumber != null" >
+        billnumber,
+      </if>
+      <if test="good != null" >
+        goodid,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="receivecount != null" >
+        receivecount,
+      </if>
+      <if test="batch != null" >
+        batch,
+      </if>
+      <if test="urgent != null" >
+        urgent,
+      </if>
+      <if test="needbind != null" >
+        needbind,
+      </if>
+      <if test="bindbillnumber != null" >
+        bindbillnumber,
+      </if>
+      <if test="uploadtime != null" >
+        uploadtime,
+      </if>
+      <if test="receivetime != null" >
+        receivetime,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="geelybillcacheid != null" >
+        #{geelybillcacheid,jdbcType=INTEGER},
+      </if>
+      <if test="billnumber != null" >
+        #{billnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="good != null" >
+        #{good.id},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="receivecount != null" >
+        #{receivecount,jdbcType=INTEGER},
+      </if>
+      <if test="batch != null" >
+        #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="urgent != null" >
+        #{urgent,jdbcType=VARCHAR},
+      </if>
+      <if test="needbind != null" >
+        #{needbind,jdbcType=VARCHAR},
+      </if>
+      <if test="bindbillnumber != null" >
+        #{bindbillnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadtime != null" >
+        #{uploadtime,jdbcType=VARCHAR},
+      </if>
+      <if test="receivetime != null" >
+        #{receivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.GeelyBillRecord" >
+    update geelybillrecord
+    <set >
+      <if test="geelybillcacheid != null" >
+        geelybillcacheid = #{geelybillcacheid,jdbcType=INTEGER},
+      </if>
+      <if test="billnumber != null" >
+        billnumber = #{billnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="good != null" >
+        goodid = #{good.id},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="receivecount != null" >
+        receivecount = #{receivecount,jdbcType=INTEGER},
+      </if>
+      <if test="batch != null" >
+        batch = #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="urgent != null" >
+        urgent = #{urgent,jdbcType=VARCHAR},
+      </if>
+      <if test="needbind != null" >
+        needbind = #{needbind,jdbcType=VARCHAR},
+      </if>
+      <if test="bindbillnumber != null" >
+        bindbillnumber = #{bindbillnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadtime != null" >
+        uploadtime = #{uploadtime,jdbcType=VARCHAR},
+      </if>
+      <if test="receivetime != null" >
+        receivetime = #{receivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

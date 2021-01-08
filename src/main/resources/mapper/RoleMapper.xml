@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.Role" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="rolename" property="rolename" jdbcType="VARCHAR" />
+    <result column="describes" property="describes" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, rolename, describes
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByRolename" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from role
+    where rolename = #{rolename,jdbcType=INTEGER}
+  </select>
+  <!-- 条件分页查询 -->
+  <select id="selectLimitByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select <include refid="Base_Column_List"/> from role
+    where rolename!='systemManager'
+    <if test="rolename!=null and rolename!=''">
+      and rolename like '%${rolename}%'
+    </if>
+    <if test="removerolename!=null and removerolename!=''">
+      and rolename != #{removerolename}
+    </if>
+    limit #{index},30
+  </select>
+  <!-- 条件分页查询总数量 -->
+  <select id="selectCountByCondition" resultType="java.lang.Integer">
+    select count(*) from role
+    where rolename!='systemManager'
+    <if test="rolename!=null and rolename!=''">
+      and rolename like '%${rolename}%'
+    </if>
+    <if test="removerolename!=null and removerolename!=''">
+      and rolename != #{removerolename}
+    </if>
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from role where rolename!='systemManager'
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.Role" >
+    insert into role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="rolename != null" >
+        rolename,
+      </if>
+      <if test="describes != null" >
+        describes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="rolename != null" >
+        #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="describes != null" >
+        #{describes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.Role" >
+    update role
+    <set >
+      <if test="rolename != null" >
+        rolename = #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="describes != null" >
+        describes = #{describes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.RouteMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.Route" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="routename" property="routename" jdbcType="VARCHAR" />
+    <result column="routenumber" property="routenumber" jdbcType="VARCHAR" />
+    <result column="describes" property="describes" jdbcType="VARCHAR" />
+    <association column="factoryid" property="factory" select="com.defei.lps.dao.FactoryMapper.selectByPrimaryKey" javaType="com.defei.lps.entity.Factory"/>
+    <association column="areaid" property="area" select="com.defei.lps.dao.AreaMapper.selectByPrimaryKey" javaType="com.defei.lps.entity.Area"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, routename, routenumber, areaid,factoryid,describes
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from route where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByFactoryid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from route where factoryid = #{factoryid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAreaid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from route where areaid = #{areaid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByRoutenumber" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from route where routenumber = #{routenumber}
+  </select>
+  <select id="selectByRoutename" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from route where routename = #{routename}
+  </select>
+  <select id="selectByFactoryidAndAreaid" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from route
+    where factoryid = #{factoryid} and areaid = #{areaid}
+  </select>
+  <!-- 条件分页查询 -->
+  <select id="selectLimitByCondition" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from route
+    <trim prefix="where" prefixOverrides="and">
+      <if test="routename!=null and routename!=''">
+        and routename like '%${routename}%'
+      </if>
+      <if test="routenumber!=null and routenumber!=''">
+        and routenumber like '%${routenumber}%'
+      </if>
+      <if test="areaid!=0">
+        and areaid = #{areaid}
+      </if>
+      <if test="factoryid!=0">
+        and factoryid = #{factoryid}
+      </if>
+    </trim>
+    limit #{index},30
+  </select>
+  <!-- 条件分页查询总数量 -->
+  <select id="selectCountByCondition" resultType="java.lang.Integer">
+    select count(*) from route
+    <trim prefix="where" prefixOverrides="and">
+      <if test="routename!=null and routename!=''">
+        and routename like '%${routename}%'
+      </if>
+      <if test="routenumber!=null and routenumber!=''">
+        and routenumber like '%${routenumber}%'
+      </if>
+      <if test="areaid!=0">
+        and areaid = #{areaid}
+      </if>
+      <if test="factoryid!=0">
+        and factoryid = #{factoryid}
+      </if>
+    </trim>
+  </select>
+  <!-- 条件查询 -->
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from route
+    <trim prefix="where" prefixOverrides="and">
+      <if test="routename!=null and routename!=''">
+        and routename like '%${routename}%'
+      </if>
+      <if test="routenumber!=null and routenumber!=''">
+        and routenumber like '%${routenumber}%'
+      </if>
+      <if test="areaid!=0">
+        and areaid = #{areaid}
+      </if>
+      <if test="factoryid!=0">
+        and factoryid = #{factoryid}
+      </if>
+    </trim>
+  </select>
+  <!--根据用户id查询-->
+  <select id="selectByUserid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select route.id,route.routename,route.routenumber,route.areaid,route.factoryid,route.describes from route,user_route
+    where route.id=user_route.routeid and user_route.userid=#{userid}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from route
+  </select>
+  <!--根据区域id、中转仓id查询-->
+  <select id="selectByAreaidAndWarehouseid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select route.id,route.routename,route.routenumber,route.areaid,route.factoryid,route.describes from route,route_warehouse
+    where route.id=route_warehouse.routeid and route_warehouse.warehouseid=#{warehouseid}
+    and route.areaid=#{areaid}
+  </select>
+  <!--根据工厂id、中转仓id查询-->
+  <select id="selectByFactoryidAndWarehouseid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select route.id,route.routename,route.routenumber,route.areaid,route.factoryid,route.describes from route,route_warehouse
+    where route.id=route_warehouse.routeid and route_warehouse.warehouseid=#{warehouseid}
+    and route.factoryid=#{factoryid}
+  </select>
+  <!--根据出发地中转仓id、目的地中转仓id查询-->
+  <select id="selectByStartWarehouseidAndEndWarehouseid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select route.id,route.routename,route.routenumber,route.areaid,route.factoryid,route.describes from route,route_warehouse
+    where route.id=route_warehouse.routeid and route_warehouse.warehouseid=#{startwarehouseid}
+    and route_warehouse.warehouseid=#{endwarehouseid}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from route
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.Route" >
+    insert into route
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="routename != null" >
+        routename,
+      </if>
+      <if test="routenumber != null" >
+        routenumber,
+      </if>
+      <if test="area != null" >
+        areaid,
+      </if>
+      <if test="factory != null" >
+        factoryid,
+      </if>
+      <if test="describes != null" >
+        describes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="routename != null" >
+        #{routename,jdbcType=VARCHAR},
+      </if>
+      <if test="routenumber != null" >
+        #{routenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area.id},
+      </if>
+      <if test="factory != null" >
+        #{factory.id},
+      </if>
+      <if test="describes != null" >
+        #{describes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.Route" >
+    update route
+    <set >
+      <if test="routename != null" >
+        routename = #{routename,jdbcType=VARCHAR},
+      </if>
+      <if test="routenumber != null" >
+        routenumber = #{routenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="factory != null" >
+        factoryid = #{factory.id},
+      </if>
+      <if test="area != null" >
+        areaid = #{area.id},
+      </if>
+      <if test="describes != null" >
+        describes = #{describes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

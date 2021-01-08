@@ -1,0 +1,365 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- title图标 -->
+    <link rel="icon" th:href="@{/image/favicon.ico}" type="images/x-ico"/>
+    <title>仓库位置</title>
+    <!-- 导入bootstrap样式 -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <!-- 引用jquery -->
+    <script th:src="@{/bootstrap/js/jquery-3.1.1.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/ajaxAll.js}"></script>
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"/>
+    <script src="https://cache.amap.com/lbs/static/es5.min.js"></script>
+    <!-- 加载地图JSAPI脚本 -->
+    <script type="text/javascript"
+            src="https://webapi.amap.com/maps?v=1.4.15&key=33a24903e629296d01719cad642cbd04&plugin=AMap.Scale,AMap.OverView&plugin=AMap.AdvancedInfoWindow&plugin=AMap.TruckDriving,AMap.Autocomplete"></script>
+    <!-- UI组件库 1.0 -->
+    <script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+    <style>
+        html,body {
+            width: 100%;
+            height: 100%;
+        }
+        #container {
+            width: 100%;
+            height: 100%;
+            display: inline-block;
+            float: left;
+        }
+        #container1 {
+            width: 50%;
+            height: 100%;
+            display: inline-block;
+            float: right;
+        }
+        #selectDay {
+            font-size: 14px;
+            top: 10px;
+            left: 10px;
+            height: 30px;
+            position: absolute;
+            z-index:10;
+        }
+        select {
+            /*Chrome和Firefox里面的边框不一样*/
+            border: 1px solid lightgray;
+            /*很关键：将默认的select选择框样式清除*/
+            /*appearance:none;*/
+            /*-moz-appearance:none;*/
+            /*-webkit-appearance:none;*/
+            font-size: 14px;
+            width: 80px;
+            height: 25px;
+            background-color: white;
+            margin-left: 2px;
+            letter-spacing: 0.1em;
+        }
+        /*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+        /*select::-ms-expand {*/
+        /*display: none;*/
+        /*}*/
+        .input-card {
+            width: 150px;
+            top: 10px;
+            bottom: auto;
+        }
+        #tips{
+            font-size: 10px;
+            font-weight: 500;
+            top: 555px;
+            left: 10px;
+            border: 0.5px solid black;
+            width: 160px;
+            height: 65px;
+            position: fixed;
+            overflow: hidden;
+            line-height: 20px;
+            letter-spacing: 1px;
+            padding-left: 6px;
+        }
+        #tips div{
+            width: 8px;
+            height: 8px;
+        }
+        .tips1,.tips2{
+            display: inline-block;
+        }
+        .tipsText{
+            text-align: right;
+        }
+        .info-title {
+            color: black;
+            font-size: 14px;
+            line-height: 26px;
+            /*padding: 0px 0 0 6px;*/
+            font-weight: lighter;
+            letter-spacing: 1px
+        }
+        .info-content {
+            font: 12px Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial;
+            padding: 4px;
+            color: #666666;
+            line-height: 23px;
+        }
+        .info-content img {
+            float: left;
+            margin: 3px;
+        }
+        #close{
+            left: 650px;
+            position: fixed;
+        }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+<div id="container1"></div>
+<div id="selectDay">取货时间：
+    <select name="selectDay">
+        <option value="1">今天</option>
+        <option value="2">第2天</option>
+        <option value="3">第3天</option>
+        <option value="4">第4天</option>
+        <option value="5">第5天</option>
+        <option value="6">第6天</option>
+    </select>
+</div>
+<div class='input-card'>
+    <div class="input-item">
+        <input type="checkbox" onclick="toggleScale(this)"/>比例尺
+    </div>
+    <div class="input-item">
+        <input type="checkbox" id="overview" onclick="toggleOverViewShow(this)"/>显示鹰眼
+    </div>
+    <div class="input-item">
+        <input type="checkbox" id="overviewOpen" disabled onclick="toggleOverViewOpen(this)"/>展开鹰眼
+    </div>
+</div>
+<div id="tips">
+    <div class="tips1" style="background-color:red;"></div><span> 第一天取货</span>&nbsp;&nbsp;
+    <div class="tips2" style="background-color:orange;"></div><span class="tipsText"> 第二天取货</span></br>
+    <div class="tips1" style="background-color:yellow;"></div><span> 第三天取货</span>&nbsp;&nbsp;
+    <div class="tips2" style="background-color:green;"></div><span class="tipsText"> 第四天取货</span></br>
+    <div class="tips1" style="background-color:blue;"></div><span> 第五天取货</span>&nbsp;&nbsp;
+    <div class="tips2" style="background-color:purple;"></div><span class="tipsText"> 第六天取货</span></br>
+</div>
+<div id="close">
+    <button type="button" id="closeMap"
+            style="width: 50px;height: 20px;border-radius: 3px;background-color: white;
+     border: 0.5px solid lightgray;font-size: 14px;justify-content:flex-end;"> × </button>
+</div>
+<script>
+    var scale = new AMap.Scale({
+            visible: false
+        }),
+        overView = new AMap.OverView({
+            visible: false
+        });
+    var map = new AMap.Map("container", {		// 初始化地图
+        resizeEnable: true,		//监控地图容器尺寸变化
+        zoom: 6			//缩放级别
+    });
+    var map1 = new AMap.Map('container1', {
+        resizeEnable: true, //是否监控地图容器尺寸变化
+        zoom:11, //初始化地图层级
+        center: [116.397428, 39.90923] //初始化地图中心点
+    });
+    //添加控件到地图中
+    map.addControl(scale);
+    map.addControl(overView);
+    function toggleScale(checkbox) {
+        if (checkbox.checked) {
+            scale.show();
+        } else {
+            scale.hide();
+        }
+    }
+    function toggleOverViewShow(checkbox) {
+        if (checkbox.checked) {
+            overView.show();
+            document.getElementById('overviewOpen').disabled = false;
+        } else {
+            overView.hide();
+            document.getElementById('overviewOpen').disabled = true;
+        }
+    }
+    function toggleOverViewOpen(checkbox) {
+        if (checkbox.checked) {
+            overView.open();
+        }
+        else {
+            overView.close();
+        }
+    };
+
+    //查询所有仓库
+    $.ajax({
+        url : 'warehouseMap',
+        type : 'post',
+        data : 'json',//请求参数json数据
+        contentType : 'application/json;charset=utf-8',//设置contentType类型为json
+        success : function(data) {//请求成功后的回调函数
+            addProjectByWare(data);
+            if (data==null){
+                alert('暂未查询到仓库相关数据');
+            }
+        },
+        error: function() {
+            alert('获取仓库数据失败');
+        }
+    });
+    function addProjectByWare(data){
+        var marker,infoWindow = new AMap.InfoWindow({});
+        for (var i = 0; i < data.data.length; i++) {
+            var project = data.data[i];
+            var point= new AMap.LngLat(project["longitude"], project["latitude"]);
+            // 创建一个 Icon
+            var icon = new AMap.Icon({
+                // 图标尺寸
+                size: new AMap.Size(30, 30),
+                // 图标的取图地址
+                image: 'https://a.amap.com/jsapi_demos/static/images/mass1.png',
+                // 图标所用图片大小
+                imageSize: new AMap.Size(15, 15),
+            });
+            var marker = new AMap.Marker({
+                position: point, // 经纬度
+                icon: icon  //自定义图标样式
+            });
+            //显示的内容
+            var content = '<div class="info-title">高德地图(仓库信息)</div><div class="info-content">'
+                + '<img src="https://webapi.amap.com/images/amap.jpg">'
+                + '<span style="font-size: 12px;line-height: 25px;">'
+                + "仓库名称：" + project["name"] + "(" + project["warehousenumber"] + ")" + '<br/>'
+                + "仓库位置：" + project["province"] + " " + project["city"] + " "
+                + project["district"] + " " + project["address"] + '<br/>'
+                + '<span style="padding-left: 75px">'+" 联系人：" + project["contact"] + " " + project["phone"] + '</span>'
+                +'</span>' +
+                '</div>';
+            var text = new AMap.Text({  //创建纯文本标记
+                text: project["name"],
+                position:  point,
+                offset: new AMap.Pixel(30, -25),
+                style: {
+                    fontSize: "12px",
+                    backgroundColor: "rgba(255,255,255,0)",    //背景颜色透明
+                    border: "0",
+                    fontWeight: "bold"
+                }
+            });
+            text.setMap(map);
+            //将内容添加到marker
+            marker.content=content;
+            marker.on('click', function(e) {
+                infoWindow.setContent(e.target.content);
+                infoWindow.open(map,e.lnglat); //开启信息窗口
+            });
+            //添加点标记到地图中
+            marker.setMap(map);
+        }
+    };
+
+    //查询供应商
+    $.ajax({
+        url : 'mapSupplier',
+        type : 'post',
+        data : 'json',//请求参数json数据
+        contentType : 'application/json;charset=utf-8',//设置contentType类型为json
+        success : function(data) {//请求成功后的回调函数
+            var project = data.data;
+            if(project.length>0){
+                var style = [{
+                    url: 'https://a.amap.com/jsapi_demos/static/images/mass2.png',
+                    anchor: new AMap.Pixel(0, 0),
+                    size: new AMap.Size(12, 12)
+                }
+                ];
+                var massMarks = [];
+                var point;
+                var infoWindow = new AMap.InfoWindow({});
+                for(var i=0;i<project.length;i++){
+                    point ={'lnglat':[project[i].longitude,project[i].latitude]};
+                    // 创建纯文本标记
+                    var text = new AMap.Text({
+                        text: project[i].abbreviation,
+                        draggable: true,
+                        position: [project[i].longitude,project[i].latitude] ,
+                        offset: new AMap.Pixel(40, 5),
+                        style: {
+                            textAlign: "left",
+                            fontSize: "12px",
+                            backgroundColor: "rgba(255,255,255,0)",    //背景颜色透明
+                            border: "0",
+                            fontWeight: "bold"
+                        }
+                    });
+                    text.setMap(map);       //添加纯文本标记到地图中
+                    massMarks.push(point);  //添加经纬度到MassMarks中
+
+                    //显示的内容
+                    var content = '<div class="info-title">高德地图</div><div class="info-content">'
+                        + '<img src="https://webapi.amap.com/images/amap.jpg">'
+                        + '<span style="font-size: 12px;line-height: 25px;">'
+                        + "供应商名称："+project[i].suppliername+"("+project[i].abbreviation+")"+'<br/>'
+                        + "方数：" + project[i].volume+'<br/>'
+                        + "吨数：" + project[i].weight+'<br/>'
+                        + "取货日期：" + project[i].date
+                        + '</span>'
+                        + '</div>';
+                }
+                var mass = new AMap.MassMarks(massMarks, {
+                    opacity:0.8,
+                    zIndex: 111,
+                    cursor:'pointer',
+                    style: style
+                });
+                var marker = new AMap.Marker({content: ' ',map:map});
+                mass.setMap(map);       //添加MassMarks到地图中
+                marker.content=content;
+                mass.on('click', function(e) {
+                    alert("abc");
+                    infoWindow.setContent(e.target.content);
+                    infoWindow.open(map,e.lnglat); //开启信息窗口
+                });
+            }else{
+                alert('暂未查询到供应商相关数据');
+            }
+        },
+        error: function() {
+            alert('获取供应商数据失败');
+        }
+    });
+
+
+    $("#container1").hide();
+    $("#close").hide();
+    // map.on('click',function(e){
+    //     alert("abc");
+    //     $("#container").removeClass("#container"); //移除
+    //     $("#container").css({"width": "50%","height": "100%","display":"inline-block"});
+    //     $("#container1").show();
+    //     $("#close").show();
+    // });
+    // $("#close").click(
+    //     function(){
+    //         var isTrue = confirm("确认关闭此地图吗？");
+    //         if(isTrue){
+    //             $("#container").removeClass("#container"); //移除
+    //             $("#container").css({"width": "100%","height": "100%","margin": "0","font-family":"微软雅黑"});
+    //             $("#container1").removeClass("#container1"); //移除
+    //             $("#container1").hide();
+    //             $("#close").hide();
+    //         }
+    //     }
+    // );
+</script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<!-- 引入Thymeleaf模板、shiro标签 -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>富日物流LPS</title>
+    <!-- 导入bootstrap样式 -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <!-- 引用jquery -->
+    <script th:src="@{/bootstrap/js/jquery-3.1.1.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/ajaxAll.js}"></script>
+    <script th:src="@{/js/index.js}"></script>
+    <!-- title图标 -->
+    <link rel="icon" th:href="@{/image/favicon.ico}" type="images/x-ico"/>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-static-top" role="navigation" id="navbar">
+    <div class="container-fluid">
+        <!-- 导航栏头部 -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#mynavbar-collapse">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" style="color:#ffffff">
+                富日物流LPS
+            </a>
+        </div>
+        <!-- 导航栏动态导航内容 -->
+        <div class="collapse navbar-collapse" id="mynavbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/toFirst}" target="myframe"><span
+                        class="glyphicon glyphicon-home"></span> 首页</a>
+                </li>
+                <shiro:hasPermission name="plan">
+                    <li class="dropdown">
+                        <a href="#" target="myframe" class="dropdown-toggle" data-toggle="dropdown">
+                            缺件计划<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <shiro:hasPermission name="shortage">
+                                <li><a th:href="@{/toShortage}" target="_blank">缺件报表</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="planCache">
+                                <li><a th:href="@{/toPlanCache}" target="_blank">缺件计划</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="planHandleRecord">
+                                <li><a th:href="@{/toPlanHandleRecord}" target="myframe">缺件计划变化记录</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="planRecord">
+                                <li><a th:href="@{/toPlanRecord}" target="myframe">缺件计划完成记录</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="planTake">
+                                <li><a th:href="@{/toPlanTake}" target="myframe">取货计划</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="planTakeRecord">
+                                <li><a th:href="@{/toPlanTakeRecord}" target="myframe">取货计划完成记录</a></li>
+                            </shiro:hasPermission>
+                        </ul>
+                    </li>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="bill">
+                    <li class="dropdown">
+                        <a href="#" target="myframe" class="dropdown-toggle" data-toggle="dropdown">
+                            单据跟踪<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <shiro:hasPermission name="transportBillCacheBill">
+                                <li><a th:href="@{/toTransportBillCacheBill}" target="myframe">在途运输单</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="transportBillCache">
+                                <li><a th:href="@{/toTransportBillCache}" target="myframe">在途运输单明细</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="transportBillRecord">
+                                <li><a th:href="@{/toTransportBillRecord}" target="myframe">完结运输单明细</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="warehouseEntry">
+                                <li><a th:href="@{/toWarehouseEntry}" target="myframe">中转仓入库记录</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="warehouseCache">
+                                <li><a th:href="@{/toWarehouseCache}" target="myframe">中转仓在库记录</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="warehouseTake">
+                                <li><a th:href="@{/toWarehouseTake}" target="myframe">中转仓装载方案</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="warehouseOut">
+                                <li><a th:href="@{/toWarehouseOut}" target="myframe">中转仓出库记录</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="geelyBillCache">
+                                <li><a th:href="@{/toGeelyBillCache}" target="myframe">未回执吉利单据</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="geelyBillRecord">
+                                <li><a th:href="@{/toGeelyBillRecord}" target="myframe">已回执吉利单据</a></li>
+                            </shiro:hasPermission>
+
+                        </ul>
+                    </li>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="base">
+                    <li class="dropdown">
+                        <a href="#" target="myframe" class="dropdown-toggle" data-toggle="dropdown">
+                            基础数据<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <shiro:hasPermission name="factory">
+                                <li><a th:href="@{/toFactory}" target="myframe">工厂(客户)</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="area">
+                                <li><a th:href="@{/toArea}" target="myframe">区域信息</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="warehouse">
+                                <li><a th:href="@{/toWarehouse}" target="myframe">中转仓信息</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="route">
+                                <li><a th:href="@{/toRoute}" target="myframe">线路信息</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="carType">
+                                <li><a th:href="@{/toCarType}" target="myframe">车型信息</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="carrier">
+                                <li><a th:href="@{/toCarrier}" target="myframe">承运商信息</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="car">
+                                <li><a th:href="@{/toCar}" target="myframe">车辆信息</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="supplier">
+                                <li><a th:href="@{/toSupplier}" target="myframe">供应商信息</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="good">
+                                <li><a th:href="@{/toGood}" target="myframe">物料信息</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="params">
+                                <li><a th:href="@{/toParams}" target="myframe">运行参数</a></li>
+                            </shiro:hasPermission>
+                        </ul>
+                    </li>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="system">
+                    <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                            系统设置<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <shiro:hasPermission name="permission">
+                                <li><a th:href="@{/toPermission}" target="myframe">权限管理</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="role">
+                                <li><a th:href="@{/toRole}" target="myframe">角色管理</a></li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="user">
+                                <li><a th:href="@{/toUser}" target="myframe">用户管理</a></li>
+                            </shiro:hasPermission>
+                        </ul>
+                    </li>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="Map">
+                    <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                            地图服务<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <shiro:hasPermission name="warehouseMap">
+                                <li>
+                                    <a th:href="@{/toWarehouseMap}" target="_blank">轨迹服务</a>
+                                </li>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="carMap">
+                                <li>
+                                    <a th:href="@{/toCarMap}" target="_blank">车辆跟踪</a>
+                                </li>
+                            </shiro:hasPermission>
+                        </ul>
+                    </li>
+                </shiro:hasPermission>
+            </ul>
+            <!-- 用户信息 -->
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-user"></span> <span id="span_userName" th:text="${userName}">用户名</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="loadSelf()">重置密码</a></li>
+                        <li class="divider"></li>
+                        <li><a th:href="@{/logOut}">退出</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="main">
+    <iframe name="myframe" id="myframe" width="100%" class="embed-responsive-item"
+            th:src="@{/toFirst}"></iframe>
+</div>
+
+<!-- 修改用户个人信息的模态框 -->
+<div class="modal fade" id="updateSelfModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 align="center">重置密码</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>原密码</label>
+                    <input class="form-control" type="password" id="input_oldpassword" placeholder="原密码">
+                </div>
+                <div class="form-group">
+                    <label>新密码</label>
+                    <input class="form-control" type="password" id="input_newpassword" placeholder="新密码">
+                </div>
+                <div class="form-group">
+                    <label>新密码确认</label>
+                    <input class="form-control" type="password" id="input_newpassword2" placeholder="新密码">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="updateSelf()">修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

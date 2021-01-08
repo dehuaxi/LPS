@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<!-- 引入Thymeleaf模板、shiro标签 -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>生成出库运输单</title>
+    <!-- 导入bootstrap样式 -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- title图标 -->
+    <link rel="icon" th:href="@{/image/favicon.ico}" type="images/x-ico"/>
+    <!-- 引用jquery -->
+    <script th:src="@{/bootstrap/js/jquery-3.1.1.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/ajaxAll.js}"></script>
+    <script th:src="@{/js/monitorSplitWindows.js}"></script>
+    <script th:src="@{/js/warehouseOutAdd.js}"></script>
+    <script>
+        $(document).ready(function(){
+            var height=$("#right").css("height");
+            $("#left").css("height",height);
+        });
+    </script>
+    <style>
+        .form-inline{
+            height: 30px;
+        }
+        table{
+            white-space: nowrap;
+        }
+        table th{
+            white-space: nowrap;
+        }
+        table tbody tr:hover{
+            color: rgba(78, 84, 78, 0.82);
+        }
+        body{
+            margin: 0px;
+            padding: 0px;
+        }
+        .hj-wrap{
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+        #top{
+            width: 100%;
+            height: 25%;
+        }
+        #bottom{
+            width: 100%;
+            height: 75%;
+            bottom: 0px;
+        }
+        .hj-vertical-split-label{
+            width: 100%;
+            height: 5px;
+            display:block;
+            cursor: n-resize;
+            background-color: #0571f3;
+        }
+    </style>
+</head>
+<body>
+<div class='hj-wrap'>
+    <div id="top" class="hj-vertical-split-div">
+        <!-- 面包屑导航 -->
+        <ul class="breadcrumb" style="margin:0">
+            <li class="active">单据跟踪</li>
+            <li class="active">中转仓出库记录</li>
+            <li class="active">生成出库运输单</li>
+            <li class="active" id="route"></li>
+        </ul>
+        <!--查询条件-->
+        <div class="container-fluid">
+            <input type="text" placeholder="物料编号" class="form-inline" id="input_goodCode">
+            <input type="text" placeholder="物料名称" class="form-inline" id="input_goodName">
+            <input type="text" placeholder="供应商编号" class="form-inline" id="input_supplierCode">
+            <input type="text" placeholder="供应商名称" class="form-inline" id="input_supplierName">
+            <input type="text" placeholder="吉利单号" class="form-inline" id="input_geelyBillNumber">
+            <select class="form-inline" id="select_packState">
+                <option value="">请选择翻包状态</option>
+                <option>已翻包</option>
+                <option>未翻包</option>
+            </select>
+            <select class="form-inline" id="select_warehouseId">
+                <option value="0">请选择中转仓</option>
+            </select>
+            <button class="btn btn-primary btn-sm form-inline" type="button" onclick="findWarehouseCache()">查询 <span
+                    class="glyphicon glyphicon-search"></span>
+            </button>
+        </div>
+        <table class="table table-condensed table-bordered table-hover">
+            <thead>
+            <tr>
+                <th style="display: none">id</th>
+                <th>物料编号</th>
+                <th>物料名称</th>
+                <th>供应商编号</th>
+                <th>供应商名称</th>
+                <th>吉利单号</th>
+                <th>吉利数量</th>
+                <th>吉利批次</th>
+                <th>在库数量</th>
+                <th>收容数</th>
+                <th>是否翻包</th>
+            </tr>
+            </thead>
+            <tbody id="table_data"></tbody>
+        </table>
+    </div>
+    <label class="hj-vertical-split-label">&nbsp;</label>
+    <div id="bottom" class="hj-vertical-split-div">
+        <div class="container-fluid">
+            <select id="select_carTypeName" class="form-inline" onchange="chooseCarType()">
+                <option value="">请选择车型</option>
+            </select>
+            <select id="select_car" class="form-inline" onchange="chooseCar()">
+                <option value="">请选择车辆</option>
+            </select>
+            <input type="text" placeholder="非系统车填车牌号" class="form-inline" id="input_carNumber">
+            <input type="text" placeholder="司机姓名" class="form-inline" id="input_driver">
+            <input type="text" placeholder="司机手机号" class="form-inline" id="input_phone">
+            <input type="text" placeholder="运输费(元)" class="form-inline" id="input_money">
+            <input type="text" placeholder="备注" class="form-inline" id="input_remarks">
+            <select id="select_carrierName" class="form-inline">
+                <option value="">请选择承运商</option>
+            </select>
+            <button class="btn btn-info btn-sm form-inline" type="button" onclick="createTransportBill()">生成出库运输单 <span
+                    class="glyphicon glyphicon-edit"></span></button><br>
+            高板长(mm)：<input type="text" id="input_highLength" class="form-inline" placeholder="高板长(mm)" value="0">&emsp;
+            高板高(mm)：<input type="text" id="input_highHeight" class="form-inline" placeholder="高板高(mm)" value="0">&emsp;
+            低板长(mm)：<input type="text" id="input_lowLength" class="form-inline" placeholder="低板长(mm)" value="0">&emsp;
+            低板高(mm)：<input type="text" id="input_lowHeight" class="form-inline" placeholder="低板高(mm)" value="0">&emsp;
+            车宽(mm)：<input type="text" id="input_carWidth" class="form-inline" placeholder="车宽(mm)" value="0">&emsp;
+        </div>
+        <table class="table table-condensed table-bordered table-hover">
+            <thead>
+            <tr>
+                <th style="display: none">id</th>
+                <th>物料编号</th>
+                <th>物料名称</th>
+                <th>供应商编号</th>
+                <th>供应商名称</th>
+                <th>吉利单号</th>
+                <th>吉利批次</th>
+                <th>收容数</th>
+                <th>出库数量</th>
+                <th>出库箱数</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="table_data2"></tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<!-- 选择线路类型的模态框 -->
+<div class="modal fade" id="typeModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" align="center">选择出发地和目的地</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>线路类型</label>
+                    <select class="form-control" id="select_routeType" onchange="chooseType()">
+                        <option value="">请选择线路类型</option>
+                        <option>中转仓-工厂</option>
+                        <option>中转仓-中转仓</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>出发地</label>
+                    <select class="form-control" id="select_startId">
+                        <option value="0">请选择出发地中转仓</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>目的地</label>
+                    <select class="form-control" id="select_endId">
+                        <option value="0">请选择目的地中转仓/工厂</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" onclick="sureType()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 选择在库记录时填入取货数量的模态框 -->
+<div class="modal fade" id="chooseModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" align="center">填入出库数量</h4>
+            </div>
+            <div class="modal-body">
+                <input id="chooseModal_warehouseCacheId" style="display: none">
+                <div class="form-group">
+                    <label>物料编号</label>
+                    <input class="form-control" id="chooseModal_goodCode" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>物料名称</label>
+                    <input class="form-control" id="chooseModal_goodName" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>供应商编号</label>
+                    <input class="form-control" id="chooseModal_supplierCode" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>供应商名称</label>
+                    <input class="form-control" id="chooseModal_supplierName" disabled="disabled">
+                </div>
+                <div class="form-group" style="display: none">
+                    <label>吉利单据</label>
+                    <input class="form-control" id="chooseModal_geelyBillNumber" disabled="disabled">
+                </div>
+                <div class="form-group" style="display: none">
+                    <label>吉利批次</label>
+                    <input class="form-control" id="chooseModal_batch" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>在库数量</label>
+                    <input class="form-control" id="chooseModal_useCount" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>收容数</label>
+                    <input class="form-control" id="chooseModal_oneBoxCount" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>出库数量</label>
+                    <input class="form-control" id="chooseModal_count">
+                </div>
+                <div class="form-group">
+                    <label>出库箱数</label>
+                    <input class="form-control" id="chooseModal_boxCount" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>零头箱内物料个数</label>
+                    <input class="form-control" id="chooseModal_odd" disabled="disabled">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" onclick="choose()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 页面加载提示 -->
+<div id="div_loading"
+     style="display:none;z-index:9999;position:absolute;width:100%;height:100%;top:0;left:0;background:#ffffff;">
+    <img alt="加载中..." th:src="@{/image/loading.gif}"
+         style="position:absolute;left:50%;top:50%;transform: translate(-50%,-50%);">
+</div>
+
+</body>
+</html>

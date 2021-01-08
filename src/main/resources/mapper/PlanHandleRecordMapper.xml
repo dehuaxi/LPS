@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.PlanHandleRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.PlanHandleRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="handletime" property="handletime" jdbcType="TIMESTAMP" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <association column="goodid" property="good" select="com.defei.lps.dao.GoodMapper.selectByPrimaryKey" javaType="com.defei.lps.entity.Good"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goodid, date, content, createtime, handletime,username
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from planhandlerecord where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!-- 条件分页查询 -->
+  <select id="selectLimitByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select p.id, p.goodid, p.date,p.content, p.createtime, p.handletime,p.username from planhandlerecord p,good g,supplier s
+    where p.goodid=g.id and g.supplierid=s.id
+    <if test="goodcode!=null and goodcode!=''">
+      and g.goodcode like '%${goodcode}%'
+    </if>
+    <if test="goodname!=null and goodname!=''">
+      and g.goodname like '%${goodname}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="date!=null and date!=''">
+      and date =#{date}
+    </if>
+    order by p.handletime desc limit #{index},30
+  </select>
+  <!-- 条件分页查询总数量 -->
+  <select id="selectCountByCondition" resultType="java.lang.Integer">
+    select count(*) from (
+    select p.id, p.goodid, p.date,p.content, p.createtime, p.handletime,p.username from planhandlerecord p,good g,supplier s
+    where p.goodid=g.id and g.supplierid=s.id
+    <if test="goodcode!=null and goodcode!=''">
+      and g.goodcode like '%${goodcode}%'
+    </if>
+    <if test="goodname!=null and goodname!=''">
+      and g.goodname like '%${goodname}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="date!=null and date!=''">
+      and date =#{date}
+    </if>
+    order by p.handletime desc
+    ) as a
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from planhandlerecord
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteOneYearAgo">
+    delete from planhandlerecord
+    where date &lt; date_sub(now(),interval 1 year)
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.PlanHandleRecord" >
+    insert into planhandlerecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="good != null" >
+        goodid,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="handletime != null" >
+        handletime,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="good != null" >
+        #{good.id},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="handletime != null" >
+        #{handletime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.PlanHandleRecord" >
+    update planhandlerecord
+    <set >
+      <if test="good != null" >
+        goodid = #{good.id},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="handletime != null" >
+        handletime = #{handletime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

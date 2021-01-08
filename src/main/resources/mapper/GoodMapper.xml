@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.GoodMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.Good" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="goodname" property="goodname" jdbcType="VARCHAR" />
+    <result column="goodcode" property="goodcode" jdbcType="VARCHAR" />
+    <result column="oneboxcount" property="oneboxcount" jdbcType="INTEGER" />
+    <result column="bincount" property="bincount" jdbcType="INTEGER" />
+    <result column="onecarcount" property="onecarcount" jdbcType="INTEGER" />
+    <result column="maxstock" property="maxstock" jdbcType="INTEGER" />
+    <result column="triggerstock" property="triggerstock" jdbcType="INTEGER" />
+    <result column="quotaratio" property="quotaratio" jdbcType="INTEGER" />
+    <result column="boxtype" property="boxtype" jdbcType="VARCHAR" />
+    <result column="boxlength" property="boxlength" jdbcType="INTEGER" />
+    <result column="boxwidth" property="boxwidth" jdbcType="INTEGER" />
+    <result column="boxheight" property="boxheight" jdbcType="INTEGER" />
+    <result column="packboxlength" property="packboxlength" jdbcType="INTEGER" />
+    <result column="packboxwidth" property="packboxwidth" jdbcType="INTEGER" />
+    <result column="packboxheight" property="packboxheight" jdbcType="INTEGER" />
+    <result column="packboxweight" property="packboxweight" jdbcType="DECIMAL" />
+    <result column="boxweight" property="boxweight" jdbcType="DECIMAL" />
+    <result column="returnratio" property="returnratio" jdbcType="INTEGER" />
+    <result column="onetrayboxcount" property="onetrayboxcount" jdbcType="INTEGER" />
+    <result column="onetraylayerscount" property="onetraylayerscount" jdbcType="INTEGER" />
+    <result column="trayratio" property="trayratio" jdbcType="INTEGER" />
+    <result column="traylength" property="traylength" jdbcType="INTEGER" />
+    <result column="traywidth" property="traywidth" jdbcType="INTEGER" />
+    <result column="trayheight" property="trayheight" jdbcType="INTEGER" />
+    <result column="packremarks" property="packremarks" jdbcType="VARCHAR" />
+    <result column="receiver" property="receiver" jdbcType="VARCHAR" />
+    <association column="supplierid" property="supplier" select="com.defei.lps.dao.SupplierMapper.selectByPrimaryKey" javaType="com.defei.lps.entity.Supplier"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goodname, goodcode, supplierid, oneboxcount, bincount,onecarcount, maxstock,
+    triggerstock, quotaratio, boxtype, boxlength, boxwidth, boxheight, boxweight,
+    packboxlength, packboxwidth, packboxheight, packboxweight, returnratio,
+    onetrayboxcount,onetraylayerscount,trayratio, traylength,traywidth,trayheight,packremarks,receiver
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from good where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectLikeNameAndFactoryid" resultMap="BaseResultMap">
+    select g.id, g.goodname, g.goodcode, g.supplierid, g.oneboxcount, g.bincount, g.onecarcount, g.maxstock,
+    g.triggerstock, g.quotaratio, g.boxtype, g.boxlength, g.boxwidth, g.boxheight, g.boxweight, g.packboxlength,
+    g.packboxwidth, g.packboxheight, g.packboxweight,g.returnratio,
+    g.onetrayboxcount,g.onetraylayerscount,g.trayratio,g.traylength,
+    g.traywidth,g.trayheight, g.packremarks,g.receiver
+    from good g,supplier s,route r
+    where g.supplierid=s.id and s.routeid=r.id
+    and r.factoryid = #{factoryid,jdbcType=INTEGER}
+    and g.goodname like '%${goodname}%'
+  </select>
+  <!-- 条件分页查询 -->
+  <select id="selectLimitByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select g.id, g.goodname, g.goodcode, g.supplierid, g.oneboxcount, g.bincount, g.onecarcount, g.maxstock,
+    g.triggerstock, g.quotaratio, g.boxtype, g.boxlength, g.boxwidth, g.boxheight, g.boxweight, g.packboxlength,
+    g.packboxwidth, g.packboxheight, g.packboxweight,g.returnratio,
+    g.onetrayboxcount,g.onetraylayerscount,g.trayratio,g.traylength,
+    g.traywidth,g.trayheight, g.packremarks,g.receiver
+    from good g,supplier s,route r
+    where g.supplierid=s.id and s.routeid=r.id
+    <if test="goodcode!=null and goodcode!=''">
+      and g.goodcode like '%${goodcode}%'
+    </if>
+    <if test="goodname!=null and goodname!=''">
+      and g.goodname like '%${goodname}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="boxtype!=null and boxtype!=''">
+      and g.boxtype like '%${boxtype}%'
+    </if>
+    <if test="factoryid!=0">
+      and r.factoryid = #{factoryid}
+    </if>
+    <if test="routeid!=0">
+      and r.id = #{routeid}
+    </if>
+    order by s.suppliercode,g.goodcode,r.factoryid limit #{index},30
+  </select>
+  <!--条件分页查询总数量-->
+  <select id="selectCountByCondition" resultType="java.lang.Integer">
+    select count(*) from (select g.id, g.goodname, g.goodcode, g.supplierid, g.oneboxcount, g.bincount, g.onecarcount, g.maxstock,
+    g.triggerstock, g.quotaratio, g.boxtype, g.boxlength, g.boxwidth, g.boxheight, g.boxweight, g.packboxlength,
+    g.packboxwidth, g.packboxheight, g.packboxweight,g.returnratio,
+    g.onetrayboxcount,g.onetraylayerscount,g.trayratio,g.traylength,
+    g.traywidth,g.trayheight, g.packremarks,g.receiver
+    from good g,supplier s,route r
+    where g.supplierid=s.id and s.routeid=r.id
+    <if test="goodcode!=null and goodcode!=''">
+      and g.goodcode like '%${goodcode}%'
+    </if>
+    <if test="goodname!=null and goodname!=''">
+      and g.goodname like '%${goodname}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="boxtype!=null and boxtype!=''">
+      and g.boxtype like '%${boxtype}%'
+    </if>
+    <if test="factoryid!=0">
+      and r.factoryid = #{factoryid}
+    </if>
+    <if test="routeid!=0">
+      and r.id = #{routeid}
+    </if>) a
+  </select>
+  <!--条件查询-->
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select g.id, g.goodname, g.goodcode, g.supplierid, g.oneboxcount, g.bincount, g.onecarcount, g.maxstock,
+    g.triggerstock, g.quotaratio, g.boxtype, g.boxlength, g.boxwidth, g.boxheight, g.boxweight, g.packboxlength,
+    g.packboxwidth, g.packboxheight, g.packboxweight,g.returnratio,
+    g.onetrayboxcount,g.onetraylayerscount,g.trayratio,g.traylength,
+    g.traywidth,g.trayheight, g.packremarks,g.receiver
+    from good g,supplier s,route r
+    where g.supplierid=s.id and s.routeid=r.id
+    <if test="goodcode!=null and goodcode!=''">
+      and g.goodcode like '%${goodcode}%'
+    </if>
+    <if test="goodname!=null and goodname!=''">
+      and g.goodname like '%${goodname}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="boxtype!=null and boxtype!=''">
+      and g.boxtype like '%${boxtype}%'
+    </if>
+    <if test="factoryid!=0">
+      and r.factoryid = #{factoryid}
+    </if>
+    <if test="routeid!=0">
+      and r.id = #{routeid}
+    </if>
+    order by s.suppliercode,g.goodcode,r.factoryid
+  </select>
+  <select id="selectByGoodcodeAndSupplierid" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from good
+    where supplierid=#{supplierid}
+    and goodcode=#{goodcode}
+  </select>
+  <select id="selectBySupplierid" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from good
+    where supplierid=#{supplierid}
+  </select>
+  <!--根据线路id集合查询物料,根据供应商排序-->
+  <select id="selectByRouteids" resultMap="BaseResultMap">
+    select g.id, g.goodname, g.goodcode, g.supplierid, g.oneboxcount, g.bincount, g.onecarcount, g.maxstock,
+    g.triggerstock, g.quotaratio, g.boxtype, g.boxlength, g.boxwidth, g.boxheight, g.boxweight, g.packboxlength,
+    g.packboxwidth, g.packboxheight, g.packboxweight,g.returnratio,
+    g.onetrayboxcount,g.onetraylayerscount,g.trayratio,g.traylength,
+    g.traywidth,g.trayheight, g.packremarks,g.receiver
+    from good g,supplier s,route r
+    where g.supplierid=s.id and s.routeid=r.id
+    and r.id in
+    <foreach collection="routeList" item="item" open="(" close=")" separator=",">
+      #{item.id}
+    </foreach>
+    order by g.supplierid,r.factoryid
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from good where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.Good" >
+    insert into good
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="goodname != null" >
+        goodname,
+      </if>
+      <if test="goodcode != null" >
+        goodcode,
+      </if>
+      <if test="supplier != null" >
+        supplierid,
+      </if>
+      <if test="oneboxcount != null" >
+        oneboxcount,
+      </if>
+      <if test="bincount != null" >
+        bincount,
+      </if>
+      <if test="onecarcount != null" >
+        onecarcount,
+      </if>
+      <if test="maxstock != null" >
+        maxstock,
+      </if>
+      <if test="triggerstock != null" >
+        triggerstock,
+      </if>
+      <if test="quotaratio != null" >
+        quotaratio,
+      </if>
+      <if test="boxtype != null" >
+        boxtype,
+      </if>
+      <if test="boxlength != null" >
+        boxlength,
+      </if>
+      <if test="boxwidth != null" >
+        boxwidth,
+      </if>
+      <if test="boxheight != null" >
+        boxheight,
+      </if>
+      <if test="packboxlength != null" >
+        packboxlength,
+      </if>
+      <if test="packboxwidth != null" >
+        packboxwidth,
+      </if>
+      <if test="packboxheight != null" >
+        packboxheight,
+      </if>
+      <if test="packboxweight != null" >
+        packboxweight,
+      </if>
+      <if test="boxweight != null" >
+        boxweight,
+      </if>
+      <if test="returnratio != null" >
+        returnratio,
+      </if>
+      <if test="onetrayboxcount != null" >
+        onetrayboxcount,
+      </if>
+      <if test="onetraylayerscount != null" >
+        onetraylayerscount,
+      </if>
+      <if test="trayratio != null" >
+        trayratio,
+      </if>
+      <if test="traylength != null" >
+        traylength,
+      </if>
+      <if test="traywidth != null" >
+        traywidth,
+      </if>
+      <if test="trayheight != null" >
+        trayheight,
+      </if>
+      <if test="packremarks != null" >
+        packremarks,
+      </if>
+      <if test="receiver != null" >
+        receiver,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodname != null" >
+        #{goodname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodcode != null" >
+        #{goodcode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplier != null" >
+        #{supplier.id},
+      </if>
+      <if test="oneboxcount != null" >
+        #{oneboxcount,jdbcType=INTEGER},
+      </if>
+      <if test="bincount != null" >
+        #{bincount,jdbcType=INTEGER},
+      </if>
+      <if test="onecarcount != null" >
+        #{onecarcount,jdbcType=INTEGER},
+      </if>
+      <if test="maxstock != null" >
+        #{maxstock,jdbcType=INTEGER},
+      </if>
+      <if test="triggerstock != null" >
+        #{triggerstock,jdbcType=INTEGER},
+      </if>
+      <if test="quotaratio != null" >
+        #{quotaratio,jdbcType=INTEGER},
+      </if>
+      <if test="boxtype != null" >
+        #{boxtype,jdbcType=VARCHAR},
+      </if>
+      <if test="boxlength != null" >
+        #{boxlength,jdbcType=INTEGER},
+      </if>
+      <if test="boxwidth != null" >
+        #{boxwidth,jdbcType=INTEGER},
+      </if>
+      <if test="boxheight != null" >
+        #{boxheight,jdbcType=INTEGER},
+      </if>
+      <if test="packboxlength != null" >
+        #{packboxlength,jdbcType=INTEGER},
+      </if>
+      <if test="packboxwidth != null" >
+        #{packboxwidth,jdbcType=INTEGER},
+      </if>
+      <if test="packboxheight != null" >
+        #{packboxheight,jdbcType=INTEGER},
+      </if>
+      <if test="packboxweight != null" >
+        #{packboxweight,jdbcType=DECIMAL},
+      </if>
+      <if test="boxweight != null" >
+        #{boxweight,jdbcType=DECIMAL},
+      </if>
+      <if test="returnratio != null" >
+        #{returnratio,jdbcType=INTEGER},
+      </if>
+      <if test="onetrayboxcount != null" >
+        #{onetrayboxcount,jdbcType=INTEGER},
+      </if>
+      <if test="onetraylayerscount != null" >
+        #{onetraylayerscount,jdbcType=INTEGER},
+      </if>
+      <if test="trayratio != null" >
+        #{trayratio,jdbcType=INTEGER},
+      </if>
+      <if test="traylength != null" >
+        #{traylength,jdbcType=INTEGER},
+      </if>
+      <if test="traywidth != null" >
+        #{traywidth,jdbcType=INTEGER},
+      </if>
+      <if test="trayheight != null" >
+        #{trayheight,jdbcType=INTEGER},
+      </if>
+      <if test="packremarks != null" >
+        #{packremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null" >
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!--批量插入-->
+  <insert id="insertBatch">
+    insert into good (goodname, goodcode, supplierid, oneboxcount, bincount,onecarcount, maxstock,
+    triggerstock, quotaratio, boxtype, boxlength, boxwidth, boxheight,
+    packboxlength, packboxwidth, packboxheight, packboxweight, boxweight,returnratio,
+    onetrayboxcount,onetraylayerscount,trayratio, traylength,traywidth,trayheight,packremarks,receiver) values
+    <foreach collection="goodList" item="item" separator=",">
+      (#{item.goodname},#{item.goodcode},#{item.supplier.id},
+      #{item.oneboxcount},#{item.bincount},#{item.onecarcount},#{item.maxstock},
+      #{item.triggerstock},#{item.quotaratio},#{item.boxtype},
+      #{item.boxlength},#{item.boxwidth},#{item.boxheight},
+      #{item.packboxlength},#{item.packboxwidth},#{item.packboxheight},#{item.packboxweight},
+      #{item.boxweight},#{item.returnratio},#{item.onetrayboxcount},
+      #{item.onetraylayerscount},#{item.trayratio},#{item.traylength},
+      #{item.traywidth},#{item.trayheight},#{item.packremarks},#{item.receiver})
+    </foreach>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.Good" >
+    update good
+    <set >
+      <if test="goodname != null" >
+        goodname = #{goodname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodcode != null" >
+        goodcode = #{goodcode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplier != null" >
+        supplierid = #{supplier.id},
+      </if>
+      <if test="oneboxcount != null" >
+        oneboxcount = #{oneboxcount,jdbcType=INTEGER},
+      </if>
+      <if test="bincount != null" >
+        bincount = #{bincount,jdbcType=INTEGER},
+      </if>
+      <if test="onecarcount != null" >
+        onecarcount = #{onecarcount,jdbcType=INTEGER},
+      </if>
+      <if test="maxstock != null" >
+        maxstock = #{maxstock,jdbcType=INTEGER},
+      </if>
+      <if test="triggerstock != null" >
+        triggerstock = #{triggerstock,jdbcType=INTEGER},
+      </if>
+      <if test="quotaratio != null" >
+        quotaratio = #{quotaratio,jdbcType=INTEGER},
+      </if>
+      <if test="boxtype != null" >
+        boxtype = #{boxtype,jdbcType=VARCHAR},
+      </if>
+      <if test="boxlength != null" >
+        boxlength = #{boxlength,jdbcType=INTEGER},
+      </if>
+      <if test="boxwidth != null" >
+        boxwidth = #{boxwidth,jdbcType=INTEGER},
+      </if>
+      <if test="boxheight != null" >
+        boxheight = #{boxheight,jdbcType=INTEGER},
+      </if>
+      <if test="packboxlength != null" >
+        packboxlength = #{packboxlength,jdbcType=INTEGER},
+      </if>
+      <if test="packboxwidth != null" >
+        packboxwidth = #{packboxwidth,jdbcType=INTEGER},
+      </if>
+      <if test="packboxheight != null" >
+        packboxheight = #{packboxheight,jdbcType=INTEGER},
+      </if>
+      <if test="packboxweight != null" >
+        packboxweight = #{packboxweight,jdbcType=DECIMAL},
+      </if>
+      <if test="boxweight != null" >
+        boxweight = #{boxweight,jdbcType=DECIMAL},
+      </if>
+      <if test="returnratio != null" >
+        returnratio = #{returnratio,jdbcType=INTEGER},
+      </if>
+      <if test="onetrayboxcount != null" >
+        onetrayboxcount = #{onetrayboxcount,jdbcType=INTEGER},
+      </if>
+      <if test="onetraylayerscount != null" >
+        onetraylayerscount = #{onetraylayerscount,jdbcType=INTEGER},
+      </if>
+      <if test="trayratio != null" >
+        trayratio = #{trayratio,jdbcType=INTEGER},
+      </if>
+      <if test="traylength != null" >
+        traylength = #{traylength,jdbcType=INTEGER},
+      </if>
+      <if test="traywidth != null" >
+        traywidth = #{traywidth,jdbcType=INTEGER},
+      </if>
+      <if test="trayheight != null" >
+        trayheight = #{trayheight,jdbcType=INTEGER},
+      </if>
+      <if test="packremarks != null" >
+        packremarks = #{packremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null" >
+        receiver = #{receiver,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!-- 引入Thymeleaf模板、shiro标签 -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>打印运输单</title>
+    <!-- 导入bootstrap样式 -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- title图标 -->
+    <link rel="icon" th:href="@{/image/favicon.ico}" type="images/x-ico"/>
+    <!-- 引用jquery -->
+    <script th:src="@{/bootstrap/js/jquery-3.1.1.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/jquery-barcode.js}"></script>
+    <script th:src="@{/js/ajaxAll.js}"></script>
+    <script th:src="@{/js/printTransportBill.js}"></script>
+</head>
+<body>
+<span style="display: none" id="billNumber">[[${billNumber}]]</span>
+<!--打印内容-->
+<div>
+    <span id="barcode"></span>
+    <h3 align="center">富日物流运输单</h3>
+    <br>
+    单号：[[${billNumber}]]&emsp;&emsp;创建时间：<span id="createTime"></span>&emsp;&emsp;打印时间：<span id="printTime"></span>
+    <br>
+    车牌号：<span id="carNumber"></span>&emsp;&emsp;司机姓名：<span id="dirver"></span>&emsp;&emsp;手机号：<span id="phone"></span>&emsp;&emsp;车型：<span id="carTypeName"></span>
+    <br>
+    出发地：<span id="startName"></span>&emsp;&emsp;目的地：<span id="endName"></span>&emsp;&emsp;承运商：<span id="carrierName"></span>
+    <table class="table table-condensed table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>物料编号</th>
+            <th>物料名称</th>
+            <th>供应商编号</th>
+            <th>供应商名称</th>
+            <th>吉利单号</th>
+            <th>吉利批次</th>
+            <th>吉利数量</th>
+            <th>运输数量</th>
+            <th>运输箱数</th>
+            <th>实收数量</th>
+            <th>备注</th>
+        </tr>
+        </thead>
+        <tbody id="table_data"></tbody>
+    </table>
+    <br>
+    收货人:________________
+</div>
+
+<!-- 页面加载提示 -->
+<div id="div_loading"
+     style="display:none;z-index:9999;position:absolute;width:100%;height:100%;top:0;left:0;background:#ffffff;">
+    <img alt="加载中..." th:src="@{/image/loading.gif}"
+         style="position:absolute;left:50%;top:50%;transform: translate(-50%,-50%);">
+</div>
+
+</body>
+</html>

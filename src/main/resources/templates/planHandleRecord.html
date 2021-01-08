@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!-- 引入Thymeleaf模板、shiro标签 -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>计划修改删除记录</title>
+    <!-- 导入bootstrap样式 -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- title图标 -->
+    <link rel="icon" th:href="@{/image/favicon.ico}" type="images/x-ico"/>
+    <!-- 引用jquery -->
+    <script th:src="@{/bootstrap/js/jquery-3.1.1.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/laydate/laydate.js}"></script>
+    <script th:src="@{/js/ajaxAll.js}"></script>
+    <script th:src="@{/js/planHandleRecord.js}"></script>
+    <style>
+        #search-collapse input{
+            height: 30px;
+            padding-left:10px ;
+        }
+        #search-collapse select{
+            height: 30px;
+        }
+        table{
+            white-space: nowrap;
+        }
+        table th{
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+<!-- 面包屑导航 -->
+<ul class="breadcrumb" style="margin:0">
+    <li class="active">缺件计划</li>
+    <li class="active">计划修改删除记录</li>
+</ul>
+<!-- 搜索导航 -->
+<div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search-collapse">
+        筛选条件<span class="glyphicon glyphicon-chevron-down"></span>
+    </button>
+</div>
+<div class="collapse navbar-collapse" id="search-collapse">
+    <input type="text" placeholder="物料编号" class="form-inline" id="input_goodCode"/>
+    <input type="text" placeholder="物料名称" class="form-inline" id="input_goodName"/>
+    <input type="text" placeholder="供应商编号" class="form-inline" id="input_supplierCode"/>
+    <input type="text" placeholder="供应商名称" class="form-inline" id="input_supplierName"/>
+    <input type="text" placeholder="计划日期" class="form-inline" id="input_date"/>
+    <button class="btn btn-primary btn-sm form-inline" type="button" onclick="findByLimit(1)">查询<span
+            class="glyphicon glyphicon-search"></span></button>
+</div>
+
+<table class="table table-condensed table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>物料编号</th>
+        <th>物料名称</th>
+        <th>供应商编号</th>
+        <th>供应商名称</th>
+        <th>计划日期</th>
+        <th>操作内容</th>
+        <th>计划创建时间</th>
+        <th>操作时间</th>
+        <th>操作人</th>
+    </tr>
+    </thead>
+    <tbody id="table_data"></tbody>
+</table>
+
+<!-- 底部分页 -->
+<div id="div_page">
+    <div class="col-md-6 col-sm-6 col-xs-12" style="text-align:center">
+        <p>
+            第<span id="span_currentPage"></span>页/共<span id="span_totalPage"></span>页,每页30条记录&emsp;
+            共<span id="span_dataCount"></span>条数据&emsp;
+            跳转到<input type="text" id="input_goPage" style="width:30px"/>页
+            <button class="btn btn-xs" type="button" onclick="goPage()">GO</button>
+        </p>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12" style="text-align:center">
+        <ul class="pagination" style="margin:0;padding:0;">
+            <li><a href="#" onclick="indexPage()">首页</a></li>
+            <li><a href="#" onclick="previousPage()">上一页</a></li>
+            <li id="li1"><a href="#" id="a1" onclick="pageButton(this)"></a></li>
+            <li id="li2"><a href="#" id="a2" onclick="pageButton(this)"></a></li>
+            <li id="li3"><a href="#" id="a3" onclick="pageButton(this)"></a></li>
+            <li><a href="#" onclick="nextPage()">下一页</a></li>
+            <li><a href="#" onclick="lastPage()">尾页</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- 页面加载提示 -->
+<div id="div_loading"
+     style="display:none;z-index:9999;position:absolute;width:100%;height:100%;top:0;left:0;background:#ffffff;">
+    <img alt="加载中..." th:src="@{/image/loading.gif}"
+         style="position:absolute;left:50%;top:50%;transform: translate(-50%,-50%);">
+</div>
+
+</body>
+</html>

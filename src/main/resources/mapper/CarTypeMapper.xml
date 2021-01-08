@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.CarTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.CarType" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cartypename" property="cartypename" jdbcType="VARCHAR" />
+    <result column="highlength" property="highlength" jdbcType="INTEGER" />
+    <result column="highheight" property="highheight" jdbcType="INTEGER" />
+    <result column="lowlength" property="lowlength" jdbcType="INTEGER" />
+    <result column="lowheight" property="lowheight" jdbcType="INTEGER" />
+    <result column="carwidth" property="carwidth" jdbcType="INTEGER" />
+    <result column="carweight" property="carweight" jdbcType="DECIMAL" />
+    <result column="carvolume" property="carvolume" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, cartypename, highlength,highheight,lowlength, lowheight,carwidth, carweight, carvolume
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from cartype
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from cartype
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from cartype
+    where cartypename=#{cartypename}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cartype
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.CarType" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cartype
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cartypename != null" >
+        cartypename,
+      </if>
+      <if test="highlength != null" >
+        highlength,
+      </if>
+      <if test="highheight != null" >
+        highheight,
+      </if>
+      <if test="lowlength != null" >
+        lowlength,
+      </if>
+      <if test="lowheight != null" >
+        lowheight,
+      </if>
+      <if test="carwidth != null" >
+        carwidth,
+      </if>
+      <if test="carweight != null" >
+        carweight,
+      </if>
+      <if test="carvolume != null" >
+        carvolume,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cartypename != null" >
+        #{cartypename,jdbcType=VARCHAR},
+      </if>
+      <if test="highlength != null" >
+        #{highlength,jdbcType=INTEGER},
+      </if>
+      <if test="highheight != null" >
+        #{highheight,jdbcType=INTEGER},
+      </if>
+      <if test="lowlength != null" >
+        #{lowlength,jdbcType=INTEGER},
+      </if>
+      <if test="lowheight != null" >
+        #{lowheight,jdbcType=INTEGER},
+      </if>
+      <if test="carwidth != null" >
+        #{carwidth,jdbcType=INTEGER},
+      </if>
+      <if test="carweight != null" >
+        #{carweight,jdbcType=DECIMAL},
+      </if>
+      <if test="carvolume != null" >
+        #{carvolume,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.CarType" >
+    update cartype
+    <set >
+      <if test="cartypename != null" >
+        cartypename = #{cartypename,jdbcType=VARCHAR},
+      </if>
+      <if test="highlength != null" >
+        highlength = #{highlength,jdbcType=INTEGER},
+      </if>
+      <if test="highheight != null" >
+        highheight = #{highheight,jdbcType=INTEGER},
+      </if>
+      <if test="lowlength != null" >
+        lowlength = #{lowlength,jdbcType=INTEGER},
+      </if>
+      <if test="lowheight != null" >
+        lowheight = #{lowheight,jdbcType=INTEGER},
+      </if>
+      <if test="carwidth != null" >
+        carwidth = #{carwidth,jdbcType=INTEGER},
+      </if>
+      <if test="carweight != null" >
+        carweight = #{carweight,jdbcType=DECIMAL},
+      </if>
+      <if test="carvolume != null" >
+        carvolume = #{carvolume,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

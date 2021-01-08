@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.TransportBillRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.TransportBillRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="billnumber" property="billnumber" jdbcType="VARCHAR" />
+    <result column="geelybillnumber" property="geelybillnumber" jdbcType="VARCHAR" />
+    <result column="geelycount" property="geelycount" jdbcType="INTEGER" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="boxcount" property="boxcount" jdbcType="INTEGER" />
+    <result column="startname" property="startname" jdbcType="VARCHAR" />
+    <result column="startnumber" property="startnumber" jdbcType="VARCHAR" />
+    <result column="endname" property="endname" jdbcType="VARCHAR" />
+    <result column="endnumber" property="endnumber" jdbcType="VARCHAR" />
+    <result column="routetype" property="routetype" jdbcType="VARCHAR" />
+    <result column="carnumber" property="carnumber" jdbcType="VARCHAR" />
+    <result column="driver" property="driver" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="carriername" property="carriername" jdbcType="VARCHAR" />
+    <result column="cartypename" property="cartypename" jdbcType="VARCHAR" />
+    <result column="highlength" property="highlength" jdbcType="INTEGER" />
+    <result column="highheight" property="highheight" jdbcType="INTEGER" />
+    <result column="lowlength" property="lowlength" jdbcType="INTEGER" />
+    <result column="lowheight" property="lowheight" jdbcType="INTEGER" />
+    <result column="carwidth" property="carwidth" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="createusername" property="createusername" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="overusername" property="overusername" jdbcType="VARCHAR" />
+    <result column="overtime" property="overtime" jdbcType="TIMESTAMP" />
+    <association column="goodid" property="good" select="com.defei.lps.dao.GoodMapper.selectByPrimaryKey" javaType="com.defei.lps.entity.Good"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, billnumber, goodid, geelybillnumber, geelycount, batch, count,boxcount, startname, startnumber,
+    endname, endnumber, routetype, carnumber, driver, phone, carriername, cartypename, highlength,
+    highheight, lowlength, lowheight, carwidth, money, remarks, createusername, createtime, 
+    overusername, overtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from transportbillrecord
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!-- 条件分页查询 -->
+  <select id="selectLimitByCondition" resultMap="BaseResultMap">
+    select t.id,t.billnumber, t.goodid, t.geelybillnumber, t.geelycount, t.batch, t.count,
+    t.boxcount,t.startname, t.startnumber,t.endname, t.endnumber, t.routetype, t.carnumber,
+    t.driver, t.phone, t.carriername, t.cartypename,t.highlength, t.highheight,
+    t.lowlength, t.lowheight, t.carwidth, t.money, t.remarks, t.createusername,
+    t.createtime,t.overusername,t.overtime from transportbillrecord t,good g,supplier s
+    where t.goodid=g.id and g.supplierid=s.id
+    <if test="goodcode!=null and goodcode!=''">
+      and g.goodcode like '%${goodcode}%'
+    </if>
+    <if test="goodname!=null and goodname!=''">
+      and g.goodname like '%${goodname}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="billnumber!=null and billnumber!=''">
+      and t.billnumber like '%${billnumber}%'
+    </if>
+    <if test="geelybillnumber!=null and geelybillnumber!=''">
+      and t.geelybillnumber like '%${geelybillnumber}%'
+    </if>
+    <if test="carnumber!=null and carnumber!=''">
+      and t.carnumber =#{carnumber}
+    </if>
+    <if test="dateStart!=null and dateStart!=''">
+      and to_days(t.createtime) &gt;= to_days(#{dateStart})
+    </if>
+    <if test="dateEnd!=null and dateEnd!=''">
+      and to_days(t.createtime) &lt;= to_days(#{dateEnd})
+    </if>
+    <if test="cartypename!=null and cartypename!=''">
+      and t.cartypename =#{cartypename}
+    </if>
+    <if test="carriername!=null and carriername!=''">
+      and t.carriername =#{carriername}
+    </if>
+    order by t.createtime desc,t.billnumber limit #{index},30
+  </select>
+  <!-- 条件分页查询总数量 -->
+  <select id="selectCountByCondition" resultType="java.lang.Integer">
+    select count(*) from (
+    select t.id,t.billnumber, t.goodid, t.geelybillnumber, t.geelycount, t.batch, t.count,
+    t.boxcount,t.startname, t.startnumber,t.endname, t.endnumber, t.routetype, t.carnumber,
+    t.driver, t.phone, t.carriername, t.cartypename,t.highlength, t.highheight,
+    t.lowlength, t.lowheight, t.carwidth, t.money, t.remarks, t.createusername,
+    t.createtime,t.overusername,t.overtime from transportbillrecord t,good g,supplier s
+    where t.goodid=g.id and g.supplierid=s.id
+    <if test="goodcode!=null and goodcode!=''">
+      and g.goodcode like '%${goodcode}%'
+    </if>
+    <if test="goodname!=null and goodname!=''">
+      and g.goodname like '%${goodname}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="billnumber!=null and billnumber!=''">
+      and t.billnumber like '%${billnumber}%'
+    </if>
+    <if test="geelybillnumber!=null and geelybillnumber!=''">
+      and t.geelybillnumber like '%${geelybillnumber}%'
+    </if>
+    <if test="carnumber!=null and carnumber!=''">
+      and t.carnumber =#{carnumber}
+    </if>
+    <if test="dateStart!=null and dateStart!=''">
+      and to_days(t.createtime) &gt;= to_days(#{dateStart})
+    </if>
+    <if test="dateEnd!=null and dateEnd!=''">
+      and to_days(t.createtime) &lt;= to_days(#{dateEnd})
+    </if>
+    <if test="cartypename!=null and cartypename!=''">
+      and t.cartypename =#{cartypename}
+    </if>
+    <if test="carriername!=null and carriername!=''">
+      and t.carriername =#{carriername}
+    </if>
+    ) as a
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from transportbillrecord
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.TransportBillRecord" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into transportbillrecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="billnumber != null" >
+        billnumber,
+      </if>
+      <if test="good != null" >
+        goodid,
+      </if>
+      <if test="geelybillnumber != null" >
+        geelybillnumber,
+      </if>
+      <if test="geelycount != null" >
+        geelycount,
+      </if>
+      <if test="batch != null" >
+        batch,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="boxcount != null" >
+        boxcount,
+      </if>
+      <if test="startname != null" >
+        startname,
+      </if>
+      <if test="startnumber != null" >
+        startnumber,
+      </if>
+      <if test="endname != null" >
+        endname,
+      </if>
+      <if test="endnumber != null" >
+        endnumber,
+      </if>
+      <if test="routetype != null" >
+        routetype,
+      </if>
+      <if test="carnumber != null" >
+        carnumber,
+      </if>
+      <if test="driver != null" >
+        driver,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="carriername != null" >
+        carriername,
+      </if>
+      <if test="cartypename != null" >
+        cartypename,
+      </if>
+      <if test="highlength != null" >
+        highlength,
+      </if>
+      <if test="highheight != null" >
+        highheight,
+      </if>
+      <if test="lowlength != null" >
+        lowlength,
+      </if>
+      <if test="lowheight != null" >
+        lowheight,
+      </if>
+      <if test="carwidth != null" >
+        carwidth,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="createusername != null" >
+        createusername,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="overusername != null" >
+        overusername,
+      </if>
+      <if test="overtime != null" >
+        overtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="billnumber != null" >
+        #{billnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="good != null" >
+        #{good.id,jdbcType=INTEGER},
+      </if>
+      <if test="geelybillnumber != null" >
+        #{geelybillnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="geelycount != null" >
+        #{geelycount,jdbcType=INTEGER},
+      </if>
+      <if test="batch != null" >
+        #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="boxcount != null" >
+        #{boxcount,jdbcType=INTEGER},
+      </if>
+      <if test="startname != null" >
+        #{startname,jdbcType=VARCHAR},
+      </if>
+      <if test="startnumber != null" >
+        #{startnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="endname != null" >
+        #{endname,jdbcType=VARCHAR},
+      </if>
+      <if test="endnumber != null" >
+        #{endnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="routetype != null" >
+        #{routetype,jdbcType=VARCHAR},
+      </if>
+      <if test="carnumber != null" >
+        #{carnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="driver != null" >
+        #{driver,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="carriername != null" >
+        #{carriername,jdbcType=VARCHAR},
+      </if>
+      <if test="cartypename != null" >
+        #{cartypename,jdbcType=VARCHAR},
+      </if>
+      <if test="highlength != null" >
+        #{highlength,jdbcType=INTEGER},
+      </if>
+      <if test="highheight != null" >
+        #{highheight,jdbcType=INTEGER},
+      </if>
+      <if test="lowlength != null" >
+        #{lowlength,jdbcType=INTEGER},
+      </if>
+      <if test="lowheight != null" >
+        #{lowheight,jdbcType=INTEGER},
+      </if>
+      <if test="carwidth != null" >
+        #{carwidth,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createusername != null" >
+        #{createusername,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="overusername != null" >
+        #{overusername,jdbcType=VARCHAR},
+      </if>
+      <if test="overtime != null" >
+        #{overtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!--批量添加-->
+  <insert id="insertBatch">
+    insert into transportbillrecord (billnumber, goodid, geelybillnumber, geelycount, batch,
+    count,boxcount, startname, startnumber,endname, endnumber, routetype, carnumber,
+    driver, phone, carriername, cartypename, highlength,highheight, lowlength, lowheight,
+    carwidth, money, remarks, createusername, createtime,overusername, overtime) values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.billnumber},#{item.good.id},#{item.geelybillnumber},#{item.geelycount},#{item.batch},
+      #{item.count},#{item.boxcount},#{item.startname},#{item.startnumber},#{item.endname},
+      #{item.endnumber},#{item.routetype},#{item.carnumber},#{item.driver},
+      #{item.phone},#{item.carriername},#{item.cartypename},#{item.highlength},#{item.highheight},
+      #{item.lowlength},#{item.lowheight},#{item.carwidth},#{item.money},#{item.remarks},
+      #{item.createusername},#{item.createtime},#{item.overusername},#{item.overtime})
+    </foreach>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.TransportBillRecord" >
+    update transportbillrecord
+    <set >
+      <if test="billnumber != null" >
+        billnumber = #{billnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="good != null" >
+        goodid = #{good.id,jdbcType=INTEGER},
+      </if>
+      <if test="geelybillnumber != null" >
+        geelybillnumber = #{geelybillnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="geelycount != null" >
+        geelycount = #{geelycount,jdbcType=INTEGER},
+      </if>
+      <if test="batch != null" >
+        batch = #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="boxcount != null" >
+        boxcount = #{boxcount,jdbcType=INTEGER},
+      </if>
+      <if test="startname != null" >
+        startname = #{startname,jdbcType=VARCHAR},
+      </if>
+      <if test="startnumber != null" >
+        startnumber = #{startnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="endname != null" >
+        endname = #{endname,jdbcType=VARCHAR},
+      </if>
+      <if test="endnumber != null" >
+        endnumber = #{endnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="routetype != null" >
+        routetype = #{routetype,jdbcType=VARCHAR},
+      </if>
+      <if test="carnumber != null" >
+        carnumber = #{carnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="driver != null" >
+        driver = #{driver,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="carriername != null" >
+        carriername = #{carriername,jdbcType=VARCHAR},
+      </if>
+      <if test="cartypename != null" >
+        cartypename = #{cartypename,jdbcType=VARCHAR},
+      </if>
+      <if test="highlength != null" >
+        highlength = #{highlength,jdbcType=INTEGER},
+      </if>
+      <if test="highheight != null" >
+        highheight = #{highheight,jdbcType=INTEGER},
+      </if>
+      <if test="lowlength != null" >
+        lowlength = #{lowlength,jdbcType=INTEGER},
+      </if>
+      <if test="lowheight != null" >
+        lowheight = #{lowheight,jdbcType=INTEGER},
+      </if>
+      <if test="carwidth != null" >
+        carwidth = #{carwidth,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createusername != null" >
+        createusername = #{createusername,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="overusername != null" >
+        overusername = #{overusername,jdbcType=VARCHAR},
+      </if>
+      <if test="overtime != null" >
+        overtime = #{overtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

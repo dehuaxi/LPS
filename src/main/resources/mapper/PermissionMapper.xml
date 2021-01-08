@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.PermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.Permission" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="permissionname" property="permissionname" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, permissionname, url, pid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from permission where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPermissionname" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from permission where permissionname = #{permissionname}
+  </select>
+  <!--根据角色id查询-->
+  <select id="selectByRoleid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select p.id, p.permissionname, p.url, p.pid from permission as p,rolepermission as rp
+    where rp.roleid=#{roleid}
+    and rp.permissionid=p.id
+  </select>
+  <select id="selectByUrl" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from permission where url = #{url}
+  </select>
+  <select id="selectByUrlAndPermissionname" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from permission
+    where url = #{url}
+    and permissionname=#{permissionname}
+  </select>
+  <!--根据角色名称查询url-->
+  <select id="selectUrlByRolename" resultType="java.lang.String">
+    select p.url from permission p , rolepermission rp, role r
+        where r.rolename =#{rolename}
+        and r.id=rp.roleid
+        and p.id = rp.permissionid
+  </select>
+  <!--根据id查询所有层级的子权限,不包含自己-->
+  <select id="selectChildById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT p2.id, p2.permissionname,p2.url,p2.pid FROM(
+     SELECT @ids AS p_ids,(SELECT @ids := GROUP_CONCAT(id) FROM permission WHERE FIND_IN_SET(pid, @ids)) AS c_ids, @l := @l+1 AS LEVEL
+     FROM permission, (SELECT @ids := #{id}, @l := 0 ) b WHERE @ids IS NOT NULL
+    ) p1 JOIN permission p2 ON FIND_IN_SET(p2.id, p1.p_ids)  AND p2.id !=#{id}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from permission
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByPid" parameterType="java.lang.Integer" >
+    delete from permission
+    where pid = #{pid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.Permission" >
+    insert into permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="permissionname != null" >
+        permissionname,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="permissionname != null" >
+        #{permissionname,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.Permission" >
+    update permission
+    <set >
+      <if test="permissionname != null" >
+        permissionname = #{permissionname,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

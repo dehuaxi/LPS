@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!-- 引入Thymeleaf模板、shiro标签 -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>中转仓入库</title>
+    <!-- 导入bootstrap样式 -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- title图标 -->
+    <link rel="icon" th:href="@{/image/favicon.ico}" type="images/x-ico"/>
+    <!-- 引用jquery -->
+    <script th:src="@{/bootstrap/js/jquery-3.1.1.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/laydate/laydate.js}"></script>
+    <script th:src="@{/js/ajaxAll.js}"></script>
+    <script th:src="@{/js/warehouseEntryAdd.js}"></script>
+    <style>
+        .container-fluid input{
+            height: 30px;
+            padding-left:10px ;
+        }
+        .container-fluid select{
+            height: 30px;
+        }
+        table{
+            white-space: nowrap;
+        }
+        table th{
+            white-space: nowrap;
+        }
+        table tbody tr:hover{
+            color: rgba(78, 84, 78, 0.82);
+        }
+    </style>
+</head>
+<body>
+<!-- 面包屑导航 -->
+<ul class="breadcrumb" style="margin:0">
+    <li class="active">单据跟踪</li>
+    <li class="active">中转仓入库记录</li>
+    <li class="active">入库操作</li>
+</ul>
+
+<div class="container-fluid">
+    <select class="form-inline" id="warehouseId" onchange="$('#billNumber').focus()">
+        <option value="0">选择中转仓</option>
+    </select>
+    <input type="text" placeholder="请扫描或输入运输单号" id="billNumber" class="form-inline">
+    <button class="btn btn-primary btn-sm form-inline" type="button" onclick="add()">确认入库<span
+            class="glyphicon glyphicon-log-in"></span></button>
+    <p align="center" id="result" style="color: red;font-size: 30px;"></p>
+</div>
+<p align="center" id="p_billNumber" style="font-size: 30px;"></p>
+<table class="table table-condensed table-bordered table-hover">
+    <thead>
+    <tr>
+        <th style="display: none">id</th>
+        <th>吉利单号</th>
+        <th>物料编号</th>
+        <th>物料名称</th>
+        <th>供应商编号</th>
+        <th>供应商名称</th>
+        <th>吉利数量</th>
+        <th>运输数量</th>
+        <th>运输箱数</th>
+        <th>实收数量</th>
+    </tr>
+    </thead>
+    <tbody id="table_data"></tbody>
+</table>
+
+<!-- 修改实收数量态框 -->
+<div class="modal fade" id="updateModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4>填入实收数量</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="update_index" style="display: none">
+                <div class="form-group">
+                    <label>运输数量</label>
+                    <input type="text" id="update_count" class="form-control" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>实收数量</label>
+                    <input type="text" placeholder="0或正整数" id="update_realCount" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" onclick="updateRealCount()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 页面加载提示 -->
+<div id="div_loading"
+     style="display:none;z-index:9999;position:absolute;width:100%;height:100%;top:0;left:0;background:#ffffff;">
+    <img alt="加载中..." th:src="@{/image/loading.gif}"
+         style="position:absolute;left:50%;top:50%;transform: translate(-50%,-50%);">
+</div>
+
+</body>
+</html>

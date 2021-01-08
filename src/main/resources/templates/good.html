@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<!-- 引入Thymeleaf模板、shiro标签 -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>物料信息</title>
+    <!-- 导入bootstrap样式 -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- title图标 -->
+    <link rel="icon" th:href="@{/image/favicon.ico}" type="images/x-ico"/>
+    <!-- 引用jquery -->
+    <script th:src="@{/bootstrap/js/jquery-3.1.1.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/ajaxAll.js}"></script>
+    <script th:src="@{/js/good.js}"></script>
+    <script type="text/javascript">
+        //定义全局变量
+        var updateData=false;
+        var deleteData=false;
+    </script>
+    <style>
+        #search-collapse input{
+            height: 30px;
+            padding-left:10px ;
+        }
+        #search-collapse select{
+            height: 30px;
+        }
+        table th{
+            white-space:nowrap;
+        }
+        table{
+            white-space:nowrap;
+        }
+    </style>
+</head>
+<body>
+<shiro:hasPermission name="goodUpdate">
+    <script>updateData=true</script>
+</shiro:hasPermission>
+<shiro:hasPermission name="goodDelete">
+    <script>deleteData=true</script>
+</shiro:hasPermission>
+<!-- 面包屑导航 -->
+<ul class="breadcrumb" style="margin:0">
+    <li class="active">基础数据</li>
+    <li class="active">物料信息</li>
+</ul>
+<!-- 搜索导航 -->
+<div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search-collapse">
+        筛选条件<span class="glyphicon glyphicon-chevron-down"></span>
+    </button>
+</div>
+<div class="collapse navbar-collapse" id="search-collapse">
+    <input type="text" placeholder="物料名称" class="form-inline" id="input_goodName"/>
+    <input type="text" placeholder="物料编号" class="form-inline" id="input_goodCode"/>
+    <input type="text" placeholder="供应商名称" class="form-inline" id="input_supplierName"/>
+    <input type="text" placeholder="供应商编号" class="form-inline" id="input_supplierCode"/>
+    <input type="text" placeholder="包装箱类型" class="form-inline" id="input_boxType"/>
+    <select class="form-inline" id="select_factoryId">
+        <option value="0">请选择工厂</option>
+    </select>
+    <button class="btn btn-primary btn-sm form-inline" type="button" onclick="findByLimit(1)">查询<span
+            class="glyphicon glyphicon-search"></span></button>
+    <shiro:hasPermission name="goodAdd">
+    <button class="btn btn-info btn-sm form-inline" type="button" onclick="toAdd()">添加<span
+            class="glyphicon glyphicon-plus"></span></button>
+    <button class="btn btn-info btn-sm form-inline" type="button" onclick="toUpload()">批量添加/修改<span
+            class="glyphicon glyphicon-plus"></span></button>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="goodDownload">
+        <button class="btn btn-warning btn-sm form-inline" type="button" onclick="toDownload()">下载<span
+                class="glyphicon glyphicon-download"></span></button>
+    </shiro:hasPermission>
+</div>
+
+<table class="table table-condensed table-bordered table-hover">
+    <thead>
+    <tr>
+        <th style="display:none">id</th>
+        <th>物料编号</th>
+        <th>物料名称</th>
+        <th>供应商编号</th>
+        <th>供应商名称</th>
+        <th>所属工厂</th>
+        <th>收容数</th>
+        <th>上线收容数</th>
+        <th>单耗</th>
+        <th>最大库存</th>
+        <th>拉动库存</th>
+        <th>配额率(%)</th>
+        <th>箱型</th>
+        <th>箱长(mm)</th>
+        <th>箱宽(mm)</th>
+        <th>箱高(mm)</th>
+        <th>上线箱长(mm)</th>
+        <th>上线箱宽(mm)</th>
+        <th>上线箱高(mm)</th>
+        <th>上线满箱重量(kg)</th>
+        <th>满箱重量(kg)</th>
+        <th>返空率(%)</th>
+        <th>单托箱数</th>
+        <th>单托层数</th>
+        <th>托盘体积占比(%)</th>
+        <th>托盘长(mm)</th>
+        <th>托盘宽(mm)</th>
+        <th>托盘高(mm)</th>
+        <th>包装描述</th>
+        <th>接收方</th>
+        <th shiro:hasAnyPermissions="goodUpdate,goodDelete">操作</th>
+    </tr>
+    </thead>
+    <tbody id="table_data"></tbody>
+</table>
+
+<!-- 添加模态框 -->
+<div class="modal fade" id="addModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 align="center">添加数据</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>物料编号</label>
+                    <input class="form-control" type="text" id="add_goodCode" placeholder="物料编号">
+                </div>
+                <div class="form-group">
+                    <label>物料名称</label>
+                    <input class="form-control" type="text" id="add_goodName" placeholder="物料名称">
+                </div>
+                <div class="form-group">
+                    <label>所属工厂</label>
+                    <select class="form-control" id="add_factoryId" onchange="loadSupplier('add_factoryId','add_supplierId',0)">
+                        <option value="0">请选择工厂</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>供应商</label>
+                    <select class="form-control" id="add_supplierId">
+                        <option value="0">请选供应商</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>单箱收容数</label>
+                    <input class="form-control" type="text" id="add_oneBoxCount" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>上线收容数</label>
+                    <input class="form-control" type="text" id="add_binCount" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>单辆消耗数</label>
+                    <input class="form-control" type="text" id="add_oneCarCount" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>最大库存</label>
+                    <input class="form-control" type="text" id="add_maxStock" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>拉动库存</label>
+                    <input class="form-control" type="text" id="add_triggerStock" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>配额比例(%)</label>
+                    <input class="form-control" type="text" id="add_quotaRatio" placeholder="取值范围0-100">
+                </div>
+                <div class="form-group">
+                    <label>包装箱类型</label>
+                    <input class="form-control" type="text" id="add_boxType" placeholder="包装箱类型">
+                </div>
+                <div class="form-group">
+                    <label>箱长(mm)</label>
+                    <input class="form-control" type="text" id="add_boxLength" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>箱宽(mm)</label>
+                    <input class="form-control" type="text" id="add_boxWidth" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>箱高(mm)</label>
+                    <input class="form-control" type="text" id="add_boxHeight" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>上线箱长(mm)</label>
+                    <input class="form-control" type="text" id="add_packBoxLength" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>上线箱宽(mm)</label>
+                    <input class="form-control" type="text" id="add_packBoxWidth" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>上线箱高(mm)</label>
+                    <input class="form-control" type="text" id="add_packBoxHeight" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>上线满箱重量(kg)</label>
+                    <input class="form-control" type="text" id="add_packBoxWeight" placeholder="小数点后最多保留2位">
+                </div>
+                <div class="form-group">
+                    <label>满箱重量(kg)</label>
+                    <input class="form-control" type="text" id="add_boxWeight" placeholder="小数点后最多保留2位">
+                </div>
+                <div class="form-group">
+                    <label>返空比例(%)</label>
+                    <input class="form-control" type="text" id="add_returnRatio" placeholder="取值范围0-100">
+                </div>
+                <div class="form-group">
+                    <label>单托箱数<small style="color: red">(如果是非托盘件填0)</small></label>
+                    <input class="form-control" type="text" id="add_oneTrayBoxCount" placeholder="整数" value="0">
+                </div>
+                <div class="form-group">
+                    <label>单托层数<small style="color: red">(如果是非托盘件填0)</small></label>
+                    <input class="form-control" type="text" id="add_oneTrayLayersCount" placeholder="整数" value="0">
+                </div>
+                <div class="form-group">
+                    <label>托盘体积占比(%)<small style="color: red">(单托箱数非0时，取值范围1-99)</small></label>
+                    <input class="form-control" type="text" id="add_trayRatio" placeholder="取值范围0-99" value="0">
+                </div>
+                <div class="form-group">
+                    <label>托盘长(mm)<small style="color: red">(如果是非托盘件填0)</small></label>
+                    <input class="form-control" type="text" id="add_trayLength" placeholder="整数" value="0">
+                </div>
+                <div class="form-group">
+                    <label>托盘宽(mm)<small style="color: red">(如果是非托盘件填0)</small></label>
+                    <input class="form-control" type="text" id="add_trayWidth" placeholder="整数" value="0">
+                </div>
+                <div class="form-group">
+                    <label>托盘高(mm)<small style="color: red">(如果是非托盘件填0)</small></label>
+                    <input class="form-control" type="text" id="add_trayHeight" placeholder="整数" value="0">
+                </div>
+                <div class="form-group">
+                    <label>包装描述</label>
+                    <textarea class="form-control" id="add_packRemarks" placeholder="包装描述"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>接收方</label>
+                    <input class="form-control" type="text" id="add_receiver" placeholder="接收方">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="add()">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 修改模态框 -->
+<div class="modal fade" id="updateModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 align="center">修改数据</h4>
+            </div>
+            <div class="modal-body">
+                <input class="form-control" type="text" id="update_id" style="display:none">
+                <div class="form-group">
+                    <label>物料编号</label>
+                    <input class="form-control" type="text" id="update_goodCode" placeholder="物料编号">
+                </div>
+                <div class="form-group">
+                    <label>物料名称</label>
+                    <input class="form-control" type="text" id="update_goodName" placeholder="物料名称">
+                </div>
+                <div class="form-group">
+                    <label>所属工厂</label>
+                    <select class="form-control" id="update_factoryId" onchange="loadSupplier('update_factoryId','update_supplierId',0)"></select>
+                </div>
+                <div class="form-group">
+                    <label>供应商</label>
+                    <select class="form-control" id="update_supplierId"></select>
+                </div>
+                <div class="form-group">
+                    <label>单箱收容数</label>
+                    <input class="form-control" type="text" id="update_oneBoxCount" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>上线收容数</label>
+                    <input class="form-control" type="text" id="update_binCount" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>单辆消耗数</label>
+                    <input class="form-control" type="text" id="update_oneCarCount" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>最大库存</label>
+                    <input class="form-control" type="text" id="update_maxStock" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>拉动库存</label>
+                    <input class="form-control" type="text" id="update_triggerStock" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>配额比例(%)</label>
+                    <input class="form-control" type="text" id="update_quotaRatio" placeholder="取值范围0-100">
+                </div>
+                <div class="form-group">
+                    <label>包装箱类型</label>
+                    <input class="form-control" type="text" id="update_boxType" placeholder="包装箱类型">
+                </div>
+                <div class="form-group">
+                    <label>箱长(mm)</label>
+                    <input class="form-control" type="text" id="update_boxLength" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>箱宽(mm)</label>
+                    <input class="form-control" type="text" id="update_boxWidth" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>箱高(mm)</label>
+                    <input class="form-control" type="text" id="update_boxHeight" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>上线箱长(mm)</label>
+                    <input class="form-control" type="text" id="update_packBoxLength" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>上线箱宽(mm)</label>
+                    <input class="form-control" type="text" id="update_packBoxWidth" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>上线箱高(mm)</label>
+                    <input class="form-control" type="text" id="update_packBoxHeight" placeholder="正整数">
+                </div>
+                <div class="form-group">
+                    <label>上线满箱重量(kg)</label>
+                    <input class="form-control" type="text" id="update_packBoxWeight" placeholder="小数点后最多保留2位">
+                </div>
+                <div class="form-group">
+                    <label>单箱满装总重量(kg)</label>
+                    <input class="form-control" type="text" id="update_boxWeight" placeholder="小数点后最多保留2位">
+                </div>
+                <div class="form-group">
+                    <label>返空比例(%)</label>
+                    <input class="form-control" type="text" id="update_returnRatio" placeholder="取值范围0-100">
+                </div>
+                <div class="form-group">
+                    <label>单托箱数<small style="color: red">(如果是非托盘件填0)</small></label>
+                    <input class="form-control" type="text" id="update_oneTrayBoxCount" placeholder="整数">
+                </div>
+                <div class="form-group">
+                    <label>单托层数<small style="color: red">(如果是非托盘件填0)</small></label>
+                    <input class="form-control" type="text" id="update_oneTrayLayersCount" placeholder="整数" value="0">
+                </div>
+                <div class="form-group">
+                    <label>托盘体积占比(%)<small style="color: red">(单托箱数非0时，取值范围1-99)</small></label>
+                    <input class="form-control" type="text" id="update_trayRatio" placeholder="取值范围0-99" value="0">
+                </div>
+                <div class="form-group">
+                    <label>托盘长(mm)<small style="color: red">(如果是非托盘件填0)</small></label>
+                    <input class="form-control" type="text" id="update_trayLength" placeholder="整数" value="0">
+                </div>
+                <div class="form-group">
+                    <label>托盘宽(mm)<small style="color: red">(如果是非托盘件填0)</small></label>
+                    <input class="form-control" type="text" id="update_trayWidth" placeholder="整数" value="0">
+                </div>
+                <div class="form-group">
+                    <label>托盘高(mm)<small style="color: red">(如果是非托盘件填0)</small></label>
+                    <input class="form-control" type="text" id="update_trayHeight" placeholder="整数" value="0">
+                </div>
+                <div class="form-group">
+                    <label>包装描述</label>
+                    <textarea class="form-control" id="update_packRemarks" placeholder="包装描述"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>接收方</label>
+                    <input class="form-control" type="text" id="update_receiver" placeholder="接收方">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="update()">修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--批量添加模态框 -->
+<div class="modal fade" id="uploadModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 align="center">批量添加</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <button type="button" onclick="window.open('goodModalDownload')" class="btn btn-info">模板下载</button>
+                </div>
+                <form method="post" enctype="multipart/form-data" id="uploadForm" role="form">
+                    <input type="file" name="file" id="uploadFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" class="form-control">
+                </form>
+                <span style="color:#FF00FF">注意：Excel中所有单元格的格式要为文本</span>
+                <p align="center" id="uploadResult" style="color: red"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="button" onclick="upload()">导入</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 底部分页 -->
+<div id="div_page">
+    <div class="col-md-6 col-sm-6 col-xs-12" style="text-align:center">
+        <p>
+            第<span id="span_currentPage"></span>页/共<span id="span_totalPage"></span>页,每页30条记录&emsp;
+            共<span id="span_dataCount"></span>条数据&emsp;
+            跳转到<input type="text" id="input_goPage" style="width:30px"/>页
+            <button class="btn btn-xs" type="button" onclick="goPage()">GO</button>
+        </p>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12" style="text-align:center">
+        <ul class="pagination" style="margin:0;padding:0;">
+            <li><a href="#" onclick="indexPage()">首页</a></li>
+            <li><a href="#" onclick="previousPage()">上一页</a></li>
+            <li id="li1"><a href="#" id="a1" onclick="pageButton(this)"></a></li>
+            <li id="li2"><a href="#" id="a2" onclick="pageButton(this)"></a></li>
+            <li id="li3"><a href="#" id="a3" onclick="pageButton(this)"></a></li>
+            <li><a href="#" onclick="nextPage()">下一页</a></li>
+            <li><a href="#" onclick="lastPage()">尾页</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- 页面加载提示 -->
+<div id="div_loading"
+     style="display:none;z-index:9999;position:absolute;width:100%;height:100%;top:0;left:0;background:#ffffff;">
+    <img alt="加载中..." th:src="@{/image/loading.gif}"
+         style="position:absolute;left:50%;top:50%;transform: translate(-50%,-50%);">
+</div>
+
+</body>
+</html>

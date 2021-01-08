@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!-- 引入Thymeleaf模板、shiro标签 -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>生成出库运输单</title>
+    <!-- 导入bootstrap样式 -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- title图标 -->
+    <link rel="icon" th:href="@{/image/favicon.ico}" type="images/x-ico"/>
+    <!-- 引用jquery -->
+    <script th:src="@{/bootstrap/js/jquery-3.1.1.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/ajaxAll.js}"></script>
+    <script th:src="@{/js/monitorSplitWindows.js}"></script>
+
+    <style>
+        .hj-wrap{
+            width:100%;
+            height: 200px;
+            margin:10px auto;
+            clear:both;
+            border:1px solid red;
+            overflow: hidden;
+        }
+        .hj-transverse-split-div{
+            float: left;
+            height: 100%;
+            padding:0px;
+            background: #0099EE;
+            overflow: hidden;
+            border:0px solid #0099ff;
+        }
+        .hj-wrap .hj-transverse-split-label{
+            float:left;
+            width: 10px;
+            height: 100%;
+            display:block;
+            cursor: e-resize;
+            background-color:#fff;
+        }
+        table tr td{
+            border:1px solid #fff;
+        }
+        .hj-vertical-split-div{
+            height:150px;
+            border:0px solid red;
+            width:99.9%;
+            margin:0 auto;
+            background-color:#0099ff;
+        }
+        .hj-vertical-split-label{
+            width: 100%;
+            height: 10px;
+            display:block;
+            cursor: n-resize;
+            background-color:#fff;
+        }
+    </style>
+</head>
+<body>
+<div class='hj-wrap'>
+    <div class="hj-transverse-split-div">
+        <label>ggg</label>
+    </div>
+    <label class="hj-transverse-split-label">&nbsp;</label>
+    <div class="hj-transverse-split-div">中</div>
+    <label class="hj-transverse-split-label">&nbsp;</label>
+    <div class="hj-transverse-split-div">右</div>
+    <label class="hj-transverse-split-label">&nbsp;</label>
+    <div class="hj-transverse-split-div">右1</div>
+    <label class="hj-transverse-split-label">&nbsp;</label>
+    <div class="hj-transverse-split-div">右2</div>
+</div>
+
+<div class='hj-wrap'>
+    <div class="hj-transverse-split-div">
+        <h1>Hello word</h1>
+    </div>
+    <label class="hj-transverse-split-label">&nbsp;</label>
+    <div class="hj-transverse-split-div">中</div>
+    <label class="hj-transverse-split-label">&nbsp;</label>
+    <div class="hj-transverse-split-div">右</div>
+    <label class="hj-transverse-split-label">&nbsp;</label>
+    <div class="hj-transverse-split-div">右1</div>
+</div>
+
+<div class='hj-wrap'>
+    <div class="hj-transverse-split-div">
+        <h2>javascript</h2>
+    </div>
+    <label class="hj-transverse-split-label">&nbsp;</label>
+    <div class="hj-transverse-split-div">中</div>
+    <label class="hj-transverse-split-label">&nbsp;</label>
+    <div class="hj-transverse-split-div">
+        <table>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td rowspan="2">3</td>
+            </tr>
+            <tr>
+                <td colspan="2">1</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class='hj-wrap' style="height:500px;">
+    <div class="hj-transverse-split-div">
+        <h1>Hello word</h1>
+    </div>
+    <label class="hj-transverse-split-label">&nbsp;</label>
+    <div class="hj-transverse-split-div" style="background-color:#fff;">
+        <div class="hj-vertical-split-div">上</div>
+        <label class="hj-vertical-split-label">&nbsp;</label>
+        <div class="hj-vertical-split-div">中</div>
+        <label class="hj-vertical-split-label">&nbsp;</label>
+        <div class="hj-vertical-split-div">下</div>
+    </div>
+
+</div>
+
+<div class='hj-wrap' style="height:500px;">
+    <div class="hj-transverse-split-div">
+        <h1>Hello word</h1>
+    </div>
+    <label class="hj-transverse-split-label">&nbsp;</label>
+    <div class="hj-transverse-split-div">中</div>
+    <label class="hj-transverse-split-label">&nbsp;</label>
+    <div class="hj-transverse-split-div" style="background-color:#fff;">
+        <div class="hj-vertical-split-div">上</div>
+        <label class="hj-vertical-split-label">&nbsp;</label>
+        <div class="hj-vertical-split-div">中</div>
+        <label class="hj-vertical-split-label">&nbsp;</label>
+        <div class="hj-vertical-split-div">下</div>
+    </div>
+</div>
+
+<div class='hj-wrap' style="height:500px;">
+    <div class="hj-vertical-split-div">上</div>
+    <label class="hj-vertical-split-label">&nbsp;</label>
+    <div class="hj-vertical-split-div">中</div>
+    <label class="hj-vertical-split-label">&nbsp;</label>
+    <div class="hj-vertical-split-div">下</div>
+</div>
+
+</div>
+</body>
+</html>

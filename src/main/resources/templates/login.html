@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>LPS-登录</title>
+    <!-- 导入bootstrap样式 -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <!-- 引用jquery -->
+    <script th:src="@{/bootstrap/js/jquery-3.1.1.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/login.js}"></script>
+    <!-- title图标 -->
+    <link rel="icon" th:href="@{/image/favicon.ico}" type="images/x-ico"/>
+    <script type="text/javascript">
+        //解决问题：session失效后，跳转到登陆页面，登陆页面被嵌入在iframe里面
+        if (window != top) {
+            top.location.href = location.href;
+        }
+    </script>
+</head>
+<body>
+<!-- 背景图片 -->
+<img th:src="@{/image/login.jpg}" id="img_background">
+<div class="content col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4" style="background-color: #ffffff;border-radius: 8px;top:40%;">
+    <br>
+    <p>富日物流&emsp;<span class="title" style="font-family: 楷体;font-weight: bold;font-size: 30px;">LPS</span></p>
+    <form id="form_login" action="login" method="post">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon glyphicon glyphicon-user"></span>
+                <input type="text" id="input_userName" name="userName" class="form-control input-lg" placeholder="用户名">
+            </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+            <div class="input-group">
+                <span class="input-group-addon glyphicon glyphicon-lock"></span>
+                <input type="password" id="input_password" name="password" class="form-control input-lg" placeholder="6-20位密码">
+            </div>
+        </div>
+        <div class="form-group" style="height: 20px;margin: 0;">
+            <span id="login_result" style="color: red"></span>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-info btn-lg btn-block" id="btn_login" type="button" onclick="login()">立即登录</button>
+        </div>
+    </form>
+    <br>
+</div>
+</body>
+</html>

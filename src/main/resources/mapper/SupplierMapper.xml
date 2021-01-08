@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.SupplierMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.Supplier" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="suppliercode" property="suppliercode" jdbcType="VARCHAR" />
+    <result column="suppliername" property="suppliername" jdbcType="VARCHAR" />
+    <result column="abbreviation" property="abbreviation" jdbcType="VARCHAR" />
+    <result column="contact" property="contact" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="district" property="district" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="transitday" property="transitday" jdbcType="VARCHAR" />
+    <association column="routeid" property="route" select="com.defei.lps.dao.RouteMapper.selectByPrimaryKey" javaType="com.defei.lps.entity.Route"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, suppliercode, suppliername, abbreviation,contact, phone, province, city, district, address, longitude,
+    latitude,routeid,transitday
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from supplier
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!-- 条件分页查询 -->
+  <select id="selectLimitByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select s.id, s.suppliercode, s.suppliername,s.abbreviation, s.contact, s.phone, s.province, s.city,
+    s.district, s.address, s.longitude,s.latitude,s.routeid,s.transitday  from supplier s,route r
+    where s.routeid=r.id
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="province!=null and province!=''">
+      and s.province =#{province}
+    </if>
+    <if test="city!=null and city!=''">
+      and s.city =#{city}
+    </if>
+    <if test="district!=null and district!=''">
+      and s.district =#{district}
+    </if>
+    <if test="factoryid!=0">
+      and r.factoryid = #{factoryid}
+    </if>
+    <if test="areaid!=0">
+      and r.areaid = #{areaid}
+    </if>
+    limit #{index},30
+  </select>
+  <!-- 条件分页查询总数量 -->
+  <select id="selectCountByCondition" resultType="java.lang.Integer">
+    select count(*) from (select s.id, s.suppliercode,s.abbreviation, s.suppliername, s.contact, s.phone, s.province, s.city,
+    s.district, s.address, s.longitude,s.latitude,s.routeid,s.transitday  from supplier s,route r
+    where s.routeid=r.id
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="province!=null and province!=''">
+      and s.province =#{province}
+    </if>
+    <if test="city!=null and city!=''">
+      and s.city =#{city}
+    </if>
+    <if test="district!=null and district!=''">
+      and s.district =#{district}
+    </if>
+    <if test="factoryid!=0">
+      and r.factoryid = #{factoryid}
+    </if>
+    <if test="areaid!=0">
+      and r.areaid = #{areaid}
+    </if>) a
+  </select>
+  <!-- 条件查询 -->
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select s.id, s.suppliercode, s.suppliername,s.abbreviation, s.contact, s.phone, s.province, s.city,
+    s.district, s.address, s.longitude,s.latitude,s.routeid,s.transitday  from supplier s,route r
+    where s.routeid=r.id
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="province!=null and province!=''">
+      and s.province =#{province}
+    </if>
+    <if test="city!=null and city!=''">
+      and s.city =#{city}
+    </if>
+    <if test="district!=null and district!=''">
+      and s.district =#{district}
+    </if>
+    <if test="factoryid!=0">
+      and r.factoryid = #{factoryid}
+    </if>
+    <if test="areaid!=0">
+      and r.areaid = #{areaid}
+    </if>
+  </select>
+  <!-- 根据供应商编号、工厂id查询 -->
+  <select id="selectBySuppliercodeAndFactoryid" resultMap="BaseResultMap">
+    select s.id, s.suppliercode, s.suppliername,s.abbreviation, s.contact, s.phone, s.province, s.city,
+    s.district, s.address, s.longitude,s.latitude,s.routeid,s.transitday  from supplier s,route r
+    where s.routeid=r.id
+    and r.factoryid = #{factoryid}
+    and s.suppliercode=#{suppliercode}
+  </select>
+  <!--根据供应商编号查询不重复的供应商，不论哪个工厂的-->
+  <select id="selectLikeSuppliername" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from supplier
+    where suppliername like '%${suppliername}%' group by suppliercode
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from supplier
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.Supplier" >
+    insert into supplier
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="suppliercode != null" >
+        suppliercode,
+      </if>
+      <if test="suppliername != null" >
+        suppliername,
+      </if>
+      <if test="abbreviation != null" >
+        abbreviation,
+      </if>
+      <if test="contact != null" >
+        contact,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="district != null" >
+        district,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="route != null" >
+        routeid,
+      </if>
+      <if test="transitday != null" >
+        transitday,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="suppliercode != null" >
+        #{suppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliername != null" >
+        #{suppliername,jdbcType=VARCHAR},
+      </if>
+      <if test="abbreviation != null" >
+        #{abbreviation,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="route != null" >
+        #{route.id},
+      </if>
+      <if test="transitday != null" >
+        #{transitday,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.Supplier" >
+    update supplier
+    <set >
+      <if test="suppliercode != null" >
+        suppliercode = #{suppliercode,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliername != null" >
+        suppliername = #{suppliername,jdbcType=VARCHAR},
+      </if>
+      <if test="abbreviation != null" >
+        abbreviation = #{abbreviation,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="route != null" >
+        routeid = #{route.id},
+      </if>
+      <if test="transitday != null" >
+        transitday = #{transitday,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

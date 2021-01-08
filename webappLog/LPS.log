@@ -1,0 +1,994 @@
+2021-01-08 11:21:14.016  INFO 6916 --- [main] com.defei.lps.LpsApplication             : Starting LpsApplication on LAPTOP-NHI9DKNL with PID 6916 (D:\install\IDEA\workSpace2\LPS\target\classes started by gaodefei in D:\install\IDEA\workSpace2\LPS)
+2021-01-08 11:21:14.031  INFO 6916 --- [main] com.defei.lps.LpsApplication             : No active profile set, falling back to default profiles: default
+2021-01-08 11:21:15.078  INFO 6916 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'shiroConfig' of type [com.defei.lps.config.ShiroConfig$$EnhancerBySpringCGLIB$$f54d29e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:21:15.516  INFO 6916 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'mybatis-org.mybatis.spring.boot.autoconfigure.MybatisProperties' of type [org.mybatis.spring.boot.autoconfigure.MybatisProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:21:15.516  INFO 6916 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration' of type [org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration$$EnhancerBySpringCGLIB$$252c4b51] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:21:15.516  INFO 6916 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:21:15.531  INFO 6916 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:21:15.547  INFO 6916 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:21:15.922  INFO 6916 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:21:15.922  INFO 6916 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:21:15.922  INFO 6916 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:21:15.922  INFO 6916 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [com.sun.proxy.$Proxy53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:21:15.938  INFO 6916 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:21:15.938  INFO 6916 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [com.sun.proxy.$Proxy54] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:21:15.938  INFO 6916 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'realm' of type [com.defei.lps.realm.MyRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:21:15.938  INFO 6916 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'getDefaultWebSessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:21:15.938  INFO 6916 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:21:15.969  INFO 6916 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:21:16.186  INFO 6916 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-08 11:21:16.202  INFO 6916 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-08 11:21:16.202  INFO 6916 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-01-08 11:21:16.280  INFO 6916 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring embedded WebApplicationContext
+2021-01-08 11:21:16.280  INFO 6916 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2202 ms
+2021-01-08 11:21:16.842  INFO 6916 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-08 11:21:16.921  INFO 6916 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-01-08 11:21:17.234  INFO 6916 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-01-08 11:21:17.292  INFO 6916 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/LPS'
+2021-01-08 11:21:17.298  INFO 6916 --- [main] com.defei.lps.LpsApplication             : Started LpsApplication in 3.693 seconds (JVM running for 4.587)
+2021-01-08 11:21:17.891  INFO 6916 --- [RMI TCP Connection(1)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-01-08 11:21:18.005  INFO 6916 --- [RMI TCP Connection(1)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-01-08 11:21:18.283  INFO 6916 --- [RMI TCP Connection(3)-192.168.0.151] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-08 11:21:18.283  INFO 6916 --- [RMI TCP Connection(3)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-01-08 11:21:18.299  INFO 6916 --- [RMI TCP Connection(3)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Completed initialization in 16 ms
+2021-01-08 11:21:38.312  INFO 6916 --- [http-nio-8080-exec-1] a.s.s.m.AbstractValidatingSessionManager : Enabling session validation scheduler...
+2021-01-08 11:21:47.966 ERROR 6916 --- [http-nio-8080-exec-8] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet [dispatcherServlet] in context with path [/LPS] threw exception [Request processing failed; nested exception is org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.binding.BindingException: Parameter 'receivedatestart' not found. Available parameters are [param7, param8, receiveDateStart, param5, goodname, param6, uploaddate, param9, batch, receiveDateEnd, index, goodcode, param3, needbind, param4, param1, param2, suppliername, billnumber, param10, suppliercode, param11, bindbillnumber, param12]] with root cause
+
+org.apache.ibatis.binding.BindingException: Parameter 'receivedatestart' not found. Available parameters are [param7, param8, receiveDateStart, param5, goodname, param6, uploaddate, param9, batch, receiveDateEnd, index, goodcode, param3, needbind, param4, param1, param2, suppliername, billnumber, param10, suppliercode, param11, bindbillnumber, param12]
+	at org.apache.ibatis.binding.MapperMethod$ParamMap.get(MapperMethod.java:212) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.DynamicContext$ContextAccessor.getProperty(DynamicContext.java:120) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.OgnlRuntime.getProperty(OgnlRuntime.java:3338) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.ASTProperty.getValueBody(ASTProperty.java:121) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.SimpleNode.evaluateGetValueBody(SimpleNode.java:212) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.SimpleNode.getValue(SimpleNode.java:258) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.ASTNotEq.getValueBody(ASTNotEq.java:50) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.SimpleNode.evaluateGetValueBody(SimpleNode.java:212) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.SimpleNode.getValue(SimpleNode.java:258) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.ASTAnd.getValueBody(ASTAnd.java:61) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.SimpleNode.evaluateGetValueBody(SimpleNode.java:212) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.SimpleNode.getValue(SimpleNode.java:258) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.Ognl.getValue(Ognl.java:560) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.Ognl.getValue(Ognl.java:524) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.OgnlCache.getValue(OgnlCache.java:46) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.ExpressionEvaluator.evaluateBoolean(ExpressionEvaluator.java:32) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.IfSqlNode.apply(IfSqlNode.java:34) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.MixedSqlNode.lambda$apply$0(MixedSqlNode.java:32) ~[mybatis-3.5.5.jar:3.5.5]
+	at java.util.ArrayList.forEach(ArrayList.java:1259) ~[na:1.8.0_271]
+	at org.apache.ibatis.scripting.xmltags.MixedSqlNode.apply(MixedSqlNode.java:32) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.DynamicSqlSource.getBoundSql(DynamicSqlSource.java:39) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.mapping.MappedStatement.getBoundSql(MappedStatement.java:305) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:87) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:140) ~[mybatis-3.5.5.jar:3.5.5]
+	at sun.reflect.GeneratedMethodAccessor103.invoke(Unknown Source) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_271]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_271]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:426) ~[mybatis-spring-2.0.5.jar:2.0.5]
+	at com.sun.proxy.$Proxy52.selectList(Unknown Source) ~[na:na]
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:223) ~[mybatis-spring-2.0.5.jar:2.0.5]
+	at org.apache.ibatis.binding.MapperMethod.executeForMany(MapperMethod.java:147) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:80) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.binding.MapperProxy$PlainMethodInvoker.invoke(MapperProxy.java:152) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:85) ~[mybatis-3.5.5.jar:3.5.5]
+	at com.sun.proxy.$Proxy97.selectLimitByCondition(Unknown Source) ~[na:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_271]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_271]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_271]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_271]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:139) ~[spring-tx-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at com.sun.proxy.$Proxy98.selectLimitByCondition(Unknown Source) ~[na:na]
+	at com.defei.lps.serviceImp.GeelyGeelyBillRecordServiceImp.findAll(GeelyGeelyBillRecordServiceImp.java:79) ~[classes/:na]
+	at com.defei.lps.controller.GeelyBillRecordController.findAll(GeelyBillRecordController.java:30) ~[classes/:na]
+	at com.defei.lps.controller.GeelyBillRecordController$$FastClassBySpringCGLIB$$abe5de47.invoke(<generated>) ~[classes/:na]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218) ~[spring-core-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:771) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:749) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor$1.proceed(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:82) ~[shiro-spring-1.4.0.jar:1.4.0]
+	at org.apache.shiro.authz.aop.AuthorizingMethodInterceptor.invoke(AuthorizingMethodInterceptor.java:39) ~[shiro-core-1.4.0.jar:1.4.0]
+	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor.invoke(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:115) ~[shiro-spring-1.4.0.jar:1.4.0]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:749) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:691) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at com.defei.lps.controller.GeelyBillRecordController$$EnhancerBySpringCGLIB$$d05a25f2.findAll(<generated>) ~[classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_271]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_271]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_271]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_271]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:105) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:878) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:792) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:652) ~[tomcat-embed-core-9.0.38.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:733) ~[tomcat-embed-core-9.0.38.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:61) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:108) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:137) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:108) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:137) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:449) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AbstractShiroFilter$1.call(AbstractShiroFilter.java:365) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:90) ~[shiro-core-1.4.0.jar:1.4.0]
+	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:83) ~[shiro-core-1.4.0.jar:1.4.0]
+	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:387) ~[shiro-core-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:362) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:93) ~[spring-boot-actuator-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1590) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_271]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_271]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_271]
+
+2021-01-08 11:22:35.772  INFO 13728 --- [main] com.defei.lps.LpsApplication             : Starting LpsApplication on LAPTOP-NHI9DKNL with PID 13728 (D:\install\IDEA\workSpace2\LPS\target\classes started by gaodefei in D:\install\IDEA\workSpace2\LPS)
+2021-01-08 11:22:35.772  INFO 13728 --- [main] com.defei.lps.LpsApplication             : No active profile set, falling back to default profiles: default
+2021-01-08 11:22:36.634  INFO 13728 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'shiroConfig' of type [com.defei.lps.config.ShiroConfig$$EnhancerBySpringCGLIB$$ba1a7df3] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:22:37.069  INFO 13728 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'mybatis-org.mybatis.spring.boot.autoconfigure.MybatisProperties' of type [org.mybatis.spring.boot.autoconfigure.MybatisProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:22:37.075  INFO 13728 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration' of type [org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration$$EnhancerBySpringCGLIB$$cff1f6a6] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:22:37.077  INFO 13728 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:22:37.085  INFO 13728 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:22:37.101  INFO 13728 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:22:37.476  INFO 13728 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:22:37.481  INFO 13728 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:22:37.483  INFO 13728 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:22:37.484  INFO 13728 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [com.sun.proxy.$Proxy53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:22:37.487  INFO 13728 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:22:37.488  INFO 13728 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [com.sun.proxy.$Proxy54] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:22:37.488  INFO 13728 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'realm' of type [com.defei.lps.realm.MyRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:22:37.492  INFO 13728 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'getDefaultWebSessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:22:37.494  INFO 13728 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:22:37.525  INFO 13728 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:22:37.721  INFO 13728 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-08 11:22:37.726  INFO 13728 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-08 11:22:37.726  INFO 13728 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-01-08 11:22:37.808  INFO 13728 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring embedded WebApplicationContext
+2021-01-08 11:22:37.809  INFO 13728 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1989 ms
+2021-01-08 11:22:38.369  INFO 13728 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-08 11:22:38.463  INFO 13728 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-01-08 11:22:38.745  INFO 13728 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-01-08 11:22:38.808  INFO 13728 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/LPS'
+2021-01-08 11:22:38.824  INFO 13728 --- [main] com.defei.lps.LpsApplication             : Started LpsApplication in 3.357 seconds (JVM running for 4.147)
+2021-01-08 11:22:39.574  INFO 13728 --- [RMI TCP Connection(2)-192.168.0.151] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-08 11:22:39.574  INFO 13728 --- [RMI TCP Connection(2)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-01-08 11:22:39.574  INFO 13728 --- [RMI TCP Connection(1)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-01-08 11:22:39.574  INFO 13728 --- [RMI TCP Connection(2)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2021-01-08 11:22:39.704  INFO 13728 --- [RMI TCP Connection(1)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-01-08 11:22:40.522  INFO 13728 --- [http-nio-8080-exec-1] a.s.s.m.AbstractValidatingSessionManager : Enabling session validation scheduler...
+2021-01-08 11:22:46.303 ERROR 13728 --- [http-nio-8080-exec-7] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet [dispatcherServlet] in context with path [/LPS] threw exception [Request processing failed; nested exception is org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.binding.BindingException: Parameter 'receivedateend' not found. Available parameters are [param7, param8, param5, receivedatednd, goodname, param6, uploaddate, param9, batch, index, goodcode, param3, needbind, param4, param1, param2, receivedatestart, suppliername, billnumber, param10, suppliercode, param11, bindbillnumber, param12]] with root cause
+
+org.apache.ibatis.binding.BindingException: Parameter 'receivedateend' not found. Available parameters are [param7, param8, param5, receivedatednd, goodname, param6, uploaddate, param9, batch, index, goodcode, param3, needbind, param4, param1, param2, receivedatestart, suppliername, billnumber, param10, suppliercode, param11, bindbillnumber, param12]
+	at org.apache.ibatis.binding.MapperMethod$ParamMap.get(MapperMethod.java:212) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.DynamicContext$ContextAccessor.getProperty(DynamicContext.java:120) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.OgnlRuntime.getProperty(OgnlRuntime.java:3338) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.ASTProperty.getValueBody(ASTProperty.java:121) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.SimpleNode.evaluateGetValueBody(SimpleNode.java:212) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.SimpleNode.getValue(SimpleNode.java:258) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.ASTNotEq.getValueBody(ASTNotEq.java:50) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.SimpleNode.evaluateGetValueBody(SimpleNode.java:212) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.SimpleNode.getValue(SimpleNode.java:258) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.ASTAnd.getValueBody(ASTAnd.java:61) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.SimpleNode.evaluateGetValueBody(SimpleNode.java:212) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.SimpleNode.getValue(SimpleNode.java:258) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.Ognl.getValue(Ognl.java:560) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.Ognl.getValue(Ognl.java:524) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.OgnlCache.getValue(OgnlCache.java:46) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.ExpressionEvaluator.evaluateBoolean(ExpressionEvaluator.java:32) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.IfSqlNode.apply(IfSqlNode.java:34) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.MixedSqlNode.lambda$apply$0(MixedSqlNode.java:32) ~[mybatis-3.5.5.jar:3.5.5]
+	at java.util.ArrayList.forEach(ArrayList.java:1259) ~[na:1.8.0_271]
+	at org.apache.ibatis.scripting.xmltags.MixedSqlNode.apply(MixedSqlNode.java:32) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.DynamicSqlSource.getBoundSql(DynamicSqlSource.java:39) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.mapping.MappedStatement.getBoundSql(MappedStatement.java:305) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:87) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:140) ~[mybatis-3.5.5.jar:3.5.5]
+	at sun.reflect.GeneratedMethodAccessor104.invoke(Unknown Source) ~[na:na]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_271]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_271]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:426) ~[mybatis-spring-2.0.5.jar:2.0.5]
+	at com.sun.proxy.$Proxy52.selectList(Unknown Source) ~[na:na]
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:223) ~[mybatis-spring-2.0.5.jar:2.0.5]
+	at org.apache.ibatis.binding.MapperMethod.executeForMany(MapperMethod.java:147) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:80) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.binding.MapperProxy$PlainMethodInvoker.invoke(MapperProxy.java:152) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:85) ~[mybatis-3.5.5.jar:3.5.5]
+	at com.sun.proxy.$Proxy97.selectLimitByCondition(Unknown Source) ~[na:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_271]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_271]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_271]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_271]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:139) ~[spring-tx-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at com.sun.proxy.$Proxy98.selectLimitByCondition(Unknown Source) ~[na:na]
+	at com.defei.lps.serviceImp.GeelyGeelyBillRecordServiceImp.findAll(GeelyGeelyBillRecordServiceImp.java:79) ~[classes/:na]
+	at com.defei.lps.controller.GeelyBillRecordController.findAll(GeelyBillRecordController.java:30) ~[classes/:na]
+	at com.defei.lps.controller.GeelyBillRecordController$$FastClassBySpringCGLIB$$abe5de47.invoke(<generated>) ~[classes/:na]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218) ~[spring-core-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:771) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:749) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor$1.proceed(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:82) ~[shiro-spring-1.4.0.jar:1.4.0]
+	at org.apache.shiro.authz.aop.AuthorizingMethodInterceptor.invoke(AuthorizingMethodInterceptor.java:39) ~[shiro-core-1.4.0.jar:1.4.0]
+	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor.invoke(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:115) ~[shiro-spring-1.4.0.jar:1.4.0]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:749) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:691) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at com.defei.lps.controller.GeelyBillRecordController$$EnhancerBySpringCGLIB$$f3de2ad1.findAll(<generated>) ~[classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_271]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_271]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_271]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_271]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:105) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:878) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:792) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:652) ~[tomcat-embed-core-9.0.38.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:733) ~[tomcat-embed-core-9.0.38.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:61) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:108) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:137) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:108) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:137) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:449) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AbstractShiroFilter$1.call(AbstractShiroFilter.java:365) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:90) ~[shiro-core-1.4.0.jar:1.4.0]
+	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:83) ~[shiro-core-1.4.0.jar:1.4.0]
+	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:387) ~[shiro-core-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:362) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:93) ~[spring-boot-actuator-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1590) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_271]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_271]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_271]
+
+2021-01-08 11:23:11.820  INFO 12028 --- [main] com.defei.lps.LpsApplication             : Starting LpsApplication on LAPTOP-NHI9DKNL with PID 12028 (D:\install\IDEA\workSpace2\LPS\target\classes started by gaodefei in D:\install\IDEA\workSpace2\LPS)
+2021-01-08 11:23:11.820  INFO 12028 --- [main] com.defei.lps.LpsApplication             : No active profile set, falling back to default profiles: default
+2021-01-08 11:23:12.812  INFO 12028 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'shiroConfig' of type [com.defei.lps.config.ShiroConfig$$EnhancerBySpringCGLIB$$2141209f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:23:13.245  INFO 12028 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'mybatis-org.mybatis.spring.boot.autoconfigure.MybatisProperties' of type [org.mybatis.spring.boot.autoconfigure.MybatisProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:23:13.251  INFO 12028 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration' of type [org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration$$EnhancerBySpringCGLIB$$37189952] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:23:13.253  INFO 12028 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:23:13.260  INFO 12028 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:23:13.275  INFO 12028 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:23:13.622  INFO 12028 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:23:13.638  INFO 12028 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:23:13.638  INFO 12028 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:23:13.638  INFO 12028 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [com.sun.proxy.$Proxy53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:23:13.638  INFO 12028 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:23:13.638  INFO 12028 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [com.sun.proxy.$Proxy54] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:23:13.638  INFO 12028 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'realm' of type [com.defei.lps.realm.MyRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:23:13.638  INFO 12028 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'getDefaultWebSessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:23:13.638  INFO 12028 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:23:13.670  INFO 12028 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:23:13.879  INFO 12028 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-08 11:23:13.887  INFO 12028 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-08 11:23:13.887  INFO 12028 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-01-08 11:23:13.958  INFO 12028 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring embedded WebApplicationContext
+2021-01-08 11:23:13.958  INFO 12028 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2091 ms
+2021-01-08 11:23:14.524  INFO 12028 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-08 11:23:14.607  INFO 12028 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-01-08 11:23:14.889  INFO 12028 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-01-08 11:23:14.938  INFO 12028 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/LPS'
+2021-01-08 11:23:14.954  INFO 12028 --- [main] com.defei.lps.LpsApplication             : Started LpsApplication in 3.435 seconds (JVM running for 4.189)
+2021-01-08 11:23:15.911  INFO 12028 --- [RMI TCP Connection(2)-192.168.0.151] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-08 11:23:15.911  INFO 12028 --- [RMI TCP Connection(2)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-01-08 11:23:15.911  INFO 12028 --- [RMI TCP Connection(3)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-01-08 11:23:15.927  INFO 12028 --- [RMI TCP Connection(2)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Completed initialization in 16 ms
+2021-01-08 11:23:16.058  INFO 12028 --- [RMI TCP Connection(3)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-01-08 11:23:21.852  INFO 12028 --- [http-nio-8080-exec-1] a.s.s.m.AbstractValidatingSessionManager : Enabling session validation scheduler...
+2021-01-08 11:24:04.029 ERROR 12028 --- [http-nio-8080-exec-8] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet [dispatcherServlet] in context with path [/LPS] threw exception [Request processing failed; nested exception is org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'geelybillcacheid' in 'class com.defei.lps.entity.GeelyBillRecord'] with root cause
+
+org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'geelybillcacheid' in 'class com.defei.lps.entity.GeelyBillRecord'
+	at org.apache.ibatis.reflection.Reflector.getGetInvoker(Reflector.java:374) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.reflection.MetaClass.getGetInvoker(MetaClass.java:164) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.reflection.wrapper.BeanWrapper.getBeanProperty(BeanWrapper.java:162) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.reflection.wrapper.BeanWrapper.get(BeanWrapper.java:49) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.reflection.MetaObject.getValue(MetaObject.java:122) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.DynamicContext$ContextMap.get(DynamicContext.java:102) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.DynamicContext$ContextAccessor.getProperty(DynamicContext.java:113) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.OgnlRuntime.getProperty(OgnlRuntime.java:3338) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.ASTProperty.getValueBody(ASTProperty.java:121) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.SimpleNode.evaluateGetValueBody(SimpleNode.java:212) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.SimpleNode.getValue(SimpleNode.java:258) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.ASTNotEq.getValueBody(ASTNotEq.java:50) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.SimpleNode.evaluateGetValueBody(SimpleNode.java:212) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.SimpleNode.getValue(SimpleNode.java:258) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.Ognl.getValue(Ognl.java:560) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.ognl.Ognl.getValue(Ognl.java:524) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.OgnlCache.getValue(OgnlCache.java:46) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.ExpressionEvaluator.evaluateBoolean(ExpressionEvaluator.java:32) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.IfSqlNode.apply(IfSqlNode.java:34) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.MixedSqlNode.lambda$apply$0(MixedSqlNode.java:32) ~[mybatis-3.5.5.jar:3.5.5]
+	at java.util.ArrayList.forEach(ArrayList.java:1259) ~[na:1.8.0_271]
+	at org.apache.ibatis.scripting.xmltags.MixedSqlNode.apply(MixedSqlNode.java:32) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.TrimSqlNode.apply(TrimSqlNode.java:55) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.MixedSqlNode.lambda$apply$0(MixedSqlNode.java:32) ~[mybatis-3.5.5.jar:3.5.5]
+	at java.util.ArrayList.forEach(ArrayList.java:1259) ~[na:1.8.0_271]
+	at org.apache.ibatis.scripting.xmltags.MixedSqlNode.apply(MixedSqlNode.java:32) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.scripting.xmltags.DynamicSqlSource.getBoundSql(DynamicSqlSource.java:39) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.mapping.MappedStatement.getBoundSql(MappedStatement.java:305) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.executor.statement.BaseStatementHandler.<init>(BaseStatementHandler.java:64) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.<init>(PreparedStatementHandler.java:41) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.<init>(RoutingStatementHandler.java:46) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.session.Configuration.newStatementHandler(Configuration.java:636) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.executor.SimpleExecutor.doUpdate(SimpleExecutor.java:48) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:117) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:76) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:197) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.insert(DefaultSqlSession.java:184) ~[mybatis-3.5.5.jar:3.5.5]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_271]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_271]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_271]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_271]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:426) ~[mybatis-spring-2.0.5.jar:2.0.5]
+	at com.sun.proxy.$Proxy52.insert(Unknown Source) ~[na:na]
+	at org.mybatis.spring.SqlSessionTemplate.insert(SqlSessionTemplate.java:271) ~[mybatis-spring-2.0.5.jar:2.0.5]
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:62) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.binding.MapperProxy$PlainMethodInvoker.invoke(MapperProxy.java:152) ~[mybatis-3.5.5.jar:3.5.5]
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:85) ~[mybatis-3.5.5.jar:3.5.5]
+	at com.sun.proxy.$Proxy97.insertSelective(Unknown Source) ~[na:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_271]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_271]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_271]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_271]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:139) ~[spring-tx-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at com.sun.proxy.$Proxy98.insertSelective(Unknown Source) ~[na:na]
+	at com.defei.lps.serviceImp.GeelyGeelyBillCacheServiceImp.geelyBillRecordAdd(GeelyGeelyBillCacheServiceImp.java:298) ~[classes/:na]
+	at com.defei.lps.serviceImp.GeelyGeelyBillCacheServiceImp$$FastClassBySpringCGLIB$$95ec030c.invoke(<generated>) ~[classes/:na]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218) ~[spring-core-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:771) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:749) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:367) ~[spring-tx-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:118) ~[spring-tx-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:749) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:691) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at com.defei.lps.serviceImp.GeelyGeelyBillCacheServiceImp$$EnhancerBySpringCGLIB$$2f3bdb7a.geelyBillRecordAdd(<generated>) ~[classes/:na]
+	at com.defei.lps.serviceImp.GeelyGeelyBillCacheServiceImp$$FastClassBySpringCGLIB$$95ec030c.invoke(<generated>) ~[classes/:na]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218) ~[spring-core-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:771) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:749) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:367) ~[spring-tx-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:118) ~[spring-tx-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:749) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:691) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at com.defei.lps.serviceImp.GeelyGeelyBillCacheServiceImp$$EnhancerBySpringCGLIB$$ff5397a0.geelyBillRecordAdd(<generated>) ~[classes/:na]
+	at com.defei.lps.controller.GeelyBillCacheController.geelyBillRecordAdd(GeelyBillCacheController.java:80) ~[classes/:na]
+	at com.defei.lps.controller.GeelyBillCacheController$$FastClassBySpringCGLIB$$c91bfa04.invoke(<generated>) ~[classes/:na]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218) ~[spring-core-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:771) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:749) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor$1.proceed(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:82) ~[shiro-spring-1.4.0.jar:1.4.0]
+	at org.apache.shiro.authz.aop.AuthorizingMethodInterceptor.invoke(AuthorizingMethodInterceptor.java:39) ~[shiro-core-1.4.0.jar:1.4.0]
+	at org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor.invoke(AopAllianceAnnotationsAuthorizingMethodInterceptor.java:115) ~[shiro-spring-1.4.0.jar:1.4.0]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:749) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:691) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at com.defei.lps.controller.GeelyBillCacheController$$EnhancerBySpringCGLIB$$f19becea.geelyBillRecordAdd(<generated>) ~[classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_271]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_271]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_271]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_271]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:105) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:878) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:792) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:652) ~[tomcat-embed-core-9.0.38.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:733) ~[tomcat-embed-core-9.0.38.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:61) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:108) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:137) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:108) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:137) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:449) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AbstractShiroFilter$1.call(AbstractShiroFilter.java:365) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:90) ~[shiro-core-1.4.0.jar:1.4.0]
+	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:83) ~[shiro-core-1.4.0.jar:1.4.0]
+	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:387) ~[shiro-core-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:362) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125) ~[shiro-web-1.4.0.jar:1.4.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:93) ~[spring-boot-actuator-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1590) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_271]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_271]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-9.0.38.jar:9.0.38]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_271]
+
+2021-01-08 11:25:05.224  INFO 4540 --- [main] com.defei.lps.LpsApplication             : Starting LpsApplication on LAPTOP-NHI9DKNL with PID 4540 (D:\install\IDEA\workSpace2\LPS\target\classes started by gaodefei in D:\install\IDEA\workSpace2\LPS)
+2021-01-08 11:25:05.224  INFO 4540 --- [main] com.defei.lps.LpsApplication             : No active profile set, falling back to default profiles: default
+2021-01-08 11:25:06.119  INFO 4540 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'shiroConfig' of type [com.defei.lps.config.ShiroConfig$$EnhancerBySpringCGLIB$$e170b25a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:25:06.541  INFO 4540 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'mybatis-org.mybatis.spring.boot.autoconfigure.MybatisProperties' of type [org.mybatis.spring.boot.autoconfigure.MybatisProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:25:06.541  INFO 4540 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration' of type [org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration$$EnhancerBySpringCGLIB$$f7482b0d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:25:06.541  INFO 4540 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:25:06.541  INFO 4540 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:25:06.572  INFO 4540 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:25:06.918  INFO 4540 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:25:06.918  INFO 4540 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:25:06.918  INFO 4540 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:25:06.918  INFO 4540 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [com.sun.proxy.$Proxy53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:25:06.934  INFO 4540 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:25:06.934  INFO 4540 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [com.sun.proxy.$Proxy54] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:25:06.934  INFO 4540 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'realm' of type [com.defei.lps.realm.MyRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:25:06.934  INFO 4540 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'getDefaultWebSessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:25:06.934  INFO 4540 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:25:06.965  INFO 4540 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:25:07.154  INFO 4540 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-08 11:25:07.154  INFO 4540 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-08 11:25:07.154  INFO 4540 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-01-08 11:25:07.252  INFO 4540 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring embedded WebApplicationContext
+2021-01-08 11:25:07.252  INFO 4540 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1981 ms
+2021-01-08 11:25:07.836  INFO 4540 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-08 11:25:07.916  INFO 4540 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-01-08 11:25:08.198  INFO 4540 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-01-08 11:25:08.256  INFO 4540 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/LPS'
+2021-01-08 11:25:08.268  INFO 4540 --- [main] com.defei.lps.LpsApplication             : Started LpsApplication in 3.352 seconds (JVM running for 4.113)
+2021-01-08 11:25:09.011  INFO 4540 --- [RMI TCP Connection(3)-192.168.0.151] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-08 11:25:09.011  INFO 4540 --- [RMI TCP Connection(3)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-01-08 11:25:09.011  INFO 4540 --- [RMI TCP Connection(4)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-01-08 11:25:09.026  INFO 4540 --- [RMI TCP Connection(3)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Completed initialization in 15 ms
+2021-01-08 11:25:09.136  INFO 4540 --- [RMI TCP Connection(4)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-01-08 11:25:50.351  INFO 4540 --- [http-nio-8080-exec-1] a.s.s.m.AbstractValidatingSessionManager : Enabling session validation scheduler...
+2021-01-08 11:28:00.128  INFO 4900 --- [main] com.defei.lps.LpsApplication             : Starting LpsApplication on LAPTOP-NHI9DKNL with PID 4900 (D:\install\IDEA\workSpace2\LPS\target\classes started by gaodefei in D:\install\IDEA\workSpace2\LPS)
+2021-01-08 11:28:00.130  INFO 4900 --- [main] com.defei.lps.LpsApplication             : No active profile set, falling back to default profiles: default
+2021-01-08 11:28:00.982  INFO 4900 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'shiroConfig' of type [com.defei.lps.config.ShiroConfig$$EnhancerBySpringCGLIB$$20e36c50] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:28:01.414  INFO 4900 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'mybatis-org.mybatis.spring.boot.autoconfigure.MybatisProperties' of type [org.mybatis.spring.boot.autoconfigure.MybatisProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:28:01.421  INFO 4900 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration' of type [org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration$$EnhancerBySpringCGLIB$$36bae503] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:28:01.423  INFO 4900 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:28:01.430  INFO 4900 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:28:01.449  INFO 4900 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:28:01.816  INFO 4900 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:28:01.822  INFO 4900 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:28:01.822  INFO 4900 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:28:01.823  INFO 4900 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [com.sun.proxy.$Proxy53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:28:01.825  INFO 4900 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:28:01.826  INFO 4900 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [com.sun.proxy.$Proxy54] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:28:01.826  INFO 4900 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'realm' of type [com.defei.lps.realm.MyRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:28:01.829  INFO 4900 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'getDefaultWebSessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:28:01.831  INFO 4900 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:28:01.863  INFO 4900 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:28:02.049  INFO 4900 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-08 11:28:02.057  INFO 4900 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-08 11:28:02.057  INFO 4900 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-01-08 11:28:02.134  INFO 4900 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring embedded WebApplicationContext
+2021-01-08 11:28:02.135  INFO 4900 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1970 ms
+2021-01-08 11:28:02.730  INFO 4900 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-08 11:28:02.816  INFO 4900 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-01-08 11:28:03.112  INFO 4900 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-01-08 11:28:03.172  INFO 4900 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/LPS'
+2021-01-08 11:28:03.185  INFO 4900 --- [main] com.defei.lps.LpsApplication             : Started LpsApplication in 3.357 seconds (JVM running for 4.176)
+2021-01-08 11:28:03.625  INFO 4900 --- [RMI TCP Connection(1)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-01-08 11:28:03.734  INFO 4900 --- [RMI TCP Connection(1)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-01-08 11:28:04.331  INFO 4900 --- [RMI TCP Connection(4)-192.168.0.151] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-08 11:28:04.331  INFO 4900 --- [RMI TCP Connection(4)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-01-08 11:28:04.339  INFO 4900 --- [RMI TCP Connection(4)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Completed initialization in 8 ms
+2021-01-08 11:28:06.244  INFO 4900 --- [http-nio-8080-exec-2] a.s.s.m.AbstractValidatingSessionManager : Enabling session validation scheduler...
+2021-01-08 11:29:34.559  INFO 12328 --- [main] com.defei.lps.LpsApplication             : Starting LpsApplication on LAPTOP-NHI9DKNL with PID 12328 (D:\install\IDEA\workSpace2\LPS\target\classes started by gaodefei in D:\install\IDEA\workSpace2\LPS)
+2021-01-08 11:29:34.559  INFO 12328 --- [main] com.defei.lps.LpsApplication             : No active profile set, falling back to default profiles: default
+2021-01-08 11:29:35.506  INFO 12328 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'shiroConfig' of type [com.defei.lps.config.ShiroConfig$$EnhancerBySpringCGLIB$$eff72f4d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:29:35.987  INFO 12328 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'mybatis-org.mybatis.spring.boot.autoconfigure.MybatisProperties' of type [org.mybatis.spring.boot.autoconfigure.MybatisProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:29:35.994  INFO 12328 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration' of type [org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration$$EnhancerBySpringCGLIB$$5cea800] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:29:35.996  INFO 12328 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:29:36.002  INFO 12328 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:29:36.019  INFO 12328 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:29:36.400  INFO 12328 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:29:36.404  INFO 12328 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:29:36.405  INFO 12328 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:29:36.406  INFO 12328 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [com.sun.proxy.$Proxy53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:29:36.409  INFO 12328 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:29:36.410  INFO 12328 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [com.sun.proxy.$Proxy54] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:29:36.411  INFO 12328 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'realm' of type [com.defei.lps.realm.MyRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:29:36.415  INFO 12328 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'getDefaultWebSessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:29:36.417  INFO 12328 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:29:36.449  INFO 12328 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:29:36.626  INFO 12328 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-08 11:29:36.642  INFO 12328 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-08 11:29:36.642  INFO 12328 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-01-08 11:29:36.703  INFO 12328 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring embedded WebApplicationContext
+2021-01-08 11:29:36.703  INFO 12328 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2097 ms
+2021-01-08 11:29:37.308  INFO 12328 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-08 11:29:37.398  INFO 12328 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-01-08 11:29:37.698  INFO 12328 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-01-08 11:29:37.764  INFO 12328 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/LPS'
+2021-01-08 11:29:37.777  INFO 12328 --- [main] com.defei.lps.LpsApplication             : Started LpsApplication in 3.522 seconds (JVM running for 4.257)
+2021-01-08 11:29:37.841  INFO 12328 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-08 11:29:37.841  INFO 12328 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-01-08 11:29:37.848  INFO 12328 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2021-01-08 11:29:37.860  INFO 12328 --- [http-nio-8080-exec-1] a.s.s.m.AbstractValidatingSessionManager : Enabling session validation scheduler...
+2021-01-08 11:29:38.418  INFO 12328 --- [RMI TCP Connection(4)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-01-08 11:29:38.527  INFO 12328 --- [RMI TCP Connection(4)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-01-08 11:32:48.907  INFO 18340 --- [main] com.defei.lps.LpsApplication             : Starting LpsApplication on LAPTOP-NHI9DKNL with PID 18340 (D:\install\IDEA\workSpace2\LPS\target\classes started by gaodefei in D:\install\IDEA\workSpace2\LPS)
+2021-01-08 11:32:48.907  INFO 18340 --- [main] com.defei.lps.LpsApplication             : No active profile set, falling back to default profiles: default
+2021-01-08 11:32:49.755  INFO 18340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'shiroConfig' of type [com.defei.lps.config.ShiroConfig$$EnhancerBySpringCGLIB$$eff72f4d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:32:50.177  INFO 18340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'mybatis-org.mybatis.spring.boot.autoconfigure.MybatisProperties' of type [org.mybatis.spring.boot.autoconfigure.MybatisProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:32:50.177  INFO 18340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration' of type [org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration$$EnhancerBySpringCGLIB$$5cea800] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:32:50.177  INFO 18340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:32:50.193  INFO 18340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:32:50.208  INFO 18340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:32:50.570  INFO 18340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:32:50.570  INFO 18340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:32:50.570  INFO 18340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:32:50.570  INFO 18340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [com.sun.proxy.$Proxy53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:32:50.570  INFO 18340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:32:50.570  INFO 18340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [com.sun.proxy.$Proxy54] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:32:50.570  INFO 18340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'realm' of type [com.defei.lps.realm.MyRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:32:50.586  INFO 18340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'getDefaultWebSessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:32:50.586  INFO 18340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:32:50.618  INFO 18340 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:32:50.790  INFO 18340 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-08 11:32:50.790  INFO 18340 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-08 11:32:50.790  INFO 18340 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-01-08 11:32:50.868  INFO 18340 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring embedded WebApplicationContext
+2021-01-08 11:32:50.868  INFO 18340 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1930 ms
+2021-01-08 11:32:51.419  INFO 18340 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-08 11:32:51.497  INFO 18340 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-01-08 11:32:51.781  INFO 18340 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-01-08 11:32:51.828  INFO 18340 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/LPS'
+2021-01-08 11:32:51.844  INFO 18340 --- [main] com.defei.lps.LpsApplication             : Started LpsApplication in 3.231 seconds (JVM running for 4.017)
+2021-01-08 11:32:52.376  INFO 18340 --- [RMI TCP Connection(3)-192.168.0.151] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-08 11:32:52.376  INFO 18340 --- [RMI TCP Connection(3)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-01-08 11:32:52.376  INFO 18340 --- [RMI TCP Connection(2)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-01-08 11:32:52.376  INFO 18340 --- [RMI TCP Connection(3)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2021-01-08 11:32:52.486  INFO 18340 --- [RMI TCP Connection(2)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-01-08 11:33:15.699  INFO 18340 --- [http-nio-8080-exec-1] a.s.s.m.AbstractValidatingSessionManager : Enabling session validation scheduler...
+2021-01-08 11:34:11.199  INFO 19004 --- [main] com.defei.lps.LpsApplication             : Starting LpsApplication on LAPTOP-NHI9DKNL with PID 19004 (D:\install\IDEA\workSpace2\LPS\target\classes started by gaodefei in D:\install\IDEA\workSpace2\LPS)
+2021-01-08 11:34:11.199  INFO 19004 --- [main] com.defei.lps.LpsApplication             : No active profile set, falling back to default profiles: default
+2021-01-08 11:34:12.091  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'shiroConfig' of type [com.defei.lps.config.ShiroConfig$$EnhancerBySpringCGLIB$$d40f88d9] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:34:12.642  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'mybatis-org.mybatis.spring.boot.autoconfigure.MybatisProperties' of type [org.mybatis.spring.boot.autoconfigure.MybatisProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:34:12.642  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration' of type [org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration$$EnhancerBySpringCGLIB$$e9e7018c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:34:12.642  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:34:12.658  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:34:12.673  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:34:13.050  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:34:13.054  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:34:13.054  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:34:13.055  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [com.sun.proxy.$Proxy53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:34:13.057  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:34:13.058  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [com.sun.proxy.$Proxy54] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:34:13.059  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'realm' of type [com.defei.lps.realm.MyRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:34:13.063  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'getDefaultWebSessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:34:13.065  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:34:13.091  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 11:34:13.314  INFO 19004 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-08 11:34:13.322  INFO 19004 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-08 11:34:13.322  INFO 19004 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-01-08 11:34:13.398  INFO 19004 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring embedded WebApplicationContext
+2021-01-08 11:34:13.398  INFO 19004 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2152 ms
+2021-01-08 11:34:13.976  INFO 19004 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-08 11:34:14.065  INFO 19004 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-01-08 11:34:14.370  INFO 19004 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-01-08 11:34:14.427  INFO 19004 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/LPS'
+2021-01-08 11:34:14.439  INFO 19004 --- [main] com.defei.lps.LpsApplication             : Started LpsApplication in 3.552 seconds (JVM running for 4.324)
+2021-01-08 11:34:14.706  INFO 19004 --- [RMI TCP Connection(3)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-01-08 11:34:14.818  INFO 19004 --- [RMI TCP Connection(3)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-01-08 11:34:15.169  INFO 19004 --- [RMI TCP Connection(5)-192.168.0.151] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-08 11:34:15.169  INFO 19004 --- [RMI TCP Connection(5)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-01-08 11:34:15.177  INFO 19004 --- [RMI TCP Connection(5)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Completed initialization in 8 ms
+2021-01-08 11:34:15.191  INFO 19004 --- [http-nio-8080-exec-1] a.s.s.m.AbstractValidatingSessionManager : Enabling session validation scheduler...
+2021-01-08 12:34:15.193  INFO 19004 --- [SessionValidationThread-1] a.s.s.m.AbstractValidatingSessionManager : Validating all active sessions...
+2021-01-08 12:34:15.193  INFO 19004 --- [SessionValidationThread-1] a.s.s.m.AbstractValidatingSessionManager : Finished session validation.  No sessions were stopped.
+2021-01-08 13:34:15.192  INFO 19004 --- [SessionValidationThread-1] a.s.s.m.AbstractValidatingSessionManager : Validating all active sessions...
+2021-01-08 13:34:15.193  INFO 19004 --- [SessionValidationThread-1] a.s.s.m.AbstractValidatingSessionManager : Finished session validation.  No sessions were stopped.
+2021-01-08 14:33:25.758  INFO 15212 --- [main] com.defei.lps.LpsApplication             : Starting LpsApplication on LAPTOP-NHI9DKNL with PID 15212 (D:\install\IDEA\workSpace2\LPS\target\classes started by gaodefei in D:\install\IDEA\workSpace2\LPS)
+2021-01-08 14:33:25.761  INFO 15212 --- [main] com.defei.lps.LpsApplication             : No active profile set, falling back to default profiles: default
+2021-01-08 14:33:26.640  INFO 15212 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'shiroConfig' of type [com.defei.lps.config.ShiroConfig$$EnhancerBySpringCGLIB$$f61136da] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:33:27.078  INFO 15212 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'mybatis-org.mybatis.spring.boot.autoconfigure.MybatisProperties' of type [org.mybatis.spring.boot.autoconfigure.MybatisProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:33:27.084  INFO 15212 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration' of type [org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration$$EnhancerBySpringCGLIB$$be8af8d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:33:27.086  INFO 15212 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:33:27.093  INFO 15212 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:33:27.109  INFO 15212 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:33:27.473  INFO 15212 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:33:27.478  INFO 15212 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:33:27.479  INFO 15212 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:33:27.480  INFO 15212 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [com.sun.proxy.$Proxy53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:33:27.483  INFO 15212 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:33:27.484  INFO 15212 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [com.sun.proxy.$Proxy54] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:33:27.484  INFO 15212 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'realm' of type [com.defei.lps.realm.MyRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:33:27.488  INFO 15212 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'getDefaultWebSessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:33:27.491  INFO 15212 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:33:27.522  INFO 15212 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:33:27.704  INFO 15212 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-08 14:33:27.711  INFO 15212 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-08 14:33:27.712  INFO 15212 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-01-08 14:33:27.788  INFO 15212 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring embedded WebApplicationContext
+2021-01-08 14:33:27.789  INFO 15212 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1982 ms
+2021-01-08 14:33:28.324  INFO 15212 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-08 14:33:28.409  INFO 15212 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-01-08 14:33:28.680  INFO 15212 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-01-08 14:33:28.734  INFO 15212 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/LPS'
+2021-01-08 14:33:28.746  INFO 15212 --- [main] com.defei.lps.LpsApplication             : Started LpsApplication in 3.309 seconds (JVM running for 4.048)
+2021-01-08 14:33:29.206  INFO 15212 --- [RMI TCP Connection(1)-192.168.0.151] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-08 14:33:29.207  INFO 15212 --- [RMI TCP Connection(1)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-01-08 14:33:29.214  INFO 15212 --- [RMI TCP Connection(1)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2021-01-08 14:33:29.659  INFO 15212 --- [RMI TCP Connection(3)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-01-08 14:33:29.768  INFO 15212 --- [RMI TCP Connection(3)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-01-08 14:36:44.977  INFO 20468 --- [main] com.defei.lps.LpsApplication             : Starting LpsApplication on LAPTOP-NHI9DKNL with PID 20468 (D:\install\IDEA\workSpace2\LPS\target\classes started by gaodefei in D:\install\IDEA\workSpace2\LPS)
+2021-01-08 14:36:44.979  INFO 20468 --- [main] com.defei.lps.LpsApplication             : No active profile set, falling back to default profiles: default
+2021-01-08 14:36:45.845  INFO 20468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'shiroConfig' of type [com.defei.lps.config.ShiroConfig$$EnhancerBySpringCGLIB$$ba1a7df3] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:36:46.262  INFO 20468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'mybatis-org.mybatis.spring.boot.autoconfigure.MybatisProperties' of type [org.mybatis.spring.boot.autoconfigure.MybatisProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:36:46.268  INFO 20468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration' of type [org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration$$EnhancerBySpringCGLIB$$cff1f6a6] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:36:46.271  INFO 20468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:36:46.277  INFO 20468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:36:46.292  INFO 20468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:36:46.654  INFO 20468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:36:46.658  INFO 20468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:36:46.660  INFO 20468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:36:46.661  INFO 20468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [com.sun.proxy.$Proxy53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:36:46.663  INFO 20468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:36:46.664  INFO 20468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [com.sun.proxy.$Proxy54] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:36:46.664  INFO 20468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'realm' of type [com.defei.lps.realm.MyRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:36:46.668  INFO 20468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'getDefaultWebSessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:36:46.670  INFO 20468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:36:46.701  INFO 20468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:36:46.891  INFO 20468 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-08 14:36:46.897  INFO 20468 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-08 14:36:46.898  INFO 20468 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-01-08 14:36:46.974  INFO 20468 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring embedded WebApplicationContext
+2021-01-08 14:36:46.974  INFO 20468 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1950 ms
+2021-01-08 14:36:47.528  INFO 20468 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-08 14:36:47.611  INFO 20468 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-01-08 14:36:47.885  INFO 20468 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-01-08 14:36:47.940  INFO 20468 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/LPS'
+2021-01-08 14:36:47.952  INFO 20468 --- [main] com.defei.lps.LpsApplication             : Started LpsApplication in 3.283 seconds (JVM running for 4.071)
+2021-01-08 14:36:48.615  INFO 20468 --- [RMI TCP Connection(2)-192.168.0.151] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-08 14:36:48.615  INFO 20468 --- [RMI TCP Connection(2)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-01-08 14:36:48.616  INFO 20468 --- [RMI TCP Connection(1)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-01-08 14:36:48.622  INFO 20468 --- [RMI TCP Connection(2)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2021-01-08 14:36:48.733  INFO 20468 --- [RMI TCP Connection(1)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-01-08 14:36:52.281  INFO 20468 --- [http-nio-8080-exec-1] a.s.s.m.AbstractValidatingSessionManager : Enabling session validation scheduler...
+2021-01-08 14:40:06.276  INFO 9812 --- [main] com.defei.lps.LpsApplication             : Starting LpsApplication on LAPTOP-NHI9DKNL with PID 9812 (D:\install\IDEA\workSpace2\LPS\target\classes started by gaodefei in D:\install\IDEA\workSpace2\LPS)
+2021-01-08 14:40:06.279  INFO 9812 --- [main] com.defei.lps.LpsApplication             : No active profile set, falling back to default profiles: default
+2021-01-08 14:40:07.208  INFO 9812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'shiroConfig' of type [com.defei.lps.config.ShiroConfig$$EnhancerBySpringCGLIB$$20e36c50] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:40:07.641  INFO 9812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'mybatis-org.mybatis.spring.boot.autoconfigure.MybatisProperties' of type [org.mybatis.spring.boot.autoconfigure.MybatisProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:40:07.648  INFO 9812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration' of type [org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration$$EnhancerBySpringCGLIB$$36bae503] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:40:07.650  INFO 9812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:40:07.657  INFO 9812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:40:07.673  INFO 9812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:40:08.029  INFO 9812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:40:08.033  INFO 9812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:40:08.033  INFO 9812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:40:08.035  INFO 9812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [com.sun.proxy.$Proxy53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:40:08.037  INFO 9812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:40:08.037  INFO 9812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [com.sun.proxy.$Proxy54] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:40:08.038  INFO 9812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'realm' of type [com.defei.lps.realm.MyRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:40:08.041  INFO 9812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'getDefaultWebSessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:40:08.043  INFO 9812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:40:08.074  INFO 9812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:40:08.253  INFO 9812 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-08 14:40:08.261  INFO 9812 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-08 14:40:08.261  INFO 9812 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-01-08 14:40:08.335  INFO 9812 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring embedded WebApplicationContext
+2021-01-08 14:40:08.336  INFO 9812 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2015 ms
+2021-01-08 14:40:08.887  INFO 9812 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-08 14:40:08.969  INFO 9812 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-01-08 14:40:09.248  INFO 9812 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-01-08 14:40:09.303  INFO 9812 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/LPS'
+2021-01-08 14:40:09.315  INFO 9812 --- [main] com.defei.lps.LpsApplication             : Started LpsApplication in 3.321 seconds (JVM running for 4.24)
+2021-01-08 14:40:09.711  INFO 9812 --- [RMI TCP Connection(1)-192.168.0.151] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-08 14:40:09.711  INFO 9812 --- [RMI TCP Connection(1)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-01-08 14:40:09.718  INFO 9812 --- [RMI TCP Connection(1)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2021-01-08 14:40:10.155  INFO 9812 --- [RMI TCP Connection(3)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-01-08 14:40:10.266  INFO 9812 --- [RMI TCP Connection(3)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-01-08 14:40:11.030  INFO 9812 --- [http-nio-8080-exec-1] a.s.s.m.AbstractValidatingSessionManager : Enabling session validation scheduler...
+2021-01-08 14:41:44.552  INFO 19584 --- [main] com.defei.lps.LpsApplication             : Starting LpsApplication on LAPTOP-NHI9DKNL with PID 19584 (D:\install\IDEA\workSpace2\LPS\target\classes started by gaodefei in D:\install\IDEA\workSpace2\LPS)
+2021-01-08 14:41:44.555  INFO 19584 --- [main] com.defei.lps.LpsApplication             : No active profile set, falling back to default profiles: default
+2021-01-08 14:41:45.413  INFO 19584 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'shiroConfig' of type [com.defei.lps.config.ShiroConfig$$EnhancerBySpringCGLIB$$88a7eaa0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:41:45.843  INFO 19584 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'mybatis-org.mybatis.spring.boot.autoconfigure.MybatisProperties' of type [org.mybatis.spring.boot.autoconfigure.MybatisProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:41:45.849  INFO 19584 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration' of type [org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration$$EnhancerBySpringCGLIB$$9e7f6353] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:41:45.851  INFO 19584 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:41:45.857  INFO 19584 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:41:45.873  INFO 19584 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:41:46.245  INFO 19584 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:41:46.250  INFO 19584 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:41:46.250  INFO 19584 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:41:46.251  INFO 19584 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [com.sun.proxy.$Proxy53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:41:46.253  INFO 19584 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:41:46.254  INFO 19584 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [com.sun.proxy.$Proxy54] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:41:46.254  INFO 19584 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'realm' of type [com.defei.lps.realm.MyRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:41:46.257  INFO 19584 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'getDefaultWebSessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:41:46.259  INFO 19584 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:41:46.292  INFO 19584 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:41:46.470  INFO 19584 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-08 14:41:46.477  INFO 19584 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-08 14:41:46.477  INFO 19584 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-01-08 14:41:46.550  INFO 19584 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring embedded WebApplicationContext
+2021-01-08 14:41:46.550  INFO 19584 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1951 ms
+2021-01-08 14:41:47.140  INFO 19584 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-08 14:41:47.225  INFO 19584 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-01-08 14:41:47.514  INFO 19584 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-01-08 14:41:47.572  INFO 19584 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/LPS'
+2021-01-08 14:41:47.584  INFO 19584 --- [main] com.defei.lps.LpsApplication             : Started LpsApplication in 3.342 seconds (JVM running for 4.432)
+2021-01-08 14:41:47.972  INFO 19584 --- [RMI TCP Connection(1)-192.168.0.151] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-08 14:41:47.972  INFO 19584 --- [RMI TCP Connection(1)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-01-08 14:41:47.973  INFO 19584 --- [RMI TCP Connection(2)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-01-08 14:41:47.978  INFO 19584 --- [RMI TCP Connection(1)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2021-01-08 14:41:48.098  INFO 19584 --- [RMI TCP Connection(2)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-01-08 14:41:49.361  INFO 19584 --- [http-nio-8080-exec-1] a.s.s.m.AbstractValidatingSessionManager : Enabling session validation scheduler...
+2021-01-08 14:43:34.165  INFO 13116 --- [main] com.defei.lps.LpsApplication             : Starting LpsApplication on LAPTOP-NHI9DKNL with PID 13116 (D:\install\IDEA\workSpace2\LPS\target\classes started by gaodefei in D:\install\IDEA\workSpace2\LPS)
+2021-01-08 14:43:34.168  INFO 13116 --- [main] com.defei.lps.LpsApplication             : No active profile set, falling back to default profiles: default
+2021-01-08 14:43:34.987  INFO 13116 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'shiroConfig' of type [com.defei.lps.config.ShiroConfig$$EnhancerBySpringCGLIB$$2141209f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:43:35.402  INFO 13116 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'mybatis-org.mybatis.spring.boot.autoconfigure.MybatisProperties' of type [org.mybatis.spring.boot.autoconfigure.MybatisProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:43:35.408  INFO 13116 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration' of type [org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration$$EnhancerBySpringCGLIB$$37189952] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:43:35.410  INFO 13116 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:43:35.417  INFO 13116 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:43:35.433  INFO 13116 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:43:35.782  INFO 13116 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:43:35.786  INFO 13116 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:43:35.787  INFO 13116 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:43:35.788  INFO 13116 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [com.sun.proxy.$Proxy53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:43:35.790  INFO 13116 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:43:35.791  INFO 13116 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [com.sun.proxy.$Proxy54] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:43:35.791  INFO 13116 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'realm' of type [com.defei.lps.realm.MyRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:43:35.795  INFO 13116 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'getDefaultWebSessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:43:35.796  INFO 13116 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:43:35.828  INFO 13116 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:43:36.004  INFO 13116 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-08 14:43:36.011  INFO 13116 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-08 14:43:36.011  INFO 13116 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-01-08 14:43:36.088  INFO 13116 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring embedded WebApplicationContext
+2021-01-08 14:43:36.088  INFO 13116 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1877 ms
+2021-01-08 14:43:36.630  INFO 13116 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-08 14:43:36.713  INFO 13116 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-01-08 14:43:37.014  INFO 13116 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-01-08 14:43:37.077  INFO 13116 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/LPS'
+2021-01-08 14:43:37.090  INFO 13116 --- [main] com.defei.lps.LpsApplication             : Started LpsApplication in 3.241 seconds (JVM running for 4.231)
+2021-01-08 14:43:37.825  INFO 13116 --- [RMI TCP Connection(2)-192.168.0.151] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-08 14:43:37.825  INFO 13116 --- [RMI TCP Connection(2)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-01-08 14:43:37.826  INFO 13116 --- [RMI TCP Connection(3)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-01-08 14:43:37.832  INFO 13116 --- [RMI TCP Connection(2)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2021-01-08 14:43:37.939  INFO 13116 --- [RMI TCP Connection(3)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-01-08 14:44:42.422  INFO 13116 --- [http-nio-8080-exec-1] a.s.s.m.AbstractValidatingSessionManager : Enabling session validation scheduler...
+2021-01-08 14:45:45.144  INFO 14380 --- [main] com.defei.lps.LpsApplication             : Starting LpsApplication on LAPTOP-NHI9DKNL with PID 14380 (D:\install\IDEA\workSpace2\LPS\target\classes started by gaodefei in D:\install\IDEA\workSpace2\LPS)
+2021-01-08 14:45:45.146  INFO 14380 --- [main] com.defei.lps.LpsApplication             : No active profile set, falling back to default profiles: default
+2021-01-08 14:45:46.013  INFO 14380 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'shiroConfig' of type [com.defei.lps.config.ShiroConfig$$EnhancerBySpringCGLIB$$8564b0b2] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:45:46.429  INFO 14380 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'mybatis-org.mybatis.spring.boot.autoconfigure.MybatisProperties' of type [org.mybatis.spring.boot.autoconfigure.MybatisProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:45:46.435  INFO 14380 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration' of type [org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration$$EnhancerBySpringCGLIB$$9b3c2965] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:45:46.437  INFO 14380 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:45:46.444  INFO 14380 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:45:46.460  INFO 14380 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:45:46.824  INFO 14380 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:45:46.829  INFO 14380 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:45:46.830  INFO 14380 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:45:46.831  INFO 14380 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [com.sun.proxy.$Proxy53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:45:46.833  INFO 14380 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:45:46.834  INFO 14380 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [com.sun.proxy.$Proxy54] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:45:46.834  INFO 14380 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'realm' of type [com.defei.lps.realm.MyRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:45:46.838  INFO 14380 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'getDefaultWebSessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:45:46.840  INFO 14380 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:45:46.871  INFO 14380 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 14:45:47.062  INFO 14380 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-08 14:45:47.069  INFO 14380 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-08 14:45:47.070  INFO 14380 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-01-08 14:45:47.150  INFO 14380 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring embedded WebApplicationContext
+2021-01-08 14:45:47.150  INFO 14380 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1970 ms
+2021-01-08 14:45:47.701  INFO 14380 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-08 14:45:47.781  INFO 14380 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-01-08 14:45:48.053  INFO 14380 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-01-08 14:45:48.108  INFO 14380 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/LPS'
+2021-01-08 14:45:48.120  INFO 14380 --- [main] com.defei.lps.LpsApplication             : Started LpsApplication in 3.306 seconds (JVM running for 4.326)
+2021-01-08 14:45:48.578  INFO 14380 --- [RMI TCP Connection(1)-192.168.0.151] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-08 14:45:48.578  INFO 14380 --- [RMI TCP Connection(1)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-01-08 14:45:48.579  INFO 14380 --- [RMI TCP Connection(2)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-01-08 14:45:48.585  INFO 14380 --- [RMI TCP Connection(1)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2021-01-08 14:45:48.695  INFO 14380 --- [RMI TCP Connection(2)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-01-08 14:46:01.096  INFO 14380 --- [http-nio-8080-exec-1] a.s.s.m.AbstractValidatingSessionManager : Enabling session validation scheduler...
+2021-01-08 15:09:09.393  INFO 12024 --- [main] com.defei.lps.LpsApplication             : Starting LpsApplication on LAPTOP-NHI9DKNL with PID 12024 (D:\install\IDEA\workSpace2\LPS\target\classes started by gaodefei in D:\install\IDEA\workSpace2\LPS)
+2021-01-08 15:09:09.396  INFO 12024 --- [main] com.defei.lps.LpsApplication             : No active profile set, falling back to default profiles: default
+2021-01-08 15:09:10.319  INFO 12024 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'shiroConfig' of type [com.defei.lps.config.ShiroConfig$$EnhancerBySpringCGLIB$$f314201e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:09:10.750  INFO 12024 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'mybatis-plus-com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties' of type [com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:09:10.757  INFO 12024 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration' of type [com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration$$EnhancerBySpringCGLIB$$13dfb43b] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:09:10.759  INFO 12024 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:09:10.766  INFO 12024 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:09:10.783  INFO 12024 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:09:11.600  INFO 12024 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:09:11.604  INFO 12024 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:09:11.605  INFO 12024 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:09:11.607  INFO 12024 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [com.sun.proxy.$Proxy53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:09:11.610  INFO 12024 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:09:11.611  INFO 12024 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [com.sun.proxy.$Proxy54] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:09:11.612  INFO 12024 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'realm' of type [com.defei.lps.realm.MyRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:09:11.617  INFO 12024 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'getDefaultWebSessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:09:11.620  INFO 12024 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:09:11.644  INFO 12024 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:09:11.828  INFO 12024 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-08 15:09:11.835  INFO 12024 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-08 15:09:11.835  INFO 12024 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-01-08 15:09:11.920  INFO 12024 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring embedded WebApplicationContext
+2021-01-08 15:09:11.920  INFO 12024 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2482 ms
+2021-01-08 15:09:12.503  INFO 12024 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-08 15:09:12.586  INFO 12024 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-01-08 15:09:12.877  INFO 12024 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-01-08 15:09:12.933  INFO 12024 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/LPS'
+2021-01-08 15:09:12.946  INFO 12024 --- [main] com.defei.lps.LpsApplication             : Started LpsApplication in 3.849 seconds (JVM running for 4.613)
+2021-01-08 15:09:13.617  INFO 12024 --- [RMI TCP Connection(1)-192.168.0.151] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-08 15:09:13.617  INFO 12024 --- [RMI TCP Connection(1)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-01-08 15:09:13.618  INFO 12024 --- [RMI TCP Connection(2)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-01-08 15:09:13.624  INFO 12024 --- [RMI TCP Connection(1)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2021-01-08 15:09:13.730  INFO 12024 --- [RMI TCP Connection(2)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-01-08 15:15:11.053  INFO 12024 --- [http-nio-8080-exec-1] a.s.s.m.AbstractValidatingSessionManager : Enabling session validation scheduler...
+2021-01-08 15:16:18.146  INFO 13576 --- [main] com.defei.lps.LpsApplication             : Starting LpsApplication on LAPTOP-NHI9DKNL with PID 13576 (D:\install\IDEA\workSpace2\LPS\target\classes started by gaodefei in D:\install\IDEA\workSpace2\LPS)
+2021-01-08 15:16:18.149  INFO 13576 --- [main] com.defei.lps.LpsApplication             : No active profile set, falling back to default profiles: default
+2021-01-08 15:16:19.185  INFO 13576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'shiroConfig' of type [com.defei.lps.config.ShiroConfig$$EnhancerBySpringCGLIB$$5b4dc659] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:16:19.601  INFO 13576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'mybatis-plus-com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties' of type [com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:16:19.607  INFO 13576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration' of type [com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration$$EnhancerBySpringCGLIB$$7c195a76] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:16:19.609  INFO 13576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:16:19.616  INFO 13576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:16:19.631  INFO 13576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:16:20.446  INFO 13576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionFactory' of type [org.apache.ibatis.session.defaults.DefaultSqlSessionFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:16:20.450  INFO 13576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'sqlSessionTemplate' of type [org.mybatis.spring.SqlSessionTemplate] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:16:20.451  INFO 13576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:16:20.452  INFO 13576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'userMapper' of type [com.sun.proxy.$Proxy53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:16:20.454  INFO 13576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [org.mybatis.spring.mapper.MapperFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:16:20.455  INFO 13576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'permissionMapper' of type [com.sun.proxy.$Proxy54] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:16:20.455  INFO 13576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'realm' of type [com.defei.lps.realm.MyRealm] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:16:20.459  INFO 13576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'getDefaultWebSessionManager' of type [org.apache.shiro.web.session.mgt.DefaultWebSessionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:16:20.460  INFO 13576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'securityManager' of type [org.apache.shiro.web.mgt.DefaultWebSecurityManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:16:20.485  INFO 13576 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'authorizationAttributeSourceAdvisor' of type [org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-01-08 15:16:20.662  INFO 13576 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-01-08 15:16:20.670  INFO 13576 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-01-08 15:16:20.670  INFO 13576 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-01-08 15:16:20.755  INFO 13576 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring embedded WebApplicationContext
+2021-01-08 15:16:20.755  INFO 13576 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2563 ms
+2021-01-08 15:16:21.305  INFO 13576 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-01-08 15:16:21.385  INFO 13576 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-01-08 15:16:21.666  INFO 13576 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-01-08 15:16:21.722  INFO 13576 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/LPS'
+2021-01-08 15:16:21.734  INFO 13576 --- [main] com.defei.lps.LpsApplication             : Started LpsApplication in 4.002 seconds (JVM running for 4.877)
+2021-01-08 15:16:22.713  INFO 13576 --- [RMI TCP Connection(5)-192.168.0.151] o.a.c.c.C.[Tomcat].[localhost].[/LPS]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-01-08 15:16:22.713  INFO 13576 --- [RMI TCP Connection(5)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-01-08 15:16:22.715  INFO 13576 --- [RMI TCP Connection(4)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-01-08 15:16:22.721  INFO 13576 --- [RMI TCP Connection(5)-192.168.0.151] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2021-01-08 15:16:22.820  INFO 13576 --- [RMI TCP Connection(4)-192.168.0.151] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-01-08 15:18:57.104  INFO 13576 --- [http-nio-8080-exec-1] a.s.s.m.AbstractValidatingSessionManager : Enabling session validation scheduler...
+2021-01-08 16:18:57.106  INFO 13576 --- [SessionValidationThread-1] a.s.s.m.AbstractValidatingSessionManager : Validating all active sessions...
+2021-01-08 16:18:57.107  INFO 13576 --- [SessionValidationThread-1] a.s.s.m.AbstractValidatingSessionManager : Finished session validation.  No sessions were stopped.

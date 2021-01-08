@@ -1,0 +1,29 @@
+.dropdown-menu li a:hover {
+    color: #1E90FF;
+}
+
+.navbar {
+    margin: 0;
+}
+
+.dropdown-menu li {
+    margin-top: 10px;
+}
+
+.dropdown-menu {
+    padding-top: 0px;
+    padding-bottom: 10px;
+}
+
+.main {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/*--------------iframe-------------------*/
+#myframe {
+    height: 100%;
+    width: 100%;
+    border: 0;
+}

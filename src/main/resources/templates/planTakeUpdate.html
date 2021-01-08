@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<!-- 引入Thymeleaf模板、shiro标签 -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>拼拆取货计划</title>
+    <!-- 导入bootstrap样式 -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- title图标 -->
+    <link rel="icon" th:href="@{/image/favicon.ico}" type="images/x-ico"/>
+    <!-- 引用jquery -->
+    <script th:src="@{/bootstrap/js/jquery-3.1.1.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/laydate/laydate.js}"></script>
+    <script th:src="@{/js/ajaxAll.js}"></script>
+    <script th:src="@{/js/planTakeUpdate.js}"></script>
+    <style>
+        .form-inline{
+            height: 30px;
+        }
+        table{
+            white-space: nowrap;
+        }
+        table th{
+            white-space: nowrap;
+        }
+        table tbody tr:hover{
+            color: rgba(78, 84, 78, 0.82);
+        }
+        .main{
+            width: 100%;
+            height: 100%;
+            position:absolute;
+        }
+        #upside{
+            width: 100%;
+            height: 50%;
+            overflow:auto;
+        }
+        #downside{
+            width: 100%;
+            height: 50%;
+            overflow:auto;
+            background-color: #f7fafa;
+        }
+    </style>
+</head>
+<body>
+<span style="display: none" id="planNumbers">[[${planNumbers}]]</span>
+<div class="main">
+    <div id="upside">
+        <table class="table table-condensed table-bordered table-hover">
+            <thead>
+            <tr>
+                <th style="display: none">id</th>
+                <th>选择</th>
+                <th>序号</th>
+                <th>计划编号</th>
+                <th>物料编号</th>
+                <th>物料名称</th>
+                <th>供应商编号</th>
+                <th>供应商名称</th>
+                <th>收容数</th>
+                <th>数量</th>
+                <th>箱数</th>
+                <th>车型</th>
+                <th>长度(m)</th>
+                <th>体积(m³)</th>
+                <th>重量(t)</th>
+                <th>计算车高(mm)</th>
+                <th>车宽(mm)</th>
+            </tr>
+            </thead>
+            <tbody id="table_data"></tbody>
+        </table>
+    </div>
+
+    <div id="downside">
+        <div class="container-fluid">
+            <select id="select_carType" class="form-inline" onchange="chooseCarType()">
+                <option value="">请选择车型</option>
+            </select>
+            <span style="display: none" id="carType"></span>
+            高板长(mm)：<input type="text" id="input_highLength" class="form-inline" placeholder="高板长(mm)" value="0">&emsp;
+            高板高(mm)：<input type="text" id="input_highHeight" class="form-inline" placeholder="高板高(mm)" value="0">&emsp;
+            低板长(mm)：<input type="text" id="input_lowLength" class="form-inline" placeholder="低板长(mm)" value="0">&emsp;
+            低板高(mm)：<input type="text" id="input_lowHeight" class="form-inline" placeholder="低板高(mm)" value="0">&emsp;
+            车宽(mm)：<input type="text" id="input_carWidth" class="form-inline" placeholder="车宽(mm)" value="0">&emsp;
+            <br>高板总长度(<span id="totalHighLength">0</span>m)：<span id="span_highLengthTotal" class="form-inline" style="font-weight: bold"></span>&emsp;
+            低板总长度(<span id="totalLowLength">0</span>m)：<span id="span_lowLengthTotal" class="form-inline" style="font-weight: bold"></span>&emsp;
+            总体积(m³)：<span id="span_volume" class="form-inline" style="font-weight: bold"></span>&emsp;
+            总重量(t)：<span id="span_weight" class="form-inline" style="font-weight: bold"></span>&emsp;
+            <button class="btn btn-info btn-sm form-inline" type="button" onclick="planTakeAdd()">生成总取货计划 <span
+                    class="glyphicon glyphicon-edit"></span></button>
+        </div>
+        <table class="table table-condensed table-bordered table-hover">
+            <thead>
+            <tr>
+                <th style="display: none">id</th>
+                <th>序号</th>
+                <th>物料编号</th>
+                <th>物料名称</th>
+                <th>供应商编号</th>
+                <th>供应商名称</th>
+                <th>车高(mm)</th>
+                <th>车宽(mm)</th>
+                <th>收容数</th>
+                <th>箱数</th>
+                <th>数量</th>
+                <th>占位数量</th>
+                <th>层数</th>
+                <th>排数</th>
+                <th>长度(m)</th>
+                <th>体积(m³)</th>
+                <th>重量(t)</th>
+                <th>车宽摆放边</th>
+            </tr>
+            </thead>
+            <tbody id="table_data2"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 选择计划时填入取货数量的模态框 -->
+<div class="modal fade" id="chooseModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" align="center">填入取货数量或箱数</h4>
+            </div>
+            <div class="modal-body">
+                <input id="chooseModal_id" style="display: none">
+                <input id="chooseModal_sort" style="display: none">
+                <div class="form-group">
+                    <label>物料编号</label>
+                    <input class="form-control" id="chooseModal_goodCode" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>物料名称</label>
+                    <input class="form-control" id="chooseModal_goodName" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>供应商编号</label>
+                    <input class="form-control" id="chooseModal_supplierCode" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>供应商名称</label>
+                    <input class="form-control" id="chooseModal_supplierName" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>收容数</label>
+                    <input class="form-control" id="chooseModal_oneBoxCount" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>可选数量</label>
+                    <input class="form-control" id="chooseModal_unsureCount" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>取货数量</label>
+                    <input class="form-control" id="chooseModal_count">
+                </div>
+                <div class="form-group">
+                    <label>可选箱数</label>
+                    <input class="form-control" id="chooseModal_unsureBoxCount" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>取货箱数</label>
+                    <input class="form-control" id="chooseModal_boxCount">
+                </div>
+                <div class="form-group">
+                    <label>零头箱内物料个数</label>
+                    <input class="form-control" id="chooseModal_odd" disabled="disabled">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" onclick="choose()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 修改箱数的模态框 -->
+<div class="modal fade" id="updateBoxCountModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" align="center">修改箱数</h4>
+            </div>
+            <div class="modal-body">
+                <input id="updateBoxCountModal_id" style="display: none">
+                <div class="form-group">
+                    <label>箱数</label>
+                    <input class="form-control" id="updateBoxCountModal_boxCount" placeholder="填入正整数">
+                </div>
+                <div class="form-group">
+                    <label>取货数量</label>
+                    <input class="form-control" id="updateBoxCountModal_count" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>收容数</label>
+                    <input class="form-control" id="updateBoxCountModal_oneBoxCount" disabled="disabled">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" onclick="updateBoxcount()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 修改数量的模态框 -->
+<div class="modal fade" id="updateCountModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" align="center">修改数量</h4>
+            </div>
+            <div class="modal-body">
+                <input id="updateCountModal_id" style="display: none">
+                <div class="form-group">
+                    <label>取货数量</label>
+                    <input class="form-control" id="updateCountModal_count" placeholder="填入正整数">
+                </div>
+                <div class="form-group">
+                    <label>收容数</label>
+                    <input class="form-control" id="updateCountModal_oneBoxCount" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>取货箱数</label>
+                    <input class="form-control" id="updateCountModal_boxCount" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>零头箱内物料个数</label>
+                    <input class="form-control" id="updateCountModal_odd" disabled="disabled">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" onclick="updateCount()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 页面加载提示 -->
+<div id="div_loading"
+     style="display:none;z-index:9999;position:absolute;width:100%;height:100%;top:0;left:0;background:#ffffff;">
+    <img alt="加载中..." th:src="@{/image/loading.gif}"
+         style="position:absolute;left:50%;top:50%;transform: translate(-50%,-50%);">
+</div>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.ParamsMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.Params" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="paramname" property="paramname" jdbcType="VARCHAR" />
+    <result column="paramvalue" property="paramvalue" jdbcType="VARCHAR" />
+    <result column="paramtype" property="paramtype" jdbcType="VARCHAR" />
+    <result column="describes" property="describes" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, paramname, paramvalue, paramtype, describes
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from params
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from params
+    where paramname = #{paramname}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from params
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from params
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.Params" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into params
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="paramname != null" >
+        paramname,
+      </if>
+      <if test="paramvalue != null" >
+        paramvalue,
+      </if>
+      <if test="paramtype != null" >
+        paramtype,
+      </if>
+      <if test="describes != null" >
+        describes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="paramname != null" >
+        #{paramname,jdbcType=VARCHAR},
+      </if>
+      <if test="paramvalue != null" >
+        #{paramvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="paramtype != null" >
+        #{paramtype,jdbcType=VARCHAR},
+      </if>
+      <if test="describes != null" >
+        #{describes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.Params" >
+    update params
+    <set >
+      <if test="paramname != null" >
+        paramname = #{paramname,jdbcType=VARCHAR},
+      </if>
+      <if test="paramvalue != null" >
+        paramvalue = #{paramvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="paramtype != null" >
+        paramtype = #{paramtype,jdbcType=VARCHAR},
+      </if>
+      <if test="describes != null" >
+        describes = #{describes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

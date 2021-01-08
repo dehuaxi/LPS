@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!-- 引入Thymeleaf模板、shiro标签 -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>承运商信息</title>
+    <!-- 导入bootstrap样式 -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/zTree/css/zTreeStyle/zTreeStyle.css}">
+    <!-- title图标 -->
+    <link rel="icon" th:href="@{/image/favicon.ico}" type="images/x-ico"/>
+    <!-- 引用jquery -->
+    <script th:src="@{/bootstrap/js/jquery-3.1.1.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/ajaxAll.js}"></script>
+    <script th:src="@{/js/carrier.js}"></script>
+    <script type="text/javascript">
+        //定义全局变量
+        var updateData=false;
+        var deleteData=false;
+    </script>
+    <style>
+        #search-collapse input{
+            height: 30px;
+            padding-left:10px ;
+        }
+    </style>
+</head>
+<body>
+<shiro:hasPermission name="carrierUpdate">
+    <script>updateData=true</script>
+</shiro:hasPermission>
+<shiro:hasPermission name="carrierDelete">
+    <script>deleteData=true</script>
+</shiro:hasPermission>
+<!-- 面包屑导航 -->
+<ul class="breadcrumb" style="margin:0">
+    <li class="active">基础数据</li>
+    <li class="active">承运商信息</li>
+</ul>
+<!-- 搜索导航 -->
+<div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search-collapse">
+        筛选条件<span class="glyphicon glyphicon-chevron-down"></span>
+    </button>
+</div>
+<div class="collapse navbar-collapse" id="search-collapse">
+    <input type="text" placeholder="名称" class="form-inline" id="input_carrierName"/>
+    <input type="text" placeholder="编号" class="form-inline" id="input_carrierNumber"/>
+    <button class="btn btn-primary btn-sm form-inline" type="button" onclick="findByLimit(1)">查询<span
+            class="glyphicon glyphicon-search"></span></button>
+    <shiro:hasPermission name="carrierAdd">
+    <button class="btn btn-info btn-sm form-inline" type="button" onclick="toAdd()">添加<span
+            class="glyphicon glyphicon-plus"></span></button>
+    </shiro:hasPermission>
+</div>
+
+<table class="table table-condensed table-bordered table-hover">
+    <thead>
+    <tr>
+        <th style="display:none">id</th>
+        <th>名称</th>
+        <th>编号</th>
+        <th>联系人</th>
+        <th>电话</th>
+        <th>地址</th>
+        <th shiro:hasAnyPermissions="carrierUpdate,carrierDelete">操作</th>
+    </tr>
+    </thead>
+    <tbody id="table_data"></tbody>
+</table>
+
+<!-- 添加模态框 -->
+<div class="modal fade" id="addModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 align="center">添加数据</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input class="form-control" type="text" id="add_carrierName" placeholder="名称">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="add_carrierNumber" placeholder="编号">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="add_contact" placeholder="联系人">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="add_phone" placeholder="电话">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" rows="2" id="add_address" placeholder="地址"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="add()">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 修改模态框 -->
+<div class="modal fade" id="updateModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 align="center">修改数据</h4>
+            </div>
+            <div class="modal-body">
+                <input class="form-control" type="text" id="update_id" style="display:none">
+                <div class="form-group">
+                    <input class="form-control" type="text" id="update_carrierName" disabled>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="update_carrierNumber" disabled>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="update_contact" placeholder="联系人">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="update_phone" placeholder="电话">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" rows="2" id="update_address" placeholder="地址"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="update()">修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 底部分页 -->
+<div id="div_page">
+    <div class="col-md-6 col-sm-6 col-xs-12" style="text-align:center">
+        <p>
+            第<span id="span_currentPage"></span>页/共<span id="span_totalPage"></span>页,每页30条记录&emsp;
+            共<span id="span_dataCount"></span>条数据&emsp;
+            跳转到<input type="text" id="input_goPage" style="width:30px"/>页
+            <button class="btn btn-xs" type="button" onclick="goPage()">GO</button>
+        </p>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12" style="text-align:center">
+        <ul class="pagination" style="margin:0;padding:0;">
+            <li><a href="#" onclick="indexPage()">首页</a></li>
+            <li><a href="#" onclick="previousPage()">上一页</a></li>
+            <li id="li1"><a href="#" id="a1" onclick="pageButton(this)"></a></li>
+            <li id="li2"><a href="#" id="a2" onclick="pageButton(this)"></a></li>
+            <li id="li3"><a href="#" id="a3" onclick="pageButton(this)"></a></li>
+            <li><a href="#" onclick="nextPage()">下一页</a></li>
+            <li><a href="#" onclick="lastPage()">尾页</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- 页面加载提示 -->
+<div id="div_loading"
+     style="display:none;z-index:9999;position:absolute;width:100%;height:100%;top:0;left:0;background:#ffffff;">
+    <img alt="加载中..." th:src="@{/image/loading.gif}"
+         style="position:absolute;left:50%;top:50%;transform: translate(-50%,-50%);">
+</div>
+
+</body>
+</html>

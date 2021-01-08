@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.WarehouseMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.Warehouse" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="warehousename" property="warehousename" jdbcType="VARCHAR" />
+    <result column="warehousenumber" property="warehousenumber" jdbcType="VARCHAR" />
+    <result column="describes" property="describes" jdbcType="VARCHAR" />
+    <result column="contact" property="contact" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="district" property="district" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+    <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, warehousename, warehousenumber, describes, contact, phone, province, city, district, 
+    address, longitude, latitude
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from warehouse where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--根据线路id查询-->
+  <select id="selectByRouteid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select w.id, w.warehousename, w.warehousenumber, w.describes, w.contact, w.phone, w.province, w.city, w.district,
+    w.address, w.longitude, w.latitude from warehouse w ,route_warehouse rw
+    where rw.routeid=#{routeid}
+    and rw.warehouseid=w.id
+  </select>
+  <select id="selectByWarehousename" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from warehouse where warehousename = #{warehousename}
+  </select>
+  <select id="selectByWarehousenumber" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from warehouse where warehousenumber = #{warehousenumber}
+  </select>
+  <!-- 条件分页查询 -->
+  <select id="selectLimitByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select <include refid="Base_Column_List"/> from warehouse
+    <trim prefix="where" prefixOverrides="and">
+      <if test="warehousename!=null and warehousename!=''">
+        and warehousename like '%${warehousename}%'
+      </if>
+      <if test="warehousenumber!=null and warehousenumber!=''">
+        and warehousenumber like '%${warehousenumber}%'
+      </if>
+      <if test="province!=null and province!=''">
+        and province =#{province}
+      </if>
+      <if test="city!=null and city!=''">
+        and city =#{city}
+      </if>
+      <if test="district!=null and district!=''">
+        and district =#{district}
+      </if>
+    </trim>
+    limit #{index},30
+  </select>
+  <!-- 条件分页查询总数量 -->
+  <select id="selectCountByCondition" resultType="java.lang.Integer">
+    select count(*) from warehouse
+    <trim prefix="where" prefixOverrides="and">
+      <if test="warehousename!=null and warehousename!=''">
+        and warehousename like '%${warehousename}%'
+      </if>
+      <if test="warehousenumber!=null and warehousenumber!=''">
+        and warehousenumber like '%${warehousenumber}%'
+      </if>
+      <if test="province!=null and province!=''">
+        and province =#{province}
+      </if>
+      <if test="city!=null and city!=''">
+        and city =#{city}
+      </if>
+      <if test="district!=null and district!=''">
+        and district =#{district}
+      </if>
+    </trim>
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from warehouse
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from warehouse
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.Warehouse" >
+    insert into warehouse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="warehousename != null" >
+        warehousename,
+      </if>
+      <if test="warehousenumber != null" >
+        warehousenumber,
+      </if>
+      <if test="describes != null" >
+        describes,
+      </if>
+      <if test="contact != null" >
+        contact,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="district != null" >
+        district,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="warehousename != null" >
+        #{warehousename,jdbcType=VARCHAR},
+      </if>
+      <if test="warehousenumber != null" >
+        #{warehousenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="describes != null" >
+        #{describes,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.Warehouse" >
+    update warehouse
+    <set >
+      <if test="warehousename != null" >
+        warehousename = #{warehousename,jdbcType=VARCHAR},
+      </if>
+      <if test="warehousenumber != null" >
+        warehousenumber = #{warehousenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="describes != null" >
+        describes = #{describes,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

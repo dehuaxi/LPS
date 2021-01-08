@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.GeelyBillCacheMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.GeelyBillCache" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="billnumber" property="billnumber" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="urgent" property="urgent" jdbcType="VARCHAR" />
+    <result column="uploadtime" property="uploadtime" jdbcType="TIMESTAMP" />
+    <association column="goodid" property="good" select="com.defei.lps.dao.GoodMapper.selectByPrimaryKey" javaType="com.defei.lps.entity.Good"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, billnumber, goodid, count, batch, urgent, uploadtime
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from geelybillcache where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--根据物料id、单号查询-->
+  <select id="selectByGoodidAndBillnumber" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" /> from geelybillcache
+    where goodid = #{goodid,jdbcType=INTEGER}
+    and billnumber=#{billnumber}
+  </select>
+  <!-- 条件分页查询 -->
+  <select id="selectLimitByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select b.id, b.billnumber, b.goodid, b.count, b.batch,b.urgent, b.uploadtime
+    from geelybillcache b,good g,supplier s,route r
+    where b.goodid=g.id and g.supplierid=s.id and s.routeid=r.id
+    <if test="goodcode!=null and goodcode!=''">
+      and g.goodcode like '%${goodcode}%'
+    </if>
+    <if test="goodname!=null and goodname!=''">
+      and g.goodname like '%${goodname}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="billnumber!=null and billnumber!=''">
+      and b.billnumber like '%${billnumber}%'
+    </if>
+    <if test="urgent!=null and urgent!=''">
+      and b.urgent =#{urgent}
+    </if>
+    <if test="routeid!=0">
+      and s.routeid = #{routeid}
+    </if>
+    <if test="factoryid!=0">
+      and r.factoryid = #{factoryid}
+    </if>
+    <if test="uploaddate!=null and uploaddate!=''">
+      and to_days(b.uploadtime) = to_days(#{uploaddate,jdbcType=VARCHAR})
+    </if>
+    order by b.uploadtime desc,b.billnumber limit #{index},30
+  </select>
+  <!-- 条件分页查询总数量 -->
+  <select id="selectCountByCondition" resultType="java.lang.Integer">
+    select count(*) from (
+    select b.id, b.billnumber, b.goodid, b.count, b.batch,b.urgent, b.uploadtime
+    from geelybillcache b,good g,supplier s,route r
+    where b.goodid=g.id and g.supplierid=s.id and s.routeid=r.id
+    <if test="goodcode!=null and goodcode!=''">
+      and g.goodcode like '%${goodcode}%'
+    </if>
+    <if test="goodname!=null and goodname!=''">
+      and g.goodname like '%${goodname}%'
+    </if>
+    <if test="suppliercode!=null and suppliercode!=''">
+      and s.suppliercode like '%${suppliercode}%'
+    </if>
+    <if test="suppliername!=null and suppliername!=''">
+      and s.suppliername like '%${suppliername}%'
+    </if>
+    <if test="billnumber!=null and billnumber!=''">
+      and b.billnumber like '%${billnumber}%'
+    </if>
+    <if test="urgent!=null and urgent!=''">
+      and b.urgent =#{urgent}
+    </if>
+    <if test="routeid!=0">
+      and s.routeid = #{routeid}
+    </if>
+    <if test="factoryid!=0">
+      and r.factoryid = #{factoryid}
+    </if>
+    <if test="uploaddate!=null and uploaddate!=''">
+      and to_days(b.uploadtime) = to_days(#{uploaddate,jdbcType=VARCHAR})
+    </if>
+    order by b.uploadtime desc,b.billnumber
+    ) as a
+  </select>
+  <!--根据PD单号查询-->
+  <select id="selectByBillnumber" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" /> from geelybillcache
+    where billnumber = #{billnumber}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from geelybillcache
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.GeelyBillCache" >
+    insert into geelybillcache
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="billnumber != null" >
+        billnumber,
+      </if>
+      <if test="good != null" >
+        goodid,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="batch != null" >
+        batch,
+      </if>
+      <if test="urgent != null" >
+        urgent,
+      </if>
+      <if test="uploadtime != null" >
+        uploadtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="billnumber != null" >
+        #{billnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="good != null" >
+        #{good.id},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="batch != null" >
+        #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="urgent != null" >
+        #{urgent,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadtime != null" >
+        #{uploadtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!--批量插入-->
+  <insert id="insertBatch">
+    insert into geelybillcache (billnumber, goodid, count,batch, urgent, uploadtime) values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.billnumber},#{item.good.id},#{item.count},#{item.batch},
+      #{item.urgent},#{item.uploadtime})
+    </foreach>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.GeelyBillCache" >
+    update geelybillcache
+    <set >
+      <if test="billnumber != null" >
+        billnumber = #{billnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="good != null" >
+        goodid = #{good.id},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="batch != null" >
+        batch = #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="urgent != null" >
+        urgent = #{urgent,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadtime != null" >
+        uploadtime = #{uploadtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

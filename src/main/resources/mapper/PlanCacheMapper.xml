@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.defei.lps.dao.PlanCacheMapper" >
+  <resultMap id="BaseResultMap" type="com.defei.lps.entity.PlanCache" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+      <result column="maxcount" property="maxcount" jdbcType="INTEGER" />
+      <result column="mincount" property="mincount" jdbcType="INTEGER" />
+      <result column="takecount" property="takecount" jdbcType="INTEGER" />
+      <result column="surecount" property="surecount" jdbcType="INTEGER" />
+      <result column="receivecount" property="receivecount" jdbcType="INTEGER" />
+    <result column="boxcount" property="boxcount" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+      <result column="receivedate" property="receivedate" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+      <result column="urgent" property="urgent" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <association column="goodid" property="good" select="com.defei.lps.dao.GoodMapper.selectByPrimaryKey" javaType="com.defei.lps.entity.Good"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goodid, count,maxcount,mincount,surecount,takecount,receivecount,boxcount, date,receivedate, state, type,urgent, remarks,createtime
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" /> from plancache where id = #{id,jdbcType=INTEGER}
+  </select>
+    <!--根据物料id、状态查询，日期升序-->
+    <select id="selectByGoodidAndState" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from plancache
+        where goodid = #{goodid,jdbcType=INTEGER}
+        and state =#{state}
+        order by date
+    </select>
+  <!--根据物料id、计划日期查询-->
+  <select id="selectByGoodidAndDate" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from plancache
+    where goodid = #{goodid,jdbcType=INTEGER}
+    and date =#{date}
+  </select>
+    <!--根据物料id查询，日期升序-->
+    <select id="selectByGoodid" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from plancache
+        where goodid = #{goodid,jdbcType=INTEGER}
+        order by date
+    </select>
+  <!--根据物料id、状态查询非传入状态的日期最大的记录-->
+  <select id="selectLatelyByGoodidAndExcludeState" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from plancache
+    where goodid = #{goodid,jdbcType=INTEGER}
+    and state != #{state}
+    order by date desc limit 0,1
+  </select>
+  <!--根据供应商编号、状态查询取货数量不等于计划数量的记录-->
+  <select id="selectUntakeBySuppliercodeAndState" resultMap="BaseResultMap">
+      select p.id, p.goodid, p.count,p.surecount,p.takecount,p.receivecount,p.boxcount,
+      p.date,p.receivedate, p.state, p.type, p.urgent,p.remarks,p.createtime
+      from plancache p,good g,supplier s
+      where p.goodid=g.id and g.supplierid=s.id
+        and s.suppliercode = #{suppliercode}
+        and state = #{state}
+        and p.count != p.takecount
+        order by s.routeid,p.goodid,p.date
+  </select>
+  <!-- 条件分页查询 -->
+  <select id="selectLimitByCondition" resultMap="BaseResultMap" >
+      select p.id, p.goodid, p.count,p.maxcount, p.mincount,p.surecount,p.takecount,p.receivecount,p.boxcount,
+      p.date,p.receivedate, p.state, p.type,p.urgent, p.remarks,p.createtime
+      from plancache p,good g,supplier s,route r
+      where p.goodid=g.id and g.supplierid=s.id and s.routeid=r.id
+      <if test="goodcode!=null and goodcode!=''">
+          and g.goodcode like '%${goodcode}%'
+      </if>
+      <if test="goodname!=null and goodname!=''">
+          and g.goodname like '%${goodname}%'
+      </if>
+      <if test="suppliercode!=null and suppliercode!=''">
+          and s.suppliercode like '%${suppliercode}%'
+      </if>
+      <if test="suppliername!=null and suppliername!=''">
+          and s.suppliername like '%${suppliername}%'
+      </if>
+      <if test="date!=null and date!=''">
+          and p.date =#{date}
+      </if>
+      <if test="state!=null and state!=''">
+          and p.state =#{state}
+      </if>
+      <if test="routeid!=0">
+          and s.routeid = #{routeid}
+      </if>
+      <if test="factoryid!=0">
+          and r.factoryid = #{factoryid}
+      </if>
+      <if test="type!=null and type!=''">
+          and p.type =#{type}
+      </if>
+      order by s.routeid,p.goodid,p.date limit #{index},30
+    </select>
+    <!-- 条件分页查询总数量 -->
+    <select id="selectCountByCondition" resultType="java.lang.Integer">
+      select count(*) from (
+        select p.id, p.goodid, p.count,p.maxcount, p.mincount,p.surecount,p.takecount,p.receivecount,p.boxcount,
+        p.date,p.receivedate, p.state, p.type,p.urgent, p.remarks,p.createtime
+        from plancache p,good g,supplier s,route r
+        where p.goodid=g.id and g.supplierid=s.id and s.routeid=r.id
+        <if test="goodcode!=null and goodcode!=''">
+            and g.goodcode like '%${goodcode}%'
+        </if>
+        <if test="goodname!=null and goodname!=''">
+            and g.goodname like '%${goodname}%'
+        </if>
+        <if test="suppliercode!=null and suppliercode!=''">
+            and s.suppliercode like '%${suppliercode}%'
+        </if>
+        <if test="suppliername!=null and suppliername!=''">
+            and s.suppliername like '%${suppliername}%'
+        </if>
+        <if test="date!=null and date!=''">
+            and p.date =#{date}
+        </if>
+        <if test="state!=null and state!=''">
+            and p.state =#{state}
+        </if>
+        <if test="routeid!=0">
+            and s.routeid = #{routeid}
+        </if>
+        <if test="factoryid!=0">
+            and r.factoryid = #{factoryid}
+        </if>
+        <if test="type!=null and type!=''">
+            and p.type =#{type}
+        </if>
+        order by s.routeid,p.goodid,p.date
+      ) as a
+    </select>
+    <!-- 条件查询 -->
+    <select id="selectByCondition" resultMap="BaseResultMap" >
+        select p.id, p.goodid, p.count,p.maxcount, p.mincount,p.surecount,p.takecount,p.receivecount,p.boxcount,
+        p.date,p.receivedate, p.state, p.type,p.urgent, p.remarks,p.createtime
+        from plancache p,good g,supplier s,route r
+        where p.goodid=g.id and g.supplierid=s.id and s.routeid=r.id
+        <if test="goodcode!=null and goodcode!=''">
+            and g.goodcode like '%${goodcode}%'
+        </if>
+        <if test="goodname!=null and goodname!=''">
+            and g.goodname like '%${goodname}%'
+        </if>
+        <if test="suppliercode!=null and suppliercode!=''">
+            and s.suppliercode like '%${suppliercode}%'
+        </if>
+        <if test="suppliername!=null and suppliername!=''">
+            and s.suppliername like '%${suppliername}%'
+        </if>
+        <if test="date!=null and date!=''">
+            and p.date =#{date}
+        </if>
+        <if test="state!=null and state!=''">
+            and p.state =#{state}
+        </if>
+        <if test="routeid!=0">
+            and s.routeid = #{routeid}
+        </if>
+        <if test="factoryid!=0">
+            and r.factoryid = #{factoryid}
+        </if>
+        <if test="type!=null and type!=''">
+            and p.type =#{type}
+        </if>
+        order by s.routeid,p.goodid,p.date
+    </select>
+    <!--根据物料集合、状态查询最早日期的记录-->
+    <select id="selectEarlyByGoodidsAndState" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from plancache
+        where state = #{state} and
+        find_in_set(goodid, #{goodList})
+        order by date limit 0,1
+    </select>
+    <!--根据物料id、状态、发货日期查询小于该日期的记录,日期升序-->
+    <select id="selectLessDateByGoodidAndState" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from plancache
+        where goodid=#{goodid}
+        <if test="state!=null and state!=''">
+            and state = #{state}
+        </if>
+        <if test="date!=null and date!=''">
+            and date &lt; #{date}
+        </if>
+        order by date
+    </select>
+    <!--根据物料id、状态、日期查询小于该日期的非传入状态的记录,日期升序-->
+    <select id="selectLessDateByGoodidAndExcludeState" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from plancache
+        where goodid=#{goodid}
+        <if test="state!=null and state!=''">
+            and state != #{state}
+        </if>
+        <if test="date!=null and date!=''">
+            and date &lt; #{date}
+        </if>
+        order by date
+    </select>
+    <!--根据物料id、状态、起始日期(包含)，查询到货日期大于起始取货日期的所有非传入状态得记录,到货日期升序-->
+    <select id="selectGreaterReceiveateByGoodidAndExcludeState" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from plancache
+        where goodid=#{goodid}
+        <if test="state!=null and state!=''">
+            and state != #{state}
+        </if>
+        <if test="startdate!=null and startdate!=''">
+            and receivedate &gt;= #{startdate}
+        </if>
+        order by receivedate
+    </select>
+    <!--根据物料id、到货日期查询-->
+    <select id="selectByGoodidAndReceivedate" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from plancache
+        where goodid=#{goodid}
+        and receivedate = #{receivedate}
+    </select>
+    <!--根据物料id、到货日期、状态查询非传入状态的记录-->
+    <select id="selectByGoodidAndReceivedateAndExcludeState" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from plancache
+        where goodid=#{goodid}
+        and receivedate = #{receivedate}
+        and state!=#{state}
+    </select>
+    <!--根据物料id、发货日期、到货日期查询-->
+    <select id="selectByGoodidAndDateAndReceivedate" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from plancache
+        where goodid=#{goodid}
+        and receivedate = #{receivedate}
+        and date=#{date}
+    </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from plancache
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <!--根据物料id、状态删除-->
+  <delete id="deleteByGoodidAndState">
+    delete from plancache
+    where goodid = #{goodid,jdbcType=INTEGER}
+    and state = #{state}
+  </delete>
+  <!--根据物料id、日期删除日期之后的记录-->
+  <delete id="deleteByGoodidAndStartdate">
+    delete from plancache
+    where goodid = #{goodid,jdbcType=INTEGER}
+    and date &gt; #{date}
+  </delete>
+    <!--根据物料id、日期删除记录-->
+    <delete id="deleteByGoodidAndDate">
+    delete from plancache
+    where goodid = #{goodid,jdbcType=INTEGER}
+    and date = #{date}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.defei.lps.entity.PlanCache" >
+    insert into plancache
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="good != null" >
+        goodid,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+        <if test="maxcount != null" >
+            maxcount,
+        </if>
+        <if test="mincount != null" >
+            mincount,
+        </if>
+        <if test="takecount != null" >
+            takecount,
+        </if>
+        <if test="surecount != null" >
+            surecount,
+        </if>
+        <if test="receivecount != null" >
+            receivecount,
+        </if>
+        <if test="boxcount != null" >
+            boxcount,
+        </if>
+      <if test="date != null" >
+        date,
+      </if>
+        <if test="receivedate != null" >
+            receivedate,
+        </if>
+      <if test="state != null" >
+        state,
+      </if>
+        <if test="type != null" >
+            type,
+        </if>
+        <if test="urgent != null" >
+            urgent,
+        </if>
+        <if test="remarks != null" >
+            remarks,
+        </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="good != null" >
+        #{good.id},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+        <if test="maxcount != null" >
+            #{maxcount,jdbcType=INTEGER},
+        </if>
+        <if test="mincount != null" >
+            #{mincount,jdbcType=INTEGER},
+        </if>
+        <if test="takecount != null" >
+            #{takecount,jdbcType=INTEGER},
+        </if>
+        <if test="surecount != null" >
+            #{surecount,jdbcType=INTEGER},
+        </if>
+        <if test="receivecount != null" >
+            #{receivecount,jdbcType=INTEGER},
+        </if>
+        <if test="boxcount != null" >
+            #{boxcount,jdbcType=INTEGER},
+        </if>
+      <if test="date != null" >
+        #{date,jdbcType=VARCHAR},
+      </if>
+        <if test="receivedate != null" >
+            #{receivedate,jdbcType=VARCHAR},
+        </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+        <if test="type != null" >
+            #{type},
+        </if>
+        <if test="urgent != null" >
+            #{urgent},
+        </if>
+        <if test="remarks != null" >
+            #{remarks},
+        </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!--批量插入-->
+  <insert id="insertBatch">
+    insert into plancache (goodid, count,maxcount,mincount,takecount,receivecount,boxcount,
+    date,receivedate, state, type, urgent,remarks,createtime) values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.good.id},#{item.count},#{item.maxcount},#{item.mincount},#{item.takecount},#{item.receivecount},
+      #{item.boxcount},#{item.date},#{item.receivedate},#{item.state},
+      #{item.type},#{item.urgent},#{item.remarks},#{item.createtime})
+    </foreach>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.defei.lps.entity.PlanCache" >
+    update plancache
+    <set >
+      <if test="good != null" >
+        goodid = #{good.id},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+        <if test="maxcount != null" >
+            maxcount = #{maxcount,jdbcType=INTEGER},
+        </if>
+        <if test="mincount != null" >
+            mincount = #{mincount,jdbcType=INTEGER},
+        </if>
+        <if test="takecount != null" >
+            takecount = #{takecount,jdbcType=INTEGER},
+        </if>
+        <if test="surecount != null" >
+            surecount = #{surecount,jdbcType=INTEGER},
+        </if>
+        <if test="receivecount != null" >
+            receivecount = #{receivecount,jdbcType=INTEGER},
+        </if>
+        <if test="boxcount != null" >
+            boxcount = #{boxcount,jdbcType=INTEGER},
+        </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=VARCHAR},
+      </if>
+        <if test="receivedate != null" >
+            receivedate = #{receivedate,jdbcType=VARCHAR},
+        </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+        <if test="type != null" >
+            type = #{type,jdbcType=VARCHAR},
+        </if>
+        <if test="urgent != null" >
+            urgent = #{urgent,jdbcType=VARCHAR},
+        </if>
+        <if test="remarks != null" >
+            remarks = #{remarks,jdbcType=VARCHAR},
+        </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>
