@@ -47,7 +47,7 @@ public class ShortageController {
     }
 
     //查询当天到最大日期的日期集合
-    @RequestMapping(value = "shortageAddUpload", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "shortageDateList", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public Result shortageDateList() {
         return shortageService.shortageDateList();
