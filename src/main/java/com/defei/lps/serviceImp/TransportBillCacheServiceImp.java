@@ -37,6 +37,8 @@ public class TransportBillCacheServiceImp implements TransportBillCacheService {
     private WarehouseMapper warehouseMapper;
     @Autowired
     private TransportBillRecordMapper transportBillRecordMapper;
+    @Autowired
+    private PlancacheGeelybillcacheMapper plancacheGeelybillcacheMapper;
 
     /**
      * 取货计划绑定吉利单号页面，生成运输单
@@ -53,7 +55,7 @@ public class TransportBillCacheServiceImp implements TransportBillCacheService {
      * @param carrierName 承运商名称
      * @param money 自定义运输费
      * @param remarks 备注
-     * @param geelyRealInfo PD单以及实收数据，格式：goodid,吉利PD单号,实收数量;goodid,吉利PD单号,实收数量;...
+     * @param geelyRealInfo PD单以及实收数据，格式：goodid,吉利PD单号,批次,实收数量;goodid,吉利PD单号,批次,实收数量;...
      * @return
      */
     @Override
@@ -95,6 +97,7 @@ public class TransportBillCacheServiceImp implements TransportBillCacheService {
             //系统根据设置好的自动计算运费
 
         }
+        //获取新的在途运输单集合
         for(String info:pdList){
             //PD单号
             String geelyBillNumber=info.split(",")[1];
@@ -106,27 +109,32 @@ public class TransportBillCacheServiceImp implements TransportBillCacheService {
             if(!goodId.matches("^[1-9]{1}[0-9]{0,10}$")){
                 return ResultUtil.error(1,"吉利单据"+geelyBillNumber+"的物料信息参数缺失，无法生成运输单");
             }
-            String realCount=info.split(",")[2];
+            //实际运输数量
+            String realCount=info.split(",")[3];
             if(!realCount.matches("^[1-9]{1}[0-9]{0,10}$")){
                 return ResultUtil.error(1,"吉利单据"+geelyBillNumber+"的实收数没填，无法生成运输单");
             }
-            TransportBillCache transportBillCache=new TransportBillCache();
-            //运输单号就为取货计划编号
-            transportBillCache.setBillnumber(planNumber);
             Good good=goodMapper.selectByPrimaryKey(Integer.parseInt(goodId));
             if(good==null){
                 transportBillCacheList=null;
                 return ResultUtil.error(1,"吉利单据"+geelyBillNumber+"中实收为"+realCount+"的物料在系统中不存在");
             }
-            transportBillCache.setGood(good);
-            transportBillCache.setGeelybillnumber(info.split(",")[1]);
-            GeelyBillCache geelyBillCache=geelyBillCacheMapper.selectByGoodidAndBillnumber(Integer.parseInt(goodId),geelyBillNumber);
+            //批次
+            String batch=info.split(",")[2];
+            //根据物料id、PD单号、批次查询
+            GeelyBillCache geelyBillCache=geelyBillCacheMapper.selectByGoodidAndBillnumberAndBatch(Integer.parseInt(goodId),geelyBillNumber,batch);
             if(geelyBillCache==null){
                 transportBillCacheList=null;
                 return ResultUtil.error(1,"吉利单据"+geelyBillNumber+"在系统中不存在");
             }
+            //新增在途运输单
+            TransportBillCache transportBillCache=new TransportBillCache();
+            //运输单号就为取货计划编号
+            transportBillCache.setBillnumber(planNumber);
+            transportBillCache.setGood(good);
+            transportBillCache.setGeelybillnumber(geelyBillNumber);
             transportBillCache.setGeelycount(geelyBillCache.getCount());
-            transportBillCache.setBatch(geelyBillCache.getBatch());
+            transportBillCache.setBatch(batch);
             transportBillCache.setCount(Integer.parseInt(realCount));
             //计算箱数
             int boxCount=0;
@@ -159,18 +167,26 @@ public class TransportBillCacheServiceImp implements TransportBillCacheService {
         }
         //批量添加运输单记录
         transportBillCacheMapper.insertBatch(transportBillCacheList);
-        //添加取货计划完成记录、删除取货计划记录、修改缺件计划的取货数量。根据goodid分组求取货数量的和.
+        //添加取货计划完成记录、删除取货计划记录、修改缺件计划的取货数量。根据goodid分组求取货数量的和
         for(PlanTake planTake:planTakeList){
             //根据物料id查询上传的PD单的实收数量是多少
             int realCount=0;
+            List<GeelyBillCache> geelyBillCaches=new ArrayList<>();
             for(String info:pdList){
                 if(info.split(",")[0].equals(String.valueOf(planTake.getGood().getId()))){
                     realCount+=Integer.parseInt(info.split(",")[2]);
+                    //根据物料id获取在途吉利单据记录
+                    GeelyBillCache geelyBillCache=geelyBillCacheMapper.selectByGoodidAndBillnumberAndBatch(Integer.parseInt(info.split(",")[0]),info.split(",")[1],info.split(",")[2]);
+                    if(geelyBillCache!=null){
+                        geelyBillCaches.add(geelyBillCache);
+                    }
                 }
             }
             //获取该物料对应的取货计划，看是1条还是多条。修改取货计划的实收数量
             List<PlanTake> planTakeList1=planTakeMapper.selectByPlannumberAndGoodid(planNumber,planTake.getGood().getId());
             if(!planTakeList1.isEmpty()){
+                //取货计划对应的缺件计划的id
+                int planCacheId=0;
                 int lastCount=realCount;
                 //修改取货计划的实收数量。然后把这些取货计划删掉，保存为取货计划完成记录
                 for(PlanTake planTake1:planTakeList1){
@@ -214,13 +230,33 @@ public class TransportBillCacheServiceImp implements TransportBillCacheService {
                     planTakeRecordMapper.insertSelective(planTakeRecord);
                     //3.删除取货计划
                     planTakeMapper.deleteByPrimaryKey(planTake1.getId());
+                    //4.修改取货计划对应的缺件计划的取货数量，如果该缺件计划除了当前的取货计划外没有对应的其他取货计划，那么还要改缺件计划的状态，从未取货改为在途
+                    PlanCache planCache=planCacheMapper.selectByPrimaryKey(planTake1.getPlancacheid());
+                    if(planCache!=null){
+                        //修改缺件计划的取货数量
+                        planCache.setTakecount(planCache.getTakecount()+currentRealCount);
+                        //看当前缺件计划是由还有对应的取货计划
+                        List<PlanTake> planTakeList2=planTakeMapper.selectByPlancacheid(planTake1.getPlancacheid());
+                        if(planTakeList2.isEmpty()){
+                            //需要修改缺件计划的在途
+                            planCache.setState("在途");
+                        }
+                        planTakeList2=null;
+                        planCacheMapper.updateByPrimaryKeySelective(planCache);
+                    }
+                    planCacheId=planTake1.getPlancacheid();
                 }
-            }
-            //修改该物料对应的缺件计划的取货数量
-            PlanCache planCache=planCacheMapper.selectByGoodidAndDate(planTake.getGood().getId(),planTake.getDate().substring(0,10));
-            if(planCache!=null){
-                planCache.setTakecount(planCache.getTakecount()+realCount);
-                planCacheMapper.updateByPrimaryKeySelective(planCache);
+                //5.添加缺件计划于在途吉利单据记录的绑定记录
+                for(GeelyBillCache geelyBillCache:geelyBillCaches){
+                    PlancacheGeelybillcache plancacheGeelybillcache=plancacheGeelybillcacheMapper.selectByPlancacheidAndGeelybillcacheid(planCacheId,geelyBillCache.getId());
+                    if(plancacheGeelybillcache==null){
+                        PlancacheGeelybillcache plancacheGeelybillcache1=new PlancacheGeelybillcache();
+                        plancacheGeelybillcache1.setPlancacheid(planCacheId);
+                        plancacheGeelybillcache1.setGeelybillcacheid(geelyBillCache.getId());
+                        plancacheGeelybillcache1.setReturnstate("否");
+                        plancacheGeelybillcacheMapper.insert(plancacheGeelybillcache1);
+                    }
+                }
             }
         }
         //返回运输单号

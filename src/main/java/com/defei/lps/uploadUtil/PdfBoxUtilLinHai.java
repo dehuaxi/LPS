@@ -53,6 +53,8 @@ public class PdfBoxUtilLinHai {
      */
     public static List<GeelyBillCache> getContext(MultipartFile file, Supplier supplier, Factory factory){
         InputStream is =null;
+        //定义PDF对象
+        PDDocument document =null;
         //定义文件输入流
         try {
             is = file.getInputStream();
@@ -63,7 +65,7 @@ public class PdfBoxUtilLinHai {
             //结束提取页
             int endPage = Integer.MAX_VALUE;
             //定义PDF对象
-            PDDocument document =PDDocument.load(is);
+            document =PDDocument.load(is);
             if (document != null) {
                 //定义一个PDFTextStripper对象,PDF文本内容剥离对象
                 PDFTextStripper pts = null;
@@ -206,24 +208,11 @@ public class PdfBoxUtilLinHai {
                                         message="工厂("+factory.getFactoryname()+")中没有物料编号("+goodCode+")供应商编号("+supplier.getSuppliercode()+")的物料信息";
                                         list=null;
                                         return list;
-                                    }else /*if(good.getOneboxcount()!=oneBoxCount){
-                                        message="物料编号("+goodCode+")供应商编号("+supplier.getSuppliercode()+")的物料的收容数和传入的不一致";
-                                        list=null;
-                                        return list;
-                                    }else */{
-                                        /*//验证是否上传过
-                                        GeelyBillCache geelyBillCache =pdfBoxUtil.geelyBillCacheMapper.selectByGoodidAndBillnumber(good.getId(),billNumber);
-                                        if(geelyBillCache !=null){
-                                            message="PD单"+billNumber+"中的物料编号"+goodCode+"的记录已经上传过";
-                                            list=null;
-                                            return list;
-                                        }else {
-
-                                        }*/
+                                    }else {
                                         //验证是否已经完成了
                                         GeelyBillRecord geelyBillRecord =pdfBoxUtil.geelyBillRecordMapper.selectByGoodidAndBillnumber(good.getId(),billNumber);
                                         if(geelyBillRecord !=null){
-                                            message="PD单"+billNumber+"中的物料编号"+goodCode+"的记录已经送到回执了";
+                                            message="PD单"+billNumber+"中的物料编号"+goodCode+"的记录已经送到工厂了且回执了";
                                             list=null;
                                             return list;
                                         }else {
@@ -260,6 +249,15 @@ public class PdfBoxUtilLinHai {
             message="读取文件失败,流转化失败";
             return null;
         }finally {
+            if(document!=null){
+                try {
+                    document.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    message="读取文件失败,关闭PDF Document失败";
+                    return null;
+                }
+            }
             if(is!=null){
                 try {
                     is.close();
@@ -279,6 +277,8 @@ public class PdfBoxUtilLinHai {
      */
     public static String getSupplierCode(MultipartFile file){
         InputStream is =null;
+        //定义PDF对象
+        PDDocument document =null;
         //定义文件输入流
         try {
             is = file.getInputStream();
@@ -289,7 +289,7 @@ public class PdfBoxUtilLinHai {
             //结束提取页
             int endPage = Integer.MAX_VALUE;
             //定义PDF对象
-            PDDocument document =PDDocument.load(is);
+            document =PDDocument.load(is);
             if (document != null) {
                 //定义一个PDFTextStripper对象,PDF文本内容剥离对象
                 PDFTextStripper pts = null;
@@ -339,6 +339,15 @@ public class PdfBoxUtilLinHai {
             message="读取文件失败,流转化失败";
             return null;
         }finally {
+            if(document!=null){
+                try {
+                    document.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    message="读取文件失败,关闭PDF Document失败";
+                    return null;
+                }
+            }
             if(is!=null){
                 try {
                     is.close();

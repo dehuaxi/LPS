@@ -412,8 +412,9 @@ function transportBillAdd(){
     $("#table_data2 tr").each(function (){
         var goodid=$(this).find("td:eq(0)").text();
         var geelyBillNumber=$(this).find("td:eq(1)").text();
+        var batch=$(this).find("td:eq(7)").text();
         var realCount=$(this).find("td:eq(8)").text();
-        infos+=";"+goodid+","+geelyBillNumber+","+realCount;
+        infos+=";"+goodid+","+geelyBillNumber+","+batch+","+realCount;
     })
     var str=/^([京津晋冀蒙辽吉黑沪苏浙皖闽赣鲁豫鄂湘粤桂琼渝川贵云藏陕甘青宁新][ABCDEFGHJKLMNPQRSTUVWXY][1-9DF][1-9ABCDEFGHJKLMNPQRSTUVWXYZ]\d{3}[1-9DF]|[京津晋冀蒙辽吉黑沪苏浙皖闽赣鲁豫鄂湘粤桂琼渝川贵云藏陕甘青宁新][ABCDEFGHJKLMNPQRSTUVWXY][\dABCDEFGHJKLNMxPQRSTUVWXYZ]{5})$/;
     var str1=/^[1-9]{1}[0-9]{0,10}$/;

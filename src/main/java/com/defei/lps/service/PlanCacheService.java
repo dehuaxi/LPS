@@ -7,6 +7,8 @@ public interface PlanCacheService {
     public Result add(int goodId, int count, String date,String remarks);
     //修改
     public Result update(int id, int count,String remarks);
+    //修改缺件计划的最大取货数量
+    public Result planCacheUpdateMaxcount(int planCacheId, int maxCount);
     //根据id删除未确认的计划
     public Result delete(int id);
     //条件分页查询

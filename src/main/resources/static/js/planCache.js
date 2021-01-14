@@ -178,18 +178,24 @@ function findByLimit(currentPage) {
                         }else if(record[i].state=="在途"){
                             background="rgba(151,201,233,0.36)";
                         }
+                        var color="";
+                        if(record[i].urgent=="是"){
+                            color="red";
+                        }
                         var goodcode="";
                         var goodname="";
                         var suppliercode="";
                         var suppliername="";
                         var factoryname="";
                         var routename="";
+                        var transitDay="";
                         if(record[i].good!=null){
                             goodcode= record[i].good.goodcode;
                             goodname=record[i].good.goodname;
                             if(record[i].good.supplier!=null){
                                 suppliercode=record[i].good.supplier.suppliercode;
                                 suppliername=record[i].good.supplier.suppliername;
+                                transitDay=record[i].good.supplier.transitday;
                                 if(record[i].good.supplier.route!=null){
                                     routename=record[i].good.supplier.route.routename;
                                     if(record[i].good.supplier.route.factory!=null){
@@ -198,7 +204,7 @@ function findByLimit(currentPage) {
                                 }
                             }
                         }
-                        var str= "<tr style='background-color: "+background+"'><td style='display: none'>" + record[i].id + "</td>"+
+                        var str= "<tr style='background-color: "+background+";color: "+color+"'><td style='display: none'>" + record[i].id + "</td>"+
                             "<td>" + goodcode +"</td>"+
                             "<td>" + goodname +"</td>"+
                             "<td>" + suppliercode +"</td>"+
@@ -212,8 +218,10 @@ function findByLimit(currentPage) {
                             "<td>" + record[i].receivecount +"</td>"+
                             "<td>" + record[i].date +"</td>"+
                             "<td>" + record[i].receivedate +"</td>"+
+                            "<td>" + transitDay +"</td>"+
                             "<td>" + record[i].state +"</td>"+
                             "<td>" + record[i].type +"</td>"+
+                            "<td>" + record[i].urgent +"</td>"+
                             "<td>" + timeFormat(record[i].createtime) +"</td>"+
                             "<td>" + routename +"</td>"+
                             "<td>" + factoryname +"</td>"+

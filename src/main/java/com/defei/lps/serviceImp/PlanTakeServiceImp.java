@@ -494,6 +494,31 @@ public class PlanTakeServiceImp implements PlanTakeService {
     }
 
     /**
+     * 根据取货计划id删除，修改对应的缺件计划的计划数量
+     * @param id
+     * @return
+     */
+    @Override
+    public Result planTakeDelete(int id) {
+        PlanTake planTake=planTakeMapper.selectByPrimaryKey(id);
+        if(planTake==null){
+            return ResultUtil.error(1,"取货计划不存在");
+        }
+        //获取并修改缺件计划的计划数量
+        PlanCache planCache=planCacheMapper.selectByPrimaryKey(planTake.getPlancacheid());
+        if(planCache!=null){
+            if((planCache.getSurecount()-planTake.getCount())==0){
+                planCache.setState("未确认");
+            }
+            planCache.setSurecount(planCache.getSurecount()-planTake.getCount());
+            planCacheMapper.updateByPrimaryKeySelective(planCache);
+        }
+        //删除取货计划记录
+        planTakeMapper.deleteByPrimaryKey(id);
+        return ResultUtil.success();
+    }
+
+    /**
      * 下载
      * @param planNumber
      * @param supplierCode

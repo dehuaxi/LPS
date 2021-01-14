@@ -42,6 +42,14 @@ public class PlanTakeController {
         return planTakeService.findDetailByPlannumber(planNumber);
     }
 
+    //根据取货计划id删除，修改对应的缺件计划的计划数量
+    @RequestMapping(value = "planTakeDelete", produces = {"application/json;charset=UTF-8"})
+    @RequiresPermissions("planTakeDelete")
+    @ResponseBody
+    public Result planTakeDelete(int id){
+        return planTakeService.planTakeDelete(id);
+    }
+
     //下载
     @RequestMapping(value = "planTakeDownload", produces = {"text/html;charset=UTF-8"})
     @RequiresPermissions("planTakeDownload")

@@ -15,6 +15,10 @@
     <script th:src="@{/laydate/laydate.js}"></script>
     <script th:src="@{/js/ajaxAll.js}"></script>
     <script th:src="@{/js/planTake.js}"></script>
+    <script type="text/javascript">
+        //定义全局变量
+        var deleteData=false;
+    </script>
     <style>
         #search-collapse input{
             height: 30px;
@@ -35,6 +39,9 @@
     </style>
 </head>
 <body>
+<shiro:hasPermission name="planTakeDelete">
+    <script>deleteData=true</script>
+</shiro:hasPermission>
 <!-- 面包屑导航 -->
 <ul class="breadcrumb" style="margin:0">
     <li class="active">缺件计划</li>
@@ -119,6 +126,7 @@
                 <label class="form-inline">车型:<span id="detail_carType"></span>&emsp;</label>
                 <label class="form-inline">出发地:<span id="detail_startName"></span>&emsp;</label>
                 <label class="form-inline">目的地:<span id="detail_endName"></span></label>
+                <div style="overflow:scroll;">
                 <table class="table table-condensed table-hover table-bordered">
                     <thead>
                     <tr>
@@ -132,10 +140,14 @@
                         <th>体积(m³)</th>
                         <th>重量(t)</th>
                         <th>计算车高(mm)</th>
+                        <shiro:hasPermission name="planTakeDelete">
+                        <th>操作</th>
+                        </shiro:hasPermission>
                     </tr>
                     </thead>
                     <tbody id="table_detail"></tbody>
                 </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" type="button" onclick="choose()">确认</button>

@@ -38,23 +38,6 @@ public class GeelyBillCacheController {
         return geelyBillCacheService.delete(id);
     }
 
-    //--------------------------------计划PD单绑定页面--------------------------------
-    //批量添加
-    @RequestMapping(value = "billCacheAdd", produces = {"application/json;charset=UTF-8"})
-    @RequiresPermissions("billCacheAdd")
-    @ResponseBody
-    public Result upload(@RequestParam(value="file",required=false) MultipartFile[] files,String supplierCode,int factoryId) {
-        return geelyBillCacheService.upload(files,supplierCode,factoryId);
-    }
-
-
-    //根据计划id、PD单记录id进行绑定操作
-    @RequestMapping(value = "billCacheUpdate", produces = {"application/json;charset=UTF-8"})
-    @RequiresPermissions("billCacheAdd")
-    @ResponseBody
-    public Result billCacheUpdate(int planCacheId,String billCacheIds) {
-        return geelyBillCacheService.billCacheUpdate(planCacheId,billCacheIds);
-    }
 
     //----------------------记录单据回执页面---------------------------
     //跳转到页面

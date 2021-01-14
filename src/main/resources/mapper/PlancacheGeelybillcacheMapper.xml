@@ -29,6 +29,13 @@
     where plancacheid = #{plancacheid,jdbcType=INTEGER}
     and geelybillcacheid!=#{geelybillcacheid}
   </select>
+  <!--根据缺件计划id、在途吉利单据id查询-->
+  <select id="selectByPlancacheidAndGeelybillcacheid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select <include refid="Base_Column_List" />
+    from plancache_geelybillcache
+    where plancacheid = #{plancacheid,jdbcType=INTEGER}
+    and geelybillcacheid = #{geelybillcacheid}
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from plancache_geelybillcache

@@ -31,7 +31,7 @@ public class PlanCache {
     private String state;
     //计划类型 1.系统 2.手工
     private String type;
-    //是否紧急拉动 1.是 2.否
+    //紧急等级 1.正常 2.紧急  3.特急
     private String urgent;
     //备注
     private String remarks;

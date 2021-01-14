@@ -173,6 +173,11 @@
     where plancacheid = #{plancacheid,jdbcType=INTEGER}
     group by plannumber=#{plannumber}
   </select>
+  <!-- 根据在途计划id查询 -->
+  <select id="selectByPlancacheid" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" /> from plantake
+    where plancacheid = #{plancacheid,jdbcType=INTEGER}
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from plantake

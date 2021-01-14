@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class PlanCacheController {
     @Autowired
     private PlanCacheService planCacheService;
-    //--------------------------------供应商页面--------------------------------
+    //--------------------------------在途缺件计划页面--------------------------------
     //跳转到页面
     @RequestMapping(value = "toPlanCache", produces = {"text/html;charset=UTF-8"})
     @RequiresPermissions("planCache")
@@ -44,6 +44,15 @@ public class PlanCacheController {
         return planCacheService.update(id,count,remarks);
     }
 
+    //修改缺件计划的最大取货数量
+    @RequestMapping(value = "planCacheUpdateMaxcount", produces = {"application/json;charset=UTF-8"})
+    @RequiresPermissions("planTakeAdd")
+    @ResponseBody
+    public Result planCacheUpdateMaxcount(int planCacheId, int maxCount) {
+        return planCacheService.planCacheUpdateMaxcount(planCacheId,maxCount);
+    }
+
+
     //根据id查询
     @RequestMapping(value = "planCacheById", produces = {"application/json;charset=UTF-8"})
     @RequiresPermissions("planCacheUpdate")
@@ -59,11 +68,10 @@ public class PlanCacheController {
         return planCacheService.untakePlanCacheBySupplierCode(supplierCode);
     }
 
-    //根据线路下载未取货状态的物料
-
 //----------------------------------生成取货计划页面----------------------------------
     //生成取货计划页面，根据出发地id和目的地id查询所有未确认缺件计划
     @RequestMapping(value = "planCacheByRoute", produces = {"application/json;charset=UTF-8"})
+    @RequiresPermissions("planTakeAdd")
     @ResponseBody
     public Result planCacheByRoute(int startId,int endId,String endType) {
         return planCacheService.planCacheByRoute(startId,endId,endType);
@@ -71,6 +79,7 @@ public class PlanCacheController {
 
     //复选框选中后，根据计划Id查询计划详情
     @RequestMapping(value = "planCacheDetail", produces = {"application/json;charset=UTF-8"})
+    @RequiresPermissions("planTakeAdd")
     @ResponseBody
     public Result planCacheDetail(int planCacheId) {
         return planCacheService.planCacheDetail(planCacheId);
@@ -78,6 +87,7 @@ public class PlanCacheController {
 
     //选择某个缺件计划后，修改计划的日期后重新加载该物料的计划，并重新计算未确认计划，更新到页面
     @RequestMapping(value = "planCacheChoose", produces = {"application/json;charset=UTF-8"})
+    @RequiresPermissions("planTakeAdd")
     @ResponseBody
     public Result planCacheChoose(int planCacheId, String takeDate,int chooseCount,int lowHeight,int carWidth) {
         return planCacheService.planCacheChoose(planCacheId,takeDate,chooseCount,lowHeight,carWidth);
@@ -85,6 +95,7 @@ public class PlanCacheController {
 
     //取消选择某个缺件计划后，根据计划id重新加载该物料的缺件记录、缺件计划信息
     @RequestMapping(value = "planCacheChooseCancel", produces = {"application/json;charset=UTF-8"})
+    @RequiresPermissions("planTakeAdd")
     @ResponseBody
     public Result planCacheChooseCancel(int planCacheId) {
         return planCacheService.planCacheChooseCancel(planCacheId);
@@ -94,13 +105,14 @@ public class PlanCacheController {
     //传入缺件报表记录的日期、物料id，修改该日期中该物料的缺件报表记录的结存数量
     @RequestMapping(value = "updateShortageByGoodAndDate", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
+    @RequiresPermissions("planTakeAdd")
     public Result updateShortageByGoodAndDate(int goodId,int stock,String date) {
         return planCacheService.updateShortageByGoodAndDate(goodId,stock,date);
     }
 
-    //添加缺件计划
+    //生成取货计划页面，添加缺件计划
     @RequestMapping(value = "planCacheAdd", produces = {"application/json;charset=UTF-8"})
-    @RequiresPermissions("planCacheAdd")
+    @RequiresPermissions("planTakeAdd")
     @ResponseBody
     public Result add(int goodId, int count, String date,String remarks) {
         return planCacheService.add(goodId, count,date,remarks);

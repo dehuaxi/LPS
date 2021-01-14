@@ -142,6 +142,10 @@ function details(a){
                 $("#detail_carType").html(data.data[0].cartype);
                 $("#detail_startName").html(data.data[0].startname);
                 $("#detail_endName").html(data.data[0].endname);
+                var deleteBtn="";
+                if(deleteData){
+                    deleteBtn="<td><button type='button' class='btn btn-xs btn-danger' onclick='deletePlanTake(this)'>移出计划</button></td>"
+                }
                 for(var i=0;i<data.data.length;i++){
                     var goodcode="";
                     var goodname="";
@@ -155,7 +159,8 @@ function details(a){
                             suppliername=data.data[i].good.supplier.suppliername;
                         }
                     }
-                    var str="<tr><td>"+goodcode+"</td>" +
+                    var str="<tr><td style='display: none'>"+data.data[i].id+"</td>" +
+                        "<td>"+goodcode+"</td>" +
                         "<td>"+goodname+"</td>" +
                         "<td>"+suppliercode+"</td>" +
                         "<td>"+suppliername+"</td>" +
@@ -164,7 +169,7 @@ function details(a){
                         "<td>"+data.data[i].length+"</td>" +
                         "<td>"+data.data[i].volume+"</td>" +
                         "<td>"+data.data[i].weight+"</td>" +
-                        "<td>"+data.data[i].carheight+"</td></tr>";
+                        "<td>"+data.data[i].carheight+"</td>" +deleteBtn+"</tr>";
                     $("#table_detail").append(str);
                 }
                 $("#detailModal").modal("show");
@@ -183,7 +188,88 @@ function details(a){
     });
 }
 
-//品拆取货计划
+//删除取货计划
+function deletePlanTake(btn){
+    var id=$(btn).parent().parent().find("td:eq(0)").text();
+    $("#div_loading").css("display", "block");
+    $.ajax({
+        url: 'planTakeDelete',
+        type: 'post',
+        data: {'id':id},
+        dataType:'json',
+        success: function (data) {
+            if(data.code==0){
+                var planNumber=$("#detail_planNumber").html();
+                $("#table_detail").html("");
+                $.ajax({
+                    url: 'planTakeDetail',
+                    type: 'post',
+                    data: {
+                        'planNumber':planNumber},
+                    dataType:'json',
+                    success: function (data) {
+                        if(data.code==0){
+                            var deleteBtn="";
+                            if(deleteData){
+                                deleteBtn="<td><button type='button' class='btn btn-xs btn-danger' onclick='deletePlanTake(this)'>移出计划</button></td>"
+                            }
+                            for(var i=0;i<data.data.length;i++){
+                                var goodcode="";
+                                var goodname="";
+                                var suppliercode="";
+                                var suppliername="";
+                                if(data.data[i].good!=null){
+                                    goodcode=data.data[i].good.goodcode;
+                                    goodname=data.data[i].good.goodname;
+                                    if(data.data[i].good.supplier!=null){
+                                        suppliercode=data.data[i].good.supplier.suppliercode;
+                                        suppliername=data.data[i].good.supplier.suppliername;
+                                    }
+                                }
+                                var str="<tr><td style='display: none'>"+data.data[i].id+"</td>" +
+                                    "<td>"+goodcode+"</td>" +
+                                    "<td>"+goodname+"</td>" +
+                                    "<td>"+suppliercode+"</td>" +
+                                    "<td>"+suppliername+"</td>" +
+                                    "<td>"+data.data[i].count+"</td>" +
+                                    "<td>"+data.data[i].boxcount+"</td>" +
+                                    "<td>"+data.data[i].length+"</td>" +
+                                    "<td>"+data.data[i].volume+"</td>" +
+                                    "<td>"+data.data[i].weight+"</td>" +
+                                    "<td>"+data.data[i].carheight+"</td>" +deleteBtn+"</tr>";
+                                $("#table_detail").append(str);
+                            }
+                        }else {
+                            //计划不存在，就隐藏详细模态框，刷新页面
+                            $("#detailModal").modal("hide");
+                            var currentPage=$("#span_currentPage").html();
+                            findByLimit(currentPage);
+                        }
+                        //隐藏加载提示信息
+                        $("#div_loading").css("display", "none");
+                    },
+                    error:function(jqXHR, textStatus, errorThrown){
+                        var status = jqXHR.status;//404,500等
+                        var text = jqXHR.statusText;//404对应的Not found,500对应的error
+                        alert("查询失败：" + status + "  " + text);
+                        $("#div_loading").css("display","none");
+                    }
+                });
+            }else {
+                alert(data.msg);
+            }
+            //隐藏加载提示信息
+            $("#div_loading").css("display", "none");
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+            var status = jqXHR.status;//404,500等
+            var text = jqXHR.statusText;//404对应的Not found,500对应的error
+            alert("删除失败：" + status + "  " + text);
+            $("#div_loading").css("display","none");
+        }
+    });
+}
+//拼拆取货计划
 function toUpdatePlanTake(){
     //获取需要拼拆的计划编号
     var planNumbers="";

@@ -6,6 +6,7 @@ import com.defei.lps.result.Result;
 import com.defei.lps.result.ResultUtil;
 import com.defei.lps.service.PlanCacheService;
 import com.defei.lps.util.DateUtil;
+import com.defei.lps.util.PlanCacheCreateUtil;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -186,107 +187,35 @@ public class PlanCacheServiceImp implements PlanCacheService {
     }
 
     /**
+     * 修改缺件计划的最大取货数量
+     * @param planCacheId
+     * @param maxCount
+     * @return
+     */
+    @Override
+    @Transactional
+    public synchronized Result planCacheUpdateMaxcount(int planCacheId, int maxCount) {
+        PlanCache planCache=planCacheMapper.selectByPrimaryKey(planCacheId);
+        if(planCache==null){
+            return ResultUtil.error(1,"修改的缺件计划不存在");
+        }
+        if(maxCount==planCache.getMaxcount()){
+            return ResultUtil.error(1,"修改后数量和原数量一样，无需修改");
+        }
+        planCache.setMaxcount(maxCount);
+        planCache.setCount(maxCount);
+        planCache.setState("未取货");
+        planCacheMapper.updateByPrimaryKeySelective(planCache);
+        //把计划修改后，更新该物料的缺件计划
+        PlanCacheCreateUtil.createPlanCache(planCache.getGood());
+        return ResultUtil.success();
+    }
+
+    /**
      * 只能删除未取货的计划，删除后立刻进行重新计算计划
      * @param id
      * @return
      */
-    /*public Result delete(int id) {
-        PlanCache oldPlanCache=planCacheMapper.selectByPrimaryKey(id);
-        if(!oldPlanCache.getState().equals("未取货")){
-            return ResultUtil.error(1,"只能删除未取货的计划");
-        }
-        Good good=oldPlanCache.getGood();
-        //删除
-        planCacheMapper.deleteByPrimaryKey(id);
-        //删除所有未确认计划
-        planCacheMapper.deleteByGoodidAndState(good.getId(),"未确认");
-        //根据物料查询，日期升序。查出来的都是已经确认过的计划
-        List<PlanCache> planCacheList=planCacheMapper.selectByGoodid(good.getId());
-        //参与计算的缺件报表集合
-        List<Shortage> shortages=new ArrayList<>();
-        int planCacheTotalCount=0;
-        if(planCacheList.isEmpty()){
-            //没有已经确认的计划，看是否有最近一次已经完成的计划
-            List<PlanRecorde> planRecordeList=planRecordMapper.selectByGoodid(good.getId());
-            if(planRecordeList.isEmpty()){
-                //如果完结缺件计划为空，说明该物料需要从缺件报表的第一个日期开始计算
-                shortages=shortageMapper.selectByGoodidAndDatestartAndDateend(good.getId(),"","");
-            }else {
-                //如果完结缺件计划有，就要从最大日期开始计算缺件报表
-                shortages=shortageMapper.selectByGoodidAndDatestartAndDateend(good.getId(),planRecordeList.get(0).getDate(),"");
-                if(!shortages.isEmpty()){
-                    //去掉完结计划的那一天的缺件报表记录
-                    shortages.remove(0);
-                }
-            }
-        }else {
-            //在途总数量
-            planCacheTotalCount=planCacheList.stream().collect(Collectors.summingInt(PlanCache::getCount));
-            //有已经确认的计划，就从最近一次确认的计划日期其开始计算
-            shortages=shortageMapper.selectByGoodidAndDatestartAndDateend(good.getId(),planCacheList.get(planCacheList.size()-1).getDate(),"");
-            if(!shortages.isEmpty()){
-                //去掉最近一次确认过的计划的那一天的缺件报表记录
-                shortages.remove(0);
-            }
-        }
-        //如果缺件报表集合不为空，开始生成计划
-        if(!shortages.isEmpty()){
-            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-            Calendar calendar = Calendar.getInstance();
-            //开始计算缺件计划
-            for(Shortage shortage:shortages){
-                if((planCacheTotalCount+shortage.getStock())<=good.getTriggerstock()){
-                    //如果计划结存<=物料触发数量，生成计划
-                    PlanCache planCache=new PlanCache();
-                    planCache.setGood(good);
-                    int planCount=0;
-                    if((good.getMaxstock()-shortage.getStock())%good.getOneboxcount()==0){
-                        planCount=good.getMaxstock()-shortage.getStock();
-                    }else {
-                        planCount=((good.getMaxstock()-shortage.getStock())/good.getOneboxcount())*good.getOneboxcount();
-                    }
-                    planCache.setCount(planCount);
-                    planCache.setTakecount(0);
-                    planCache.setReceivecount(0);
-                    planCache.setBoxcount(planCount/good.getOneboxcount());
-                    planCache.setDate(shortage.getDate());
-                    //预计到达日期.默认计划都是上午取货，那么如果运输在途天数是带小数的，就向下取整
-                    int transitDay=Double.valueOf(good.getSupplier().getTransitday()).intValue();
-                    if(transitDay>0){
-                        try {
-                            calendar.setTime(simpleDateFormat.parse(shortage.getDate()));
-                            //把日期增加运输在途天数
-                            calendar.add(Calendar.DATE, transitDay);
-                            planCache.setReceivedate(simpleDateFormat.format(calendar.getTime()));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                            planCache.setReceivedate("");
-                        }
-                    }else {
-                        planCache.setReceivedate(shortage.getDate());
-                    }
-                    planCache.setState("未确认");
-                    planCache.setType("系统");
-                    planCache.setRemarks("");
-                    planCacheMapper.insertSelective(planCache);
-                    //添加了计划，那么从这一天开始，再往后计算计划时，就要把这个计划的取货数量累加到计划结存种
-                    planCacheTotalCount=planCacheTotalCount+planCount;
-                }
-            }
-        }
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //当前用户名称
-        String userName= (String)SecurityUtils.getSubject().getPrincipal();
-        //添加修改记录
-        PlanHandleRecord planHandleRecord =new PlanHandleRecord();
-        planHandleRecord.setGood(oldPlanCache.getGood());
-        planHandleRecord.setDate(oldPlanCache.getDate());
-        planHandleRecord.setContent("计划被删除。原计划内容(数量:"+oldPlanCache.getCount()+",状态:未取货,类型:"+oldPlanCache.getType()+",备注:"+oldPlanCache.getRemarks()+")");
-        planHandleRecord.setCreatetime(simpleDateFormat.format(oldPlanCache.getCreatetime()));
-        planHandleRecord.setUsername(userName);
-        planHandleRecordMapper.insertSelective(planHandleRecord);
-        return ResultUtil.success();
-    }*/
     @Override
     @Transactional
     public Result delete(int id) {
@@ -330,6 +259,8 @@ public class PlanCacheServiceImp implements PlanCacheService {
         }
         //删除在途计划
         planCacheMapper.deleteByPrimaryKey(id);
+        //更新物料的缺件计划
+        PlanCacheCreateUtil.createPlanCache(oldPlanCache.getGood());
         return ResultUtil.success();
     }
 
@@ -430,6 +361,7 @@ public class PlanCacheServiceImp implements PlanCacheService {
      * @return
      */
     @Override
+    @Transactional
     public synchronized Result planCacheByRoute(int startId, int endId, String endType) {
         //看变化比参数是否设置了
         Params params = paramsMapper.selectByName("shortageStockChangeRatio");
@@ -493,7 +425,7 @@ public class PlanCacheServiceImp implements PlanCacheService {
         if(dateList==null){
             return ResultUtil.error(1,"所选线路上的物料没有未来几天的缺件报表记录，请上传缺件报表");
         }
-        //计算每个物料的缺件计划，按照缺件报表上传时的计算逻辑
+        /*//计算每个物料的缺件计划，按照缺件报表上传时的计算逻辑
         List<PlanCache> newPlan=new ArrayList<>();
         for(Good good:goodList){
             //删除所有的该物料的未确认的计划
@@ -692,7 +624,8 @@ public class PlanCacheServiceImp implements PlanCacheService {
         //如果有新增计划，那么批量添加新计划
         if(!newPlan.isEmpty()){
             planCacheMapper.insertBatch(newPlan);
-        }
+        }*/
+        PlanCacheCreateUtil.createPlanCacheList(goodList);
         //有日期区间，就把日期区间每天的每个物料的缺件信息、缺件计划信息、上一次已确认缺件计划信息返回页面
         List<Map<String,Object>> list=new ArrayList<>();
         for(Good good:goodList){
@@ -1637,7 +1570,7 @@ public class PlanCacheServiceImp implements PlanCacheService {
      * @return
      */
     @Override
-    public synchronized Result updateShortageByGoodAndDate(int goodId, int stock, String date) {
+    /*public synchronized Result updateShortageByGoodAndDate(int goodId, int stock, String date) {
         //验证1
         Shortage shortage=shortageMapper.selectByGoodidAndDate(goodId,date);
         if(shortage==null){
@@ -1943,6 +1876,123 @@ public class PlanCacheServiceImp implements PlanCacheService {
             planList.add(map1);
         }
         return ResultUtil.success(planList);
+    }*/
+    public synchronized Result updateShortageByGoodAndDate(int goodId, int stock, String date) {
+        //验证1
+        Shortage shortage=shortageMapper.selectByGoodidAndDate(goodId,date);
+        if(shortage==null){
+            return ResultUtil.error(1,"缺件报表记录不存在，刷新页面后重试");
+        }
+        //验证2.如果数量一样就不修改
+        if(stock==shortage.getStock()){
+            return ResultUtil.error(1,"修改后数量和修改前一样，无需修改");
+        }
+        //验证3.看变化比参数是否设置了
+        Params params = paramsMapper.selectByName("shortageStockChangeRatio");
+        if(params ==null){
+            return ResultUtil.error(1,"运行参数中没有设置缺件结存变化占比:shortageStockChangeRatio");
+        }
+        String shortageStockChangeRatio= params.getParamvalue();
+        //看缺件结存变化数量是否设置了
+        Params params1 = paramsMapper.selectByName("shortageStockChangeCount");
+        if(params1 ==null){
+            return ResultUtil.error(1,"运行参数中没有设置缺件结存变化数量:shortageStockChangeCount");
+        }
+        String shortageStockChangeCount= params1.getParamvalue();
+        //验证4.日期区间是否存在
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        Date now=new Date();
+        String today=simpleDateFormat.format(now);
+        Shortage maxShortage=shortageMapper.selectMaxDate();
+        if(maxShortage==null){
+            return ResultUtil.error(1,"缺件报表记录中没有当前物料的未来几天的记录，请上传缺件报表");
+        }
+        List<String> dateList=DateUtil.getBetweenDate(today,maxShortage.getDate());
+        if(dateList==null){
+            return ResultUtil.error(1,"缺件报表记录中没有当前物料的未来几天的记录，请上传缺件报表");
+        }
+        //数量不一样，修改缺件记录
+        shortage.setStock(stock);
+        shortageMapper.updateByPrimaryKeySelective(shortage);
+        //修改该缺件记录之后的所有记录的结存数量
+        List<Shortage> shortageList=shortageMapper.selectByGoodidAndDatestartAndDateend(goodId,date,"");
+        if(!shortageList.isEmpty()){
+            shortageList.remove(0);
+        }
+        if(!shortageList.isEmpty()){
+            int preStock=stock;
+            for(Shortage shortage1:shortageList){
+                //当前记录的新的结存=前一个记录的新结存-当前记录的需求
+                int currentStock=preStock-shortage1.getNeedcount();
+                shortage1.setStock(currentStock);
+                shortageMapper.updateByPrimaryKeySelective(shortage1);
+                //更新前一个记录的新结存,前一个新结存=当前记录的新结存
+                preStock=currentStock;
+            }
+        }
+        //修改缺件报表记录后，从传今天开始，重新计算该物料的未确认计划
+        Good good=shortage.getGood();
+        //更新物料的缺件计划
+        PlanCacheCreateUtil.createPlanCache(good);
+        //返回从当天开始到缺件报表最大日期间的每天的物料缺件信息、物料的计划信息、当前的物料信息、最近一次发货在途或完结记录
+        //返回：日期区间内每天的在途、未取货、未确认缺件计划和每日的缺件报表记录
+        List<Map<String,Object>> planList=new ArrayList<>();
+        for(String date1:dateList){
+            Map<String,Object> map1=new HashMap<>();
+            //获取该发货日期为当天的缺件计划信息
+            PlanCache planCache1=planCacheMapper.selectByGoodidAndDate(good.getId(),date1);
+            if(planCache1!=null){
+                map1.put("plan",planCache1);
+                //判断是否显示复选框：无论状态，只要计划的已确认数量<取货数量，就显示复选框
+                if(planCache1.getSurecount()<planCache1.getCount()){
+                    map1.put("checkbox",true);
+                }else {
+                    map1.put("checkbox",false);
+                }
+            }else {
+                map1.put("plan",null);
+                map1.put("checkbox",false);
+            }
+            //返回4：日期区间内每天的缺件报表信息
+            Shortage shortage1=shortageMapper.selectByGoodidAndDate(good.getId(),date1);
+            if(shortage1==null){
+                map1.put("shortage",null);
+                //是否显示红色标注
+                map1.put("shortageRed",false);
+            }else {
+                map1.put("shortage",shortage1);
+                //如果物料的最大库存为0，则不判断
+                if(shortage1.getGood().getMaxstock()==0){
+                    map1.put("shortageRed",false);
+                }else {
+                    //判断结存数量是否显示红色，判断标准：1.如果当前结存和上次结存之间的差值占物料最大库存的XX%及以上，这个XX%是可设置的参数
+                    //2.当前结存和上次结存之间的差值>XX个，这个XX个是可以设置的参数
+                    int cha=shortage1.getStock()-shortage1.getLaststock();
+                    if(cha<0){
+                        cha=shortage1.getLaststock()-shortage1.getStock();
+                    }
+                    //计算差值占物料最大库存的比例
+                    String max=String.valueOf(shortage1.getGood().getMaxstock());
+                    String chaStr=String.valueOf(cha);
+                    BigDecimal ratio=new BigDecimal(chaStr).divide(new BigDecimal(max) ,2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal("100"));
+                    if(ratio.compareTo(new BigDecimal(shortageStockChangeRatio))!=-1){
+                        //差值与最大库存占比高于或等于设置的比例，那么再看差值数量是否高于或等于设置的数量
+                        if(new BigDecimal(cha).compareTo(new BigDecimal(shortageStockChangeCount))!=-1){
+                            //差值数量>=设置的数量，那么就设置位红色
+                            //是否显示红色标注
+                            map1.put("shortageRed",true);
+                        }else {
+                            map1.put("shortageRed",false);
+                        }
+                    }else {
+                        //是否显示红色标注
+                        map1.put("shortageRed",false);
+                    }
+                }
+            }
+            planList.add(map1);
+        }
+        return ResultUtil.success(planList);
     }
 
     /**
@@ -1954,7 +2004,7 @@ public class PlanCacheServiceImp implements PlanCacheService {
      * @return
      */
     @Override
-    public synchronized Result add(int goodId, int count, String date,String remarks) {
+    /*public synchronized Result add(int goodId, int count, String date,String remarks) {
         //验证1.检测参数
         if(!remarks.matches("^[0-9A-Za-z\\u4e00-\\u9fa5#@_,.，。*-]{1,50}$")){
             return ResultUtil.error(1,"备注只能是1-50位的数字、大小写字母、汉字、特殊字符(@#_,.，。*-)");
@@ -2216,6 +2266,149 @@ public class PlanCacheServiceImp implements PlanCacheService {
                 }
             }
             planList.add(map);
+        }
+        return ResultUtil.success(planList);
+    }*/
+    public synchronized Result add(int goodId, int count, String date,String remarks) {
+        //验证1.检测参数
+        if(!remarks.matches("^[0-9A-Za-z\\u4e00-\\u9fa5#@_,.，。*-]{1,50}$")){
+            return ResultUtil.error(1,"备注只能是1-50位的数字、大小写字母、汉字、特殊字符(@#_,.，。*-)");
+        }
+        //验证2：传入的取货日期必须大于当前时间
+        Date now=new Date();
+        SimpleDateFormat simpleDateFormat1=new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            if(simpleDateFormat1.parse(date).getTime()<=simpleDateFormat1.parse(simpleDateFormat1.format(now)).getTime()){
+                return ResultUtil.error(1,"取货日期时间必须大于等于当前日期");
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return ResultUtil.error(1,"选择的取货时间格式错误，联系管理员");
+        }
+        //验证3：物料信息是否存在
+        Good good=goodMapper.selectByPrimaryKey(goodId);
+        if (good==null){
+            return ResultUtil.error(1,"物料不存在");
+        }
+        //验证4.看变化比参数是否设置了
+        Params params = paramsMapper.selectByName("shortageStockChangeRatio");
+        if(params ==null){
+            return ResultUtil.error(1,"运行参数中没有设置缺件结存变化占比:shortageStockChangeRatio");
+        }
+        String shortageStockChangeRatio= params.getParamvalue();
+        //验证5.看缺件结存变化数量是否设置了
+        Params params1 = paramsMapper.selectByName("shortageStockChangeCount");
+        if(params1 ==null){
+            return ResultUtil.error(1,"运行参数中没有设置缺件结存变化数量:shortageStockChangeCount");
+        }
+        //验证6.看物料是否有当天及未来几天对应的缺件报表记录
+        List<Shortage> shortageList1=shortageMapper.selectByGoodidAndDatestartAndDateend(goodId,date,"");
+        if(shortageList1.isEmpty()){
+            return ResultUtil.error(1,"该物料没有"+date+"及以后几天的缺件报表，无法添加缺件计划");
+        }
+        String shortageStockChangeCount= params1.getParamvalue();
+        //添加缺件计划，直接为未取货状态
+        PlanCache planCache=new PlanCache();
+        planCache.setGood(good);
+        planCache.setCount(count);
+        planCache.setMaxcount(count);
+        planCache.setMincount(count);
+        planCache.setSurecount(0);
+        planCache.setTakecount(0);
+        planCache.setReceivecount(0);
+        int boxCount=0;
+        if(count%good.getOneboxcount()!=0){
+            boxCount=count/good.getOneboxcount()+1;
+        }else {
+            boxCount=count/good.getOneboxcount();
+        }
+        planCache.setBoxcount(boxCount);
+        //运输周期
+        int transitDay=new BigDecimal(good.getSupplier().getTransitday()).intValue();
+        if(good.getSupplier().getTransitday().contains(".")){
+            //如果配送天数值含有.号，就说明是有小数的，那么统一给配送周期向上取整
+            transitDay++;
+        }
+        //当前日期的前一天是到后日期，在从到货日期往回推运输周期天
+        planCache.setDate(date);
+        Calendar calendar=Calendar.getInstance();
+        try {
+            calendar.setTime(simpleDateFormat1.parse(date));
+            calendar.add(Calendar.DATE,transitDay);
+            //到货日期
+            planCache.setReceivedate(simpleDateFormat1.format(calendar.getTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        planCache.setState("未取货");
+        planCache.setType("系统");
+        planCache.setUrgent("正常");
+        planCache.setRemarks(remarks);
+        planCache.setCreatetime(now);
+        planCacheMapper.insertSelective(planCache);
+        //重新更新该物料的缺件计划
+        PlanCacheCreateUtil.createPlanCache(good);
+        //查询最大日期的缺件报表记录
+        Shortage maxShortage=shortageMapper.selectMaxDate();
+        //计划生成完毕，把计划按照日期集合返回到页面
+        List<String> dateList=DateUtil.getBetweenDate(simpleDateFormat1.format(now),maxShortage.getDate());
+        //返回前端
+        List<Map<String,Object>> planList=new ArrayList<>();
+        //前端数据1：按照日期的缺件计划集合。生成计划后，把生成的计划查询出来，放入对应的日期区间内，返回前端
+        for(String date1:dateList){
+            Map<String,Object> map1=new HashMap<>();
+            //获取该发货日期为当天的缺件计划信息
+            PlanCache planCache1=planCacheMapper.selectByGoodidAndDate(good.getId(),date1);
+            if(planCache1!=null){
+                map1.put("plan",planCache1);
+                //判断是否显示复选框：无论状态，只要计划的已确认数量<取货数量，就显示复选框
+                if(planCache1.getSurecount()<planCache1.getCount()){
+                    map1.put("checkbox",true);
+                }else {
+                    map1.put("checkbox",false);
+                }
+            }else {
+                map1.put("plan",null);
+                map1.put("checkbox",false);
+            }
+            //返回4：日期区间内每天的缺件报表信息
+            Shortage shortage1=shortageMapper.selectByGoodidAndDate(good.getId(),date1);
+            if(shortage1==null){
+                map1.put("shortage",null);
+                //是否显示红色标注
+                map1.put("shortageRed",false);
+            }else {
+                map1.put("shortage",shortage1);
+                //如果物料的最大库存为0，则不判断
+                if(shortage1.getGood().getMaxstock()==0){
+                    map1.put("shortageRed",false);
+                }else {
+                    //判断结存数量是否显示红色，判断标准：1.如果当前结存和上次结存之间的差值占物料最大库存的XX%及以上，这个XX%是可设置的参数
+                    //2.当前结存和上次结存之间的差值>XX个，这个XX个是可以设置的参数
+                    int cha=shortage1.getStock()-shortage1.getLaststock();
+                    if(cha<0){
+                        cha=shortage1.getLaststock()-shortage1.getStock();
+                    }
+                    //计算差值占物料最大库存的比例
+                    String max=String.valueOf(shortage1.getGood().getMaxstock());
+                    String chaStr=String.valueOf(cha);
+                    BigDecimal ratio=new BigDecimal(chaStr).divide(new BigDecimal(max) ,2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal("100"));
+                    if(ratio.compareTo(new BigDecimal(shortageStockChangeRatio))!=-1){
+                        //差值与最大库存占比高于或等于设置的比例，那么再看差值数量是否高于或等于设置的数量
+                        if(new BigDecimal(cha).compareTo(new BigDecimal(shortageStockChangeCount))!=-1){
+                            //差值数量>=设置的数量，那么就设置位红色
+                            //是否显示红色标注
+                            map1.put("shortageRed",true);
+                        }else {
+                            map1.put("shortageRed",false);
+                        }
+                    }else {
+                        //是否显示红色标注
+                        map1.put("shortageRed",false);
+                    }
+                }
+            }
+            planList.add(map1);
         }
         return ResultUtil.success(planList);
     }

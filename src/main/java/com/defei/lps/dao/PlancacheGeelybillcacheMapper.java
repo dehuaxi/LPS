@@ -21,6 +21,12 @@ public interface PlancacheGeelybillcacheMapper {
     List<PlancacheGeelybillcache> selectExcludeGeelybillcacheidByPlancacheid(
             @Param("plancacheid")int plancacheId,
             @Param("geelybillcacheid")int geelybillcacheId);
+    //根据缺件计划id、在途吉利单据记录id查询
+    PlancacheGeelybillcache selectByPlancacheidAndGeelybillcacheid(
+            @Param("plancacheid")int plancacheId,
+            @Param("geelybillcacheid")int geelybillcacheId
+    );
+
     int updateByPrimaryKeySelective(PlancacheGeelybillcache record);
 
     int updateByPrimaryKey(PlancacheGeelybillcache record);

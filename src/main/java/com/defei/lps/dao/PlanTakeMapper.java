@@ -55,6 +55,8 @@ public interface PlanTakeMapper {
     //根据计划编号、物料id查询
     List<PlanTake> selectByPlannumberAndGoodid(@Param("plannumber")String planNumber,
                                                @Param("goodid")int goodId);
-    //根据在途计划id查询，并以取货计划编号分组
+    //根据在途缺件计划id查询，并以取货计划编号分组
     List<PlanTake> selectGroupPlannumberByPlancacheid(@Param("plancacheid")int planCacheId);
+    //根据缺件计划id查询
+    List<PlanTake> selectByPlancacheid(@Param("plancacheid")int planCacheId);
 }

@@ -16,6 +16,8 @@ public interface PlanTakeService {
     public Result findLimitByCondition(String planNumber,String supplierCode,String supplierName,int routeId,String date,String startName,String endName,String userName,int currentPage);
     //根据计划编号查询详情
     public Result findDetailByPlannumber(String planNumber);
+    //根据取货计划id删除，修改对应的缺件计划的计划数量
+    public Result planTakeDelete(int id);
     //下载
     public void download(String planNumber,String supplierCode,String supplierName,int routeId,String date,String startName,String endName,String userName, HttpServletResponse response);
     //根据计划编号集合，获取所有的集合详情

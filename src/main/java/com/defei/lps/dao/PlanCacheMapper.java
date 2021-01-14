@@ -98,7 +98,7 @@ public interface PlanCacheMapper {
                                                           @Param("state") String state,
                                                           @Param("startdate") String startDate);
     //根据物料id、到货日期查询
-    PlanCache selectByGoodidAndReceivedate(
+    List<PlanCache> selectByGoodidAndReceivedate(
             @Param("goodid") int goodId,
             @Param("receivedate") String receiveDate
     );

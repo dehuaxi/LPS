@@ -23,6 +23,10 @@ public interface GeelyBillCacheMapper {
     //根据物料id、单号查询
     GeelyBillCache selectByGoodidAndBillnumber(@Param("goodid")int goodId,
                                                @Param("billnumber")String billNumber);
+    //根据物料id、单号、批次查询
+    GeelyBillCache selectByGoodidAndBillnumberAndBatch(@Param("goodid")int goodId,
+                                                        @Param("billnumber")String billNumber,
+                                                       @Param("batch") String batch);
     //条件分页查询
     public List<GeelyBillCache> selectLimitByCondition(
             @Param("goodcode") String goodCode,

@@ -241,6 +241,46 @@
     </div>
 </div>
 
+<!-- 修改缺件计划最大取货数量的模态框 -->
+<div class="modal fade" id="updateMaxCountModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" align="center">修改数量</h4>
+            </div>
+            <div class="modal-body">
+                <input id="updateCountModal_planCacheId" style="display: none">
+                <div class="form-group">
+                    <label>可填最大数量</label>
+                    <input class="form-control" id="updateCountModal_unsureCount" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>取货数量</label>
+                    <input class="form-control" id="updateCountModal_count" placeholder="填入正整数">
+                </div>
+                <div class="form-group">
+                    <label>收容数</label>
+                    <input class="form-control" id="updateCountModal_oneBoxCount" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>取货箱数</label>
+                    <input class="form-control" id="updateCountModal_boxCount" disabled="disabled">
+                </div>
+                <div class="form-group">
+                    <label>零头箱内物料个数</label>
+                    <input class="form-control" id="updateCountModal_odd" disabled="disabled">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" onclick="updateCount()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- 添加计划的模态框 -->
 <div class="modal fade" id="addModal" role="dialog" data-backdrop="static">
     <div class="modal-dialog modal-sm" role="document">

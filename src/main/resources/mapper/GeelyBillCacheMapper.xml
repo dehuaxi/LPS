@@ -23,6 +23,13 @@
     where goodid = #{goodid,jdbcType=INTEGER}
     and billnumber=#{billnumber}
   </select>
+  <!--根据物料id、单号、批次查询-->
+  <select id="selectByGoodidAndBillnumberAndBatch" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" /> from geelybillcache
+    where goodid = #{goodid,jdbcType=INTEGER}
+    and billnumber=#{billnumber}
+    and batch=#{batch}
+  </select>
   <!-- 条件分页查询 -->
   <select id="selectLimitByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
     select b.id, b.billnumber, b.goodid, b.count, b.batch,b.urgent, b.uploadtime
