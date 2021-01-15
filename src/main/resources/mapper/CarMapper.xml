@@ -4,8 +4,6 @@
   <resultMap id="BaseResultMap" type="com.defei.lps.entity.Car" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="carnumber" property="carnumber" jdbcType="VARCHAR" />
-    <result column="driver" property="driver" jdbcType="VARCHAR" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="highlength" property="highlength" jdbcType="INTEGER" />
     <result column="highheight" property="highheight" jdbcType="INTEGER" />
     <result column="lowlength" property="lowlength" jdbcType="INTEGER" />
@@ -15,7 +13,7 @@
     <association column="cartypeid" property="cartype" select="com.defei.lps.dao.CarTypeMapper.selectByPrimaryKey" javaType="com.defei.lps.entity.CarType"/>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, carnumber, carrierid, cartypeid, driver, phone, highlength, highheight, lowlength, 
+    id, carnumber, carrierid, cartypeid, highlength, highheight, lowlength,
     lowheight, carwidth
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -84,12 +82,6 @@
       <if test="cartype != null" >
         cartypeid,
       </if>
-      <if test="driver != null" >
-        driver,
-      </if>
-      <if test="phone != null" >
-        phone,
-      </if>
       <if test="highlength != null" >
         highlength,
       </if>
@@ -115,12 +107,6 @@
       </if>
       <if test="cartype != null" >
         #{cartype.id,jdbcType=INTEGER},
-      </if>
-      <if test="driver != null" >
-        #{driver,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null" >
-        #{phone,jdbcType=VARCHAR},
       </if>
       <if test="highlength != null" >
         #{highlength,jdbcType=INTEGER},
@@ -151,12 +137,6 @@
       </if>
       <if test="cartype != null" >
         cartypeid = #{cartype.id,jdbcType=INTEGER},
-      </if>
-      <if test="driver != null" >
-        driver = #{driver,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null" >
-        phone = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="highlength != null" >
         highlength = #{highlength,jdbcType=INTEGER},

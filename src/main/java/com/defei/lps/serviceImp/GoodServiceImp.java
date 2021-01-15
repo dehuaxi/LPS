@@ -72,8 +72,8 @@ public class GoodServiceImp implements GoodService {
             return ResultUtil.error(1,"单耗必须是大于0的整数");
         }else if(maxStock<=0){
             return ResultUtil.error(1,"最大库存数必须是大于0的整数");
-        }else if(triggerStock<=0||triggerStock>=maxStock){
-            return ResultUtil.error(1,"拉动库存数必须是大于0的整数且小于最大库存数");
+        }else if(triggerStock<0||triggerStock>=maxStock){
+            return ResultUtil.error(1,"拉动库存数必须是大于等于0的整数且小于最大库存数");
         }else if(quotaRatio<0||quotaRatio>100){
             return ResultUtil.error(1,"配额率(%)必须是0-100的整数");
         }else if(!boxType.matches("^[0-9A-Za-z\\u4e00-\\u9fa5#@_*-]{0,10}$")){
@@ -251,8 +251,8 @@ public class GoodServiceImp implements GoodService {
             return ResultUtil.error(1,"单耗必须是大于0的整数");
         }else if(maxStock<=0){
             return ResultUtil.error(1,"最大库存数必须是大于0的整数");
-        }else if(triggerStock<=0||triggerStock>=maxStock){
-            return ResultUtil.error(1,"拉动库存数必须是大于0的整数且小于最大库存数");
+        }else if(triggerStock<0||triggerStock>=maxStock){
+            return ResultUtil.error(1,"拉动库存数必须是大于等于0的整数且小于最大库存数");
         }else if(quotaRatio<0||quotaRatio>100){
             return ResultUtil.error(1,"配额率(%)必须是0-100的整数");
         }else if(!boxType.matches("^[0-9A-Za-z\\u4e00-\\u9fa5#@_*-]{0,10}$")){

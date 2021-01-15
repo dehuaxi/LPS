@@ -11,10 +11,6 @@ public class Car {
     private Carrier carrier;
     //车型
     private CarType cartype;
-    //司机名称
-    private String driver;
-    //手机号
-    private String phone;
     //高板长mm
     private Integer highlength;
     //高板高mm

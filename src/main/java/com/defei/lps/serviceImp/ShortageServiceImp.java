@@ -398,174 +398,198 @@ public class ShortageServiceImp implements ShortageService {
             int index=transitDay+1;
             //如果第一个正常计划的到货日期第二天的下标不超过缺件集合最后一个记录的下标，那么就可以创建第一个正常计划
             if((transitDay+2)<=(shortages.size()-1)){
-                //System.out.println("进入第一个正常计划");
                 //自定义：看第一个正常计划到货后的第二天的结存是否小于拉动库存，如果小于拉动库存就产生第一个正常计划，如果不小就继续往后看结存是否小于最小拉动库存
                 for(int i=(transitDay+2);i<shortages.size();i++){
-                    //System.out.println("当前结存："+shortages.get(i).getStock());
-                    if(shortages.get(i).getStock()<=good.getTriggerstock()){
-                        //System.out.println("结存小于等于了拉动库存"+good.getTriggerstock()+"，开始生成正常计划");
-                        //结存小于等于了物料拉动库存，生成缺件计划
-                        PlanCache planCache=new PlanCache();
-                        planCache.setGood(good);
-                        //先计算最少送货数量：从到货日期后运输周期内天数的需求数量之和，再加上物料最小拉动库存
-                        int minCount=0;
-                        for(int r=0;r<transitDay;r++){
-                            //如果下标还在缺件报表集合内，那么就把需求加起来
-                            if((i+r)<shortages.size()){
-                                minCount+=shortages.get(i+r).getNeedcount();
+                    //验证：先看当前的日期的需求是否大于0，如果当前需求不大于0，那么就无需再去看结存是否小于等于物料最小拉动库存，无需计算缺件计划
+                    if(new BigDecimal(shortages.get(i).getNeedcount()).compareTo(BigDecimal.ZERO)==1){
+                        //当前的需求大于0了，再看结存是否小于等于物料最小拉动库存，如果是，就必然能生成第一个正常缺件计划
+                        if(shortages.get(i).getStock()<=good.getTriggerstock()){
+                            System.out.println("第一个正常计划-----"+shortages.get(i).getDate()+"结存"+shortages.get(i).getStock()+"小于等于了拉动库存"+good.getTriggerstock()+"，开始生成正常计划");
+                            //结存小于等于了物料拉动库存，生成缺件计划
+                            PlanCache planCache=new PlanCache();
+                            planCache.setGood(good);
+                            //先计算最少送货数量：从到货日期后运输周期内天数的需求数量之和，再加上物料最小拉动库存，如果是整工装，那么还要加1箱
+                            int minCount=0;
+                            for(int r=0;r<transitDay;r++){
+                                //如果下标还在缺件报表集合内，那么就把需求加起来
+                                if((i+r)<shortages.size()){
+                                    minCount+=shortages.get(i+r).getNeedcount();
+                                }
                             }
-                        }
-                        //加上物料最小拉动库存
-                        minCount+=good.getTriggerstock();
-                        //修正，箱数向上取整
-                        if(minCount%good.getOneboxcount()!=0){
+                            System.out.println("第一个正常计划-----运输周期天数的总需求："+minCount);
+                            //加上物料最小拉动库存
+                            minCount+=good.getTriggerstock();
+                            System.out.println("第一个正常计划-----加上最小库存的最小取货数量："+minCount);
+                            //修正，箱数向上取整.如果总数刚好是没有领头箱的，还要额外加一箱
                             minCount=(minCount/good.getOneboxcount()+1)*good.getOneboxcount();
-                        }
-                        //最大取货数量
-                        int maxCount=0;
-                        //获取前一天的到货后结存
-                        int yestodayPlanStock=shortages.get(i-1).getStock();
-                        if(yestodayPlanStock<0){
-                            yestodayPlanStock=0;
-                        }
-                        if((minCount+yestodayPlanStock+shortages.get(i-1).getNeedcount())<good.getMaxstock()){
-                            maxCount=good.getMaxstock()-shortages.get(i-1).getNeedcount()-yestodayPlanStock;
-                            //箱数向下取整
-                            if(maxCount%good.getOneboxcount()!=0){
-                                maxCount=(maxCount/good.getOneboxcount()-1)*good.getOneboxcount();
+                            System.out.println("第一个正常计划-----修正后的最小取货数量："+minCount);
+                            //最大取货数量
+                            int maxCount=0;
+                            //获取前一天的到货后结存
+                            int yestodayPlanStock=shortages.get(i-1).getStock();
+                            if(yestodayPlanStock<0){
+                                yestodayPlanStock=0;
                             }
-                        }else {
-                            maxCount=minCount;
-                        }
-                        planCache.setCount(maxCount);
-                        planCache.setMaxcount(maxCount);
-                        planCache.setMincount(minCount);
-                        planCache.setSurecount(0);
-                        planCache.setTakecount(0);
-                        planCache.setReceivecount(0);
-                        planCache.setBoxcount(maxCount/good.getOneboxcount());
-                        //当前日期的前一天是到后日期，在从到货日期往回推运输周期天
-                        planCache.setDate(shortages.get((i-1-transitDay)).getDate());
-                        planCache.setReceivedate(shortages.get(i-1).getDate());
-                        planCache.setState("未确认");
-                        planCache.setType("系统");
-                        planCache.setUrgent("正常");
-                        planCache.setRemarks("");
-                        planCache.setCreatetime(now);
-                        //看是否有发货日期、到货日期一样的在途缺件计划
-                        PlanCache oldPlanCache=planCacheMapper.selectByGoodidAndDateAndReceivedate(good.getId(),shortages.get((i-1-transitDay)).getDate(),shortages.get(i-1).getDate());
-                        //System.out.println("看是否由发货、到货日期一样的记录:"+oldPlanCache);
-                        if(oldPlanCache!=null){
-                            planCache=null;
-                            if(oldPlanCache.getMincount()<minCount){
-                                StringBuffer a=new StringBuffer("最小数量由");
-                                a.append(oldPlanCache.getMincount());
-                                a.append("变为");
-                                a.append(minCount);
-                                //如果原计划最小数量<了新计划的最小数量，那么修改原计划的最小数量
-                                oldPlanCache.setMincount(minCount);
-                                if(minCount>=oldPlanCache.getMaxcount()){
-                                    a.append(";最大数量由");
-                                    a.append(oldPlanCache.getMaxcount());
+                            if((minCount+yestodayPlanStock+shortages.get(i-1).getNeedcount())<good.getMaxstock()){
+                                //System.out.println("第一个正常计划-----最小取货数量+到货当天结存"+yestodayPlanStock+"到货当天需求"+shortages.get(i-1).getNeedcount()+"之和小于了最大库存："+good.getMaxstock());
+                                maxCount=good.getMaxstock()-shortages.get(i-1).getNeedcount()-yestodayPlanStock;
+                                //箱数向下取整
+                                if(maxCount%good.getOneboxcount()!=0){
+                                    maxCount=(maxCount/good.getOneboxcount()-1)*good.getOneboxcount();
+                                }
+                            }else {
+                                maxCount=minCount;
+                            }
+                            //System.out.println("第一个正常计划-----修正后最大取货数量："+maxCount);
+                            planCache.setCount(maxCount);
+                            planCache.setMaxcount(maxCount);
+                            planCache.setMincount(minCount);
+                            planCache.setSurecount(0);
+                            planCache.setTakecount(0);
+                            planCache.setReceivecount(0);
+                            planCache.setBoxcount(maxCount/good.getOneboxcount());
+                            //当前日期的前一天是到后日期，在从到货日期往回推运输周期天
+                            //System.out.println("第一个计划-------------发货日期："+shortages.get(i-1-transitDay).getDate());
+                            planCache.setDate(shortages.get((i-1-transitDay)).getDate());
+                            //System.out.println("第一个计划-------------到货日期："+shortages.get(i-1).getDate());
+                            planCache.setReceivedate(shortages.get(i-1).getDate());
+                            planCache.setState("未确认");
+                            planCache.setType("系统");
+                            planCache.setUrgent("正常");
+                            planCache.setRemarks("");
+                            planCache.setCreatetime(now);
+                            //看是否有发货日期、到货日期一样的在途缺件计划
+                            PlanCache oldPlanCache=planCacheMapper.selectByGoodidAndDateAndReceivedate(good.getId(),shortages.get((i-1-transitDay)).getDate(),shortages.get(i-1).getDate());
+                            //System.out.println("第一个正常计划-----看是否由发货、到货日期一样的记录:"+oldPlanCache);
+                            if(oldPlanCache!=null){
+                                planCache=null;
+                                if(oldPlanCache.getMincount()<minCount){
+                                    StringBuffer a=new StringBuffer("最小数量由");
+                                    a.append(oldPlanCache.getMincount());
                                     a.append("变为");
-                                    a.append(maxCount);
-                                    oldPlanCache.setMaxcount(maxCount);
-                                }
-                                oldPlanCache.setRemarks(a.toString());
-                                planCacheMapper.updateByPrimaryKeySelective(oldPlanCache);
-                            }
-                        }else {
-                            newPlan.add(planCache);
-                        }
-                        //生成缺件计划后，再拿生成的缺件计划的最大数量更新后面的缺件报表集合的结存，看后面更新后的结存还有没有小于物料最小拉动库存的
-                        //那么第二个计划的最小取货数量就是到货日期之后所有天数的需求数之和
-                        //初始结存=昨天的结存+第一个计划的最大到后数量
-                        int startCount=maxCount+yestodayPlanStock;
-                        //System.out.println("第二个正常计划的起始结存："+startCount);
-                        for(int g=i;g<shortages.size();g++){
-                            int currentStock=startCount-shortages.get(g).getNeedcount();
-                            //System.out.println("原结存："+shortages.get(g).getStock()+"----更新了第一个计划到货数量后结存："+currentStock);
-                            shortages.get(g).setStock(currentStock);
-                            startCount=currentStock;
-                        }
-                        //用更新结存后的集合查看结存是否小于物料拉动库存
-                        for(int g=i;g<shortages.size();g++){
-                            //System.out.println("看第一个正常计划更新后是否结存小于拉动库存："+shortages.get(g).getStock());
-                            if(shortages.get(g).getStock()<=good.getTriggerstock()){
-                                //System.out.println("第2个正常计划的发生日期："+shortages.get(g).getDate());
-                                //生成第二个正常缺件计划，其最小取货数量就是到货后所有天的需求之和，再加上物料最小拉动库存
-                                PlanCache planCache2=new PlanCache();
-                                planCache2.setGood(good);
-                                //先计算最少送货数量：到货后所有天的需求之和，再加上物料最小拉动库存
-                                int minCount2=0;
-                                for(int r=0;r<(shortages.size()-g);r++){
-                                    //如果下标还在缺件报表集合内，那么就把需求加起来
-                                    if((g+r)<shortages.size()){
-                                        minCount2+=shortages.get(g+r).getNeedcount();
-                                    }
-                                }
-                                //加上物料最小拉动库存
-                                minCount2+=good.getTriggerstock();
-                                //修正，箱数向上取整
-                                if(minCount2%good.getOneboxcount()!=0){
-                                    minCount2=(minCount2/good.getOneboxcount()+1)*good.getOneboxcount();
-                                }
-                                //最大取货数量
-                                int maxCount2=0;
-                                //获取前一天的到货后结存
-                                int yestodayPlanStock2=shortages.get(g-1).getStock();
-                                if(yestodayPlanStock2<0){
-                                    yestodayPlanStock2=0;
-                                }
-                                if((minCount2+yestodayPlanStock2+shortages.get(g-1).getNeedcount())<good.getMaxstock()){
-                                    maxCount2=good.getMaxstock()-shortages.get(g-1).getNeedcount()-yestodayPlanStock2;
-                                    //箱数向下取整
-                                    if(maxCount2%good.getOneboxcount()!=0){
-                                        maxCount2=(maxCount2/good.getOneboxcount()-1)*good.getOneboxcount();
-                                    }
-                                }else {
-                                    maxCount2=minCount2;
-                                }
-                                planCache2.setCount(maxCount2);
-                                planCache2.setMaxcount(maxCount2);
-                                planCache2.setMincount(minCount2);
-                                planCache2.setSurecount(0);
-                                planCache2.setTakecount(0);
-                                planCache2.setReceivecount(0);
-                                planCache2.setBoxcount(maxCount2/good.getOneboxcount());
-                                //当前日期的前一天是到后日期，在从到货日期往回推运输周期天
-                                planCache2.setDate(shortages.get((g-1-transitDay)).getDate());
-                                planCache2.setReceivedate(shortages.get(g-1).getDate());
-                                planCache2.setState("未确认");
-                                planCache2.setType("系统");
-                                planCache2.setUrgent("正常");
-                                planCache2.setRemarks("");
-                                planCache2.setCreatetime(now);
-                                //看是否有发货日期、到货日期一样的在途缺件计划
-                                PlanCache oldPlanCache2=planCacheMapper.selectByGoodidAndDateAndReceivedate(good.getId(),shortages.get((i-1-transitDay)).getDate(),shortages.get(i-1).getDate());
-                                //System.out.println("第二个正常计划是否有重复的在途记录："+oldPlanCache2);
-                                if(oldPlanCache2!=null){
-                                    planCache2=null;
-                                    if(oldPlanCache2.getMincount()<minCount2){
-                                        StringBuffer a=new StringBuffer("最小数量由");
-                                        a.append(oldPlanCache2.getMincount());
+                                    a.append(minCount);
+                                    //如果原计划最小数量<了新计划的最小数量，那么修改原计划的最小数量
+                                    oldPlanCache.setMincount(minCount);
+                                    if(minCount>=oldPlanCache.getMaxcount()){
+                                        a.append(";最大数量由");
+                                        a.append(oldPlanCache.getMaxcount());
                                         a.append("变为");
-                                        a.append(minCount2);
-                                        //如果原计划最小数量<了新计划的最小数量，那么修改原计划的最小数量
-                                        oldPlanCache2.setMincount(minCount2);
-                                        if(minCount2>=oldPlanCache2.getMaxcount()){
-                                            a.append(";最大数量由");
-                                            a.append(oldPlanCache2.getMaxcount());
-                                            a.append("变为");
-                                            a.append(maxCount2);
-                                            oldPlanCache2.setMaxcount(maxCount2);
-                                        }
-                                        oldPlanCache2.setRemarks(a.toString());
-                                        planCacheMapper.updateByPrimaryKeySelective(oldPlanCache2);
+                                        a.append(maxCount);
+                                        oldPlanCache.setMaxcount(maxCount);
                                     }
-                                }else {
-                                    newPlan.add(planCache2);
+                                    oldPlanCache.setRemarks(a.toString());
+                                    planCacheMapper.updateByPrimaryKeySelective(oldPlanCache);
                                 }
+                            }else {
+                                newPlan.add(planCache);
+                            }
+                            //生成缺件计划后，再拿生成的缺件计划的最大数量更新后面的缺件报表集合的结存，看后面更新后的结存还有没有小于物料最小拉动库存的
+                            //那么第二个计划的最小取货数量就是到货日期之后所有天数的需求数之和
+                            //初始结存=昨天的结存+第一个计划的最大到后数量
+                            int startCount=maxCount+yestodayPlanStock;
+                            //System.out.println("第二个正常计划的起始结存："+startCount);
+                            //更新第一个计划的到货数量到缺件报表集合的结存中
+                            for(int g=i;g<shortages.size();g++){
+                                int currentStock=startCount-shortages.get(g).getNeedcount();
+                                //System.out.println("原结存："+shortages.get(g).getStock()+"----更新了第一个计划到货数量后结存："+currentStock);
+                                shortages.get(g).setStock(currentStock);
+                                startCount=currentStock;
+                            }
+                            //用更新结存后的集合查看结存是否小于物料拉动库存
+                            for(int g=i;g<shortages.size();g++){
+                                //验证：先看当前的日期的需求是否大于0，如果当前需求不大于0，那么就无需再去看结存是否小于等于物料最小拉动库存，无需计算缺件计划
+                                if(new BigDecimal(shortages.get(g).getNeedcount()).compareTo(BigDecimal.ZERO)==1){
+                                    //System.out.println("看第一个正常计划更新后是否结存小于拉动库存："+shortages.get(g).getStock());
+                                    if(shortages.get(g).getStock()<=good.getTriggerstock()){
+                                        //System.out.println("第2个正常计划-----于"+shortages.get(g).getDate()+"的新结存"+shortages.get(g).getStock()+"小于了最小拉动库存"+shortages.get(g).getStock());
+                                        //生成第二个正常缺件计划，其最小取货数量就是到货后所有天的需求之和，再加上物料最小拉动库存
+                                        PlanCache planCache2=new PlanCache();
+                                        planCache2.setGood(good);
+                                        //先计算最少送货数量：到货后所有天的需求之和，再加上物料最小拉动库存
+                                        int minCount2=0;
+                                        for(int r=0;r<(shortages.size()-g);r++){
+                                            //如果下标还在缺件报表集合内，那么就把需求加起来
+                                            if((g+r)<shortages.size()){
+                                                minCount2+=shortages.get(g+r).getNeedcount();
+                                            }
+                                        }
+                                        //System.out.println("第2个计划------最小取货数量："+minCount2);
+                                        //加上物料最小拉动库存
+                                        minCount2+=good.getTriggerstock();
+                                        //System.out.println("第2个计划------加上最小拉动库存的最小取货数量："+minCount2);
+                                        //修正，箱数向上取整
+                                        minCount2=(minCount2/good.getOneboxcount()+1)*good.getOneboxcount();
+                                        //System.out.println("第2个计划------修正后最小取货数量："+minCount2);
+                                        //最大取货数量
+                                        int maxCount2=0;
+                                        //获取前一天的到货后结存
+                                        int yestodayPlanStock2=shortages.get(g-1).getStock();
+                                        //System.out.println("第2个计划------到货当天的结存数量："+yestodayPlanStock2);
+                                        if(yestodayPlanStock2<0){
+                                            yestodayPlanStock2=0;
+                                        }
+                                        if((minCount2+yestodayPlanStock2+shortages.get(g-1).getNeedcount())<good.getMaxstock()){
+                                            maxCount2=good.getMaxstock()-shortages.get(g-1).getNeedcount()-yestodayPlanStock2;
+                                            //箱数向下取整
+                                            if(maxCount2%good.getOneboxcount()!=0){
+                                                maxCount2=(maxCount2/good.getOneboxcount()-1)*good.getOneboxcount();
+                                            }
+                                        }else {
+                                            maxCount2=minCount2;
+                                        }
+                                        planCache2.setCount(maxCount2);
+                                        planCache2.setMaxcount(maxCount2);
+                                        planCache2.setMincount(minCount2);
+                                        planCache2.setSurecount(0);
+                                        planCache2.setTakecount(0);
+                                        planCache2.setReceivecount(0);
+                                        planCache2.setBoxcount(maxCount2/good.getOneboxcount());
+                                        //当前日期的前一天是到后日期，在从到货日期往回推运输周期天
+                                        //System.out.println("第2个计划-----------发货日期："+shortages.get(g-1-transitDay).getDate());
+                                        planCache2.setDate(shortages.get((g-1-transitDay)).getDate());
+                                        //System.out.println("第2个计划-----------到货日期："+shortages.get(g-1).getDate());
+                                        planCache2.setReceivedate(shortages.get(g-1).getDate());
+                                        planCache2.setState("未确认");
+                                        planCache2.setType("系统");
+                                        planCache2.setUrgent("正常");
+                                        planCache2.setRemarks("");
+                                        planCache2.setCreatetime(now);
+                                        //看是否有发货日期、到货日期一样的在途缺件计划
+                                        PlanCache oldPlanCache2=planCacheMapper.selectByGoodidAndDateAndReceivedate(good.getId(),shortages.get((i-1-transitDay)).getDate(),shortages.get(i-1).getDate());
+                                        //System.out.println("第二个正常计划是否有重复的在途记录："+oldPlanCache2);
+                                        if(oldPlanCache2!=null){
+                                            planCache2=null;
+                                            if(oldPlanCache2.getMincount()<minCount2){
+                                                StringBuffer a=new StringBuffer("最小数量由");
+                                                a.append(oldPlanCache2.getMincount());
+                                                a.append("变为");
+                                                a.append(minCount2);
+                                                //如果原计划最小数量<了新计划的最小数量，那么修改原计划的最小数量
+                                                oldPlanCache2.setMincount(minCount2);
+                                                if(minCount2>=oldPlanCache2.getMaxcount()){
+                                                    a.append(";最大数量由");
+                                                    a.append(oldPlanCache2.getMaxcount());
+                                                    a.append("变为");
+                                                    a.append(maxCount2);
+                                                    oldPlanCache2.setMaxcount(maxCount2);
+                                                }
+                                                oldPlanCache2.setRemarks(a.toString());
+                                                planCacheMapper.updateByPrimaryKeySelective(oldPlanCache2);
+                                            }
+                                        }else {
+                                            newPlan.add(planCache2);
+                                        }
+                                        //更新第2个计划的到货数量到缺件报表集合的结存中
+                                        //初始结存=第一个计划更新后昨天的结存+第2个计划的最大到后数量
+                                        int startCount2=maxCount+shortages.get(g-1).getStock();
+                                        for(int h=g;h<shortages.size();h++){
+                                            int currentStock=startCount2-shortages.get(h).getNeedcount();
+                                            shortages.get(h).setStock(currentStock);
+                                            startCount2=currentStock;
+                                        }
+                                    }
+                                }
+
                             }
                         }
                     }
@@ -608,7 +632,7 @@ public class ShortageServiceImp implements ShortageService {
                         }
                     }
                 } else if (new BigDecimal(shortageList.get(i).getStock()).compareTo(new BigDecimal(good.getTriggerstock())) == -1) {
-                    //System.out.println("当天结存<物料最小拉动库存");
+                    //System.out.println(shortageList.get(i).getDate()+"当天结存"+shortageList.get(i).getStock()+"<物料最小拉动库存"+good.getTriggerstock());
                     //如果当天结存<物料最小拉动库存，看是否已经有到货日期，如果没有，那么前一天就是到货日期
                     if (receiveDate.equals("")) {
                         //到货日期必须是前一天,如果前一天是今天或今天之前，那么到货日期就为今天
@@ -626,13 +650,17 @@ public class ShortageServiceImp implements ShortageService {
                             sendDate = shortageList.get((i-1 - transitDay)).getDate();
                         }
                     }
-                    //如果当天结存<物料最小拉动库存,再看当天结存是否<当天的需求，如果是，则需求总数的累加值=当天需求数量，否则需求总数的累加值=物料最小拉动库存-当天结存
-                    if (new BigDecimal(shortageList.get(i).getStock()).compareTo(new BigDecimal(shortageList.get(i).getNeedcount())) != 1) {
-                        //当天结存<=当天需求，需求总数的累加值=当天需求数量
-                        totalNeed += shortageList.get(i).getNeedcount();
+                    //得到当天需求的负数=0-当天需求
+                    BigDecimal fushu=BigDecimal.ZERO.subtract(new BigDecimal(shortageList.get(i).getNeedcount()));
+                    //如果当天结存<物料最小拉动库存,再看当天结存是否<当天的需求的负数值，如果是，则需求总数的累加值=当天需求数量+物料最小拉动库存，否则需求总数的累加值=物料最小拉动库存-当天结存
+                    if (new BigDecimal(shortageList.get(i).getStock()).compareTo(fushu) != 1) {
+                        //当天结存<=当天需求的负数，需求总数的累加值=当天需求数量+物料最小拉动库存
+                        totalNeed += (shortageList.get(i).getNeedcount()+good.getTriggerstock());
+                        System.out.println("当天结存<=当天需求的负数:当天的累加数量："+(shortageList.get(i).getNeedcount()+good.getTriggerstock()));
                     } else {
-                        //当天结存>当天需求，需求总数的累加值=物料最小拉动库存-当天结存
-                        totalNeed += good.getTriggerstock() - shortageList.get(i).getStock();
+                        //当天结存>当天需求负数，需求总数的累加值=物料最小拉动库存-当天结存
+                        totalNeed += (good.getTriggerstock() - shortageList.get(i).getStock());
+                        //System.out.println("当天结存>当天需求的负数:当天的累加数量："+(good.getTriggerstock() - shortageList.get(i).getStock()));
                     }
                 }
             }
@@ -646,7 +674,7 @@ public class ShortageServiceImp implements ShortageService {
                 }
                 //生成紧急计划，如果有发货日期、收货日期一样的在途缺件计划，就合并
                 PlanCache oldPlanCache=planCacheMapper.selectByGoodidAndDateAndReceivedate(good.getId(),sendDate,receiveDate);
-                System.out.println("紧急计划是否有一样的在途记录："+oldPlanCache);
+                //System.out.println("紧急计划是否有一样的在途记录："+oldPlanCache);
                 if(oldPlanCache!=null){
                     //看数量是否一致，如果一样，就不保存
                     if(oldPlanCache.getCount()==totalNeed){
@@ -664,8 +692,8 @@ public class ShortageServiceImp implements ShortageService {
                         planCacheMapper.updateByPrimaryKeySelective(oldPlanCache);
                     }
                 }else {
-                    System.out.println("发货日期："+sendDate);
-                    System.out.println("到货日期："+receiveDate);
+                    //System.out.println("发货日期："+sendDate);
+                    //System.out.println("到货日期："+receiveDate);
                     PlanCache planCache=new PlanCache();
                     planCache.setGood(good);
                     planCache.setCount(totalNeed);
@@ -688,7 +716,9 @@ public class ShortageServiceImp implements ShortageService {
             }
         }
         //批量添加新计划
-        planCacheMapper.insertBatch(newPlan);
+        if(!newPlan.isEmpty()){
+            planCacheMapper.insertBatch(newPlan);
+        }
         return ResultUtil.success("上传"+goodList.size()+"种物料的"+list.size()+"条缺件信息,新增"+newCount+"条，更新"+updateCount+"条;新增或更新"+newPlan.size()+"条未确认计划");
     }
 

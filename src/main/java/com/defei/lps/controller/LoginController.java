@@ -93,7 +93,7 @@ public class LoginController {
     //跳转到首页
     @RequestMapping(value = "toFirst", produces = {"text/html;charset=UTF-8"})
     public String toFirst() {
-        return "first";
+        return "test";
     }
 
 }

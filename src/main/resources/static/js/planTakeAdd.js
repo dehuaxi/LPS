@@ -177,7 +177,7 @@ function chooseCarType(){
                 $("#totalLowLength").html("0");
                 $("#carType").html(carTypeName);
             }else {
-                //根据车型后台查询
+                //根据车型名称查询车型详情
                 $.ajax({
                     url:'carTypeByName',
                     type:'post',
@@ -375,28 +375,26 @@ function findAll() {
                                         sort="<input type='checkbox' name='sort' onclick='checkboxSelf(this)'>";
                                     }
                                     //看当前单元格的背景色
-                                    var bc="";
-                                    if(plan.state=="未确认"){
-                                        bc="rgba(164,158,145,0.61)";
-                                    }else if(plan.state=="未取货"){
-                                        bc="rgba(238,182,41,0.29)";
+                                    var background="";
+                                    if(plan.state=="未取货"){
+                                        background="rgb(127,152,238)";
                                     }else if(plan.state=="在途"){
-                                        bc="rgba(151,201,233,0.36)";
-                                    }else {
-                                        bc="#ffffff";
+                                        background="rgb(137,239,152)";
                                     }
                                     //看计划是否试紧急的，如果是就红色字体
                                     var planColor="";
-                                    if(plan.urgent=="是"){
-                                        planColor="red";
+                                    if(plan.urgent=="特急"){
+                                        planColor="rgb(245,3,51)";
+                                    }else if(plan.urgent=="紧急"){
+                                        planColor="rgb(255,192,3)";
                                     }
-                                    //看是否是红色字体
+                                    //看缺件信息否是红色字体
                                     if(shortageRed){
                                         //有缺件信息，红色字体
-                                        str+="<td style='background-color: "+bc+"'><span style='color: red'>需求:"+shortage.needcount+" 结存:<a href='#' onclick='toUpdateStock(this)'>"+shortage.stock+"</a> 上次结存:"+shortage.laststock+"</span><br>"+sort+" (<a href='#' onclick='toUpdatePlanCache(this)"+plan.id+"</a>)<span style='color:"+planColor+"'>数量:"+plan.count+" 箱数:"+plan.boxcount+" MAX:"+plan.maxcount+" MIN:"+plan.mincount+" 确认数量:"+plan.surecount+" 收容数:"+good.oneboxcount+"</span></td>";
+                                        str+="<td style='background-color: "+background+"'><span style='color: red'>需求:"+shortage.needcount+" 结存:<a href='#' onclick='toUpdateStock(this)'>"+shortage.stock+"</a> 上次结存:"+shortage.laststock+"</span><br>"+sort+" (<a href='#' onclick='toUpdatePlanCache(this)"+plan.id+"</a>)<span style='color:"+planColor+"'>数量:"+plan.count+" 箱数:"+plan.boxcount+" MAX:"+plan.maxcount+" MIN:"+plan.mincount+" 确认数量:"+plan.surecount+" 收容数:"+good.oneboxcount+"</span></td>";
                                     }else {
                                         //有缺件信息，不是红色字体
-                                        str+="<td style='background-color: "+bc+"'><span>需求:"+shortage.needcount+" 结存:<a href='#' onclick='toUpdateStock(this)'>"+shortage.stock+"</a> 上次结存:"+shortage.laststock+"</span><br>"+sort+" (<a href='#' onclick='toUpdatePlanCache(this)'>"+plan.id+"</a>)<span style='color:"+planColor+"'>数量:"+plan.count+" 箱数:"+plan.boxcount+" MAX:"+plan.maxcount+" MIN:"+plan.mincount+" 确认数量:"+plan.surecount+" 收容数:"+good.oneboxcount+"</span></td>";
+                                        str+="<td style='background-color: "+background+"'><span>需求:"+shortage.needcount+" 结存:<a href='#' onclick='toUpdateStock(this)'>"+shortage.stock+"</a> 上次结存:"+shortage.laststock+"</span><br>"+sort+" (<a href='#' onclick='toUpdatePlanCache(this)'>"+plan.id+"</a>)<span style='color:"+planColor+"'>数量:"+plan.count+" 箱数:"+plan.boxcount+" MAX:"+plan.maxcount+" MIN:"+plan.mincount+" 确认数量:"+plan.surecount+" 收容数:"+good.oneboxcount+"</span></td>";
                                     }
                                 }
                             }
@@ -629,17 +627,17 @@ function choose(){
                         var plan=planList[k].plan;
                         if(plan!=null){
                             var planColor="";
-                            if(plan.urgent=="是"){
-                                planColor="red";
+                            if(plan.urgent=="特急"){
+                                planColor="rgb(245,3,51)";
+                            }else if(plan.urgent=="紧急"){
+                                planColor="rgb(255,192,3)";
                             }
                             str1+=" (<a href='#' onclick='toUpdatePlanCache(this)'>"+plan.id+"</a>)<span style='color:"+planColor+";'>数量:"+plan.count+" 箱数:"+plan.boxcount+" MAX:"+plan.maxcount+" MIN:"+plan.mincount+" 确认数量:"+plan.surecount+" 收容数:"+oneBoxCount+"</span>";
                             //有缺件计划才生成背景色
-                            if(plan.state=="未确认"){
-                                $(tr).find("td:eq('"+index+"')").css("background-color","rgba(164,158,145,0.61)");
-                            }else if(plan.state=="未取货"){
-                                $(tr).find("td:eq('"+index+"')").css("background-color","rgba(238,182,41,0.29)");
+                            if(plan.state=="未取货"){
+                                $(tr).find("td:eq('"+index+"')").css("background-color","rgb(127,152,238)");
                             }else if(plan.state=="在途"){
-                                $(tr).find("td:eq('"+index+"')").css("background-color","rgba(151,201,233,0.36)");
+                                $(tr).find("td:eq('"+index+"')").css("background-color","rgb(137,239,152)");
                             }
                         }
                         //内容添加到单元格
@@ -740,12 +738,10 @@ function chooseDelete(btn){
                         }
                         str1+=" (<a href='#' onclick='toUpdatePlanCache(this)'>"+plan.id+"</a>)<span style='color: "+planColor+"'>数量:"+plan.count+" 箱数:"+plan.boxcount+" MAX:"+plan.maxcount+" MIN:"+plan.mincount+" 确认数量:"+plan.surecount+" 收容数:"+plan.good.oneboxcount+"</span>";
                         //有缺件计划才生成背景色
-                        if(plan.state=="未确认"){
-                            $(tr).find("td:eq('"+index+"')").css("background-color","rgba(164,158,145,0.61)");
-                        }else if(plan.state=="未取货"){
-                            $(tr).find("td:eq('"+index+"')").css("background-color","rgba(238,182,41,0.29)");
+                        if(plan.state=="未取货"){
+                            $(tr).find("td:eq('"+index+"')").css("background-color","rgb(127,152,238)");
                         }else if(plan.state=="在途"){
-                            $(tr).find("td:eq('"+index+"')").css("background-color","rgba(151,201,233,0.36)");
+                            $(tr).find("td:eq('"+index+"')").css("background-color","rgb(137,239,152)");
                         }
                     }
                     $(tr).find("td:eq('"+index+"')").html(str1);
@@ -911,12 +907,10 @@ function updateCount(){
                             }
                             str1+=" (<a href='#' onclick='toUpdatePlanCache(this)'>"+plan.id+"</a>)<span style='color: "+planColor+"'>数量:"+plan.count+" 箱数:"+plan.boxcount+" MAX:"+plan.maxcount+" MIN:"+plan.mincount+" 确认数量:"+plan.surecount+" 收容数:"+oneBoxCount+"</span>";
                             //有缺件计划才生成背景色
-                            if(plan.state=="未确认"){
-                                $(tr).find("td:eq('"+index+"')").css("background-color","rgba(164,158,145,0.61)");
-                            }else if(plan.state=="未取货"){
-                                $(tr).find("td:eq('"+index+"')").css("background-color","rgba(238,182,41,0.29)");
+                            if(plan.state=="未取货"){
+                                $(tr).find("td:eq('"+index+"')").css("background-color","rgb(127,152,238)");
                             }else if(plan.state=="在途"){
-                                $(tr).find("td:eq('"+index+"')").css("background-color","rgba(151,201,233,0.36)");
+                                $(tr).find("td:eq('"+index+"')").css("background-color","rgb(137,239,152)");
                             }
                         }
                         //填入单元格
@@ -1089,55 +1083,55 @@ function addPlanCache(){
                     $("#table_data tr").each(function () {
                         var id=$(this).find("td:eq(0)").text();
                         if(id==goodId){
-                            for (var i = 0; i < planList.length; i++) {
-                                var tdindex=i+7;
-                                var td=$(this).find("td:eq("+tdindex+")");
-                                //缺件计划
-                                var plan=planList[i].plan;
+                            //获取行
+                            var tr=$(this);
+                            for(var k=0;k<planList.length;k++){
+                                //获取当前单元格的下标
+                                var index=parseInt(k)+7;
+                                //单元格内容
+                                var str1="";
+                                //先移除本单元格的样式
+                                $(tr).find("td:eq('"+index+"')").removeAttr("style");
                                 //缺件信息
-                                var shortage=planList[i].shortage;
-
-                                //清空td内容
-                                $(td).html("");
-                                //清空td的背景色
-                                $(td).removeAttr("style");
+                                var shortage=planList[k].shortage;
                                 if(shortage!=null){
-                                    //是否标红
-                                    var red=planList[i].shortageRed;
+                                    var shortageRed=planList[k].shortageRed;
                                     var shortageColor="";
-                                    if(red){
+                                    if(shortageRed){
                                         shortageColor="red";
                                     }
-                                    //缺件信息不为空才填入信息
-                                    if(plan==null){
-                                        //无计划，只填缺件信息
-                                        $(td).html("<span style='color: "+shortageColor+"'>需求:"+shortage.needcount+" 结存:<a href='#' onclick='toUpdateStock(this)'>"+shortage.stock+"</a> 上次结存:"+shortage.laststock+"</span>");
+                                    str1+="<span style='color: "+shortageColor+"'>需求:"+shortage.needcount+" 结存:<a href='#' onclick='toUpdateStock(this)'>"+shortage.stock+"</a> 上次结存:"+shortage.laststock+"</span>";
+                                }
+                                //缺件计划是否显示复选框
+                                var checkbox=planList[k].checkbox;
+                                if(checkbox){
+                                    //是否选择复选框
+                                    var checked=planList[k].checked;
+                                    if(checked){
+                                        str1+="<br><input type='checkbox' name='sort' onclick='checkboxSelf(this)' checked='checked'>";
                                     }else {
-                                        //有计划，填入缺件、计划信息
-                                        var unsureCount=parseInt(plan.count)-parseInt(plan.surecount);
-                                        var unsureBoxCount=0;
-                                        if(unsureCount%plan.good.oneboxcount==0){
-                                            unsureBoxCount=unsureCount/plan.good.oneboxcount;
-                                        }else {
-                                            unsureBoxCount=Math.ceil(unsureCount/plan.good.oneboxcount);
-                                        }
-                                        var planColor="";
-                                        if(plan.urgent=="是"){
-                                           planColor="red";
-                                        }
-                                        //根据计划在途显示背景色
-                                        if(plan.state=="未确认"){
-                                            $(td).html("<span style='color: "+shortageColor+"'>需求:"+shortage.needcount+" 结存:<a href='#' onclick='toUpdateStock(this)'>"+shortage.stock+"</a> 上次结存:"+shortage.laststock+"</span><br><input type='checkbox' name='sort' onclick='checkboxSelf(this)'> (<a href='#' onclick='toUpdatePlanCache(this)'>"+plan.id+"</a>)<span style='color: "+planColor+"'>数量:"+plan.count+" 箱数:"+plan.boxcount+" 未确认数量:"+unsureCount+" 未确认箱数:"+unsureBoxCount+" 收容数:"+plan.good.oneboxcount+"</span>");
-                                            $(td).css("background-color","rgba(164,158,145,0.61)");
-                                        }else if(plan.state=="未取货"){
-                                            $(td).html("<span style='color: "+shortageColor+"'>需求:"+shortage.needcount+" 结存:<a href='#' onclick='toUpdateStock(this)'>"+shortage.stock+"</a> 上次结存:"+shortage.laststock+"</span><br>("+plan.id+")<span style='color: "+planColor+"'>数量:"+plan.count+" 箱数:"+plan.boxcount+"</span>");
-                                            $(td).css("background-color","rgba(238,182,41,0.29)");
-                                        }else if(plan.state=="在途"){
-                                            $(td).html("<span style='color: "+shortageColor+"'>需求:"+shortage.needcount+" 结存:<a href='#' onclick='toUpdateStock(this)'>"+shortage.stock+"</a> 上次结存:"+shortage.laststock+"</span><br>("+plan.id+")<span style='color: "+planColor+"'>数量:"+plan.count+" 箱数:"+plan.boxcount+"</span>");
-                                            $(td).css("background-color","rgba(151,201,233,0.36)");
-                                        }
+                                        str1+="<br><input type='checkbox' name='sort' onclick='checkboxSelf(this)'>";
                                     }
                                 }
+                                //缺件计划信息
+                                var plan=planList[k].plan;
+                                if(plan!=null){
+                                    var planColor="";
+                                    if(plan.urgent=="特急"){
+                                        planColor="rgb(245,3,51)";
+                                    }else if(plan.urgent=="紧急"){
+                                        planColor="rgb(255,192,3)";
+                                    }
+                                    str1+=" (<a href='#' onclick='toUpdatePlanCache(this)'>"+plan.id+"</a>)<span style='color:"+planColor+";'>数量:"+plan.count+" 箱数:"+plan.boxcount+" MAX:"+plan.maxcount+" MIN:"+plan.mincount+" 确认数量:"+plan.surecount+" 收容数:"+plan.good.oneboxcount+"</span>";
+                                    //有缺件计划才生成背景色
+                                    if(plan.state=="未取货"){
+                                        $(tr).find("td:eq('"+index+"')").css("background-color","rgb(127,152,238)");
+                                    }else if(plan.state=="在途"){
+                                        $(tr).find("td:eq('"+index+"')").css("background-color","rgb(137,239,152)");
+                                    }
+                                }
+                                //内容添加到单元格
+                                $(tr).find("td:eq('"+index+"')").html(str1);
                             }
                         }
                     })
@@ -1250,17 +1244,17 @@ function updateStock(){
                                             sort="<input type='checkbox' name='sort' onclick='checkboxSelf(this)'>";
                                         }
                                         var planColor="";
-                                        if(plan.urgent=="是"){
-                                            planColor="red";
+                                        if(plan.urgent=="特急"){
+                                            planColor="rgb(245,3,51)";
+                                        }else if(plan.urgent=="紧急"){
+                                            planColor="rgb(255,192,3)";
                                         }
                                         $(td).html("<span style='color: "+shortageColor+"'>需求:"+shortage.needcount+" 结存:<a href='#' onclick='toUpdateStock(this)'>"+shortage.stock+"</a> 上次结存:"+shortage.laststock+"</span><br>"+sort+" (<a href='#' onclick='toUpdatePlanCache(this)'>"+plan.id+"</a>)<span style='color: "+planColor+"'>数量:"+plan.count+" 箱数:"+plan.boxcount+" MAX:"+plan.maxcount+" MIN:"+plan.mincount+" 确认数量:"+plan.surecount+" 收容数:"+good.oneboxcount+"</span>");
-                                        //看当前单元格的背景色
-                                        if(plan.state=="未确认"){
-                                            $(td).css("background-color","rgba(164,158,145,0.61)");
-                                        }else if(plan.state=="未取货"){
-                                            $(td).css("background-color","rgba(238,182,41,0.29)");
+                                        //有缺件计划才生成背景色
+                                        if(plan.state=="未取货"){
+                                            $(tr).find("td:eq('"+index+"')").css("background-color","rgb(127,152,238)");
                                         }else if(plan.state=="在途"){
-                                            $(td).css("background-color","rgba(151,201,233,0.36)");
+                                            $(tr).find("td:eq('"+index+"')").css("background-color","rgb(137,239,152)");
                                         }
                                     }
                                 }

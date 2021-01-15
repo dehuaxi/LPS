@@ -59,8 +59,6 @@ function loadCarType(){
 function toAdd() {
     //清除输入框内容
     $("#add_carNumber").val("");
-    $("#add_driver").val("");
-    $("#add_phone").val("");
     $("#add_carrierId").val("0");
     $("#add_carTypeId").val("0");
     $("#add_highLength").val("");
@@ -79,8 +77,6 @@ function toAdd() {
 function add() {
     //获取参数
     var carNumber=$("#add_carNumber").val();
-    var driver=$("#add_driver").val();
-    var phone=$("#add_phone").val();
     var carrierId=$("#add_carrierId").val();
     var carTypeId=$("#add_carTypeId").val();
     var highLength=$("#add_highLength").val();
@@ -95,11 +91,7 @@ function add() {
     var str3=/^[0-9]{1,11}$/;
     if (!str.test(carNumber)) {
         $("#add_carNumber").focus();
-    } else if (driver == "") {
-        $("#add_driver").focus();
-    } else if(!str1.test(phone)){
-        $("#add_phone").focus();
-    } else if(carrierId==0){
+    }else if(carrierId==0){
         alert("选择承运商");
     } else if(carTypeId==0){
         alert("选择车型");
@@ -120,8 +112,6 @@ function add() {
             url: 'carAdd',
             type: 'post',
             data: {'carNumber': carNumber,
-                'driver': driver,
-                'phone': phone,
                 'carrierId':carrierId,
                 'carTypeId':carTypeId,
                 'highLength':highLength,
@@ -161,21 +151,17 @@ function toUpdate(a) {
     $("#update_id").val(id);
     var carNumber=$(td[1]).text();
     $("#update_carNumber").val(carNumber);
-    var driver=$(td[2]).text();
-    $("#update_driver").val(driver);
-    var phone=$(td[3]).text();
-    $("#update_phone").val(phone);
-    var carrierName=$(td[4]).text();
-    var carTypeName=$(td[5]).text();
-    var highLength=$(td[6]).text();
+    var carrierName=$(td[2]).text();
+    var carTypeName=$(td[3]).text();
+    var highLength=$(td[4]).text();
     $("#update_highLength").val(highLength);
-    var highHeight=$(td[7]).text();
+    var highHeight=$(td[5]).text();
     $("#update_highHeight").val(highHeight);
-    var lowLength=$(td[8]).text();
+    var lowLength=$(td[6]).text();
     $("#update_lowLength").val(lowLength);
-    var lowHeight=$(td[9]).text();
+    var lowHeight=$(td[7]).text();
     $("#update_lowHeight").val(lowHeight);
-    var carWidth=$(td[10]).text();
+    var carWidth=$(td[8]).text();
     $("#update_carWidth").val(carWidth);
     var isOpen=true;
     //加载承运商
@@ -243,8 +229,6 @@ function toUpdate(a) {
 function update() {
     //获取参数
     var id = $("#update_id").val();//id
-    var driver=$("#update_driver").val();
-    var phone=$("#update_phone").val();
     var carrierId=$("#update_carrierId").val();
     var carTypeId=$("#update_carTypeId").val();
     var highLength=$("#update_highLength").val();
@@ -256,11 +240,7 @@ function update() {
     var str1=/^[1]{1}[0-9]{10}$/;
     var str2=/^[1-9]{1}[0-9]{0,10}$/;
     var str3=/^[0-9]{1,11}$/;
-    if (driver == "") {
-        $("#update_driver").focus();
-    } else if(!str1.test(phone)){
-        $("#update_phone").focus();
-    } else if(carrierId==0){
+    if(carrierId==0){
         alert("选择承运商");
     } else if(carTypeId==0){
         alert("选择车型");
@@ -283,8 +263,6 @@ function update() {
             data: {'id': id,
                 'carrierId': carrierId,
                 'carTypeId': carTypeId,
-                'driver': driver,
-                'phone':phone,
                 'highLength':highLength,
                 'highHeight':highHeight,
                 'lowLength':lowLength,
@@ -400,8 +378,6 @@ function findByLimit(currentPage) {
                     for (var i = 0; i < record.length; i++) {
                         var str = "<tr><td style='display: none'>" + record[i].id +
                             "</td><td>" + record[i].carnumber +
-                            "</td><td>" + record[i].driver +
-                            "</td><td>" + record[i].phone +
                             "</td><td>" + record[i].carrier.carriername +
                             "</td><td>" + record[i].cartype.cartypename +
                             "</td><td>" + record[i].highlength +

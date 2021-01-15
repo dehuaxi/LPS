@@ -1,103 +1,38 @@
 
 //-------------------------------页面加载执行--------------------------------------
 $(document).ready(function () {
-    //加载查询栏、添加模态框的工厂
-    $.ajax({
-        url: 'currentFactory',
-        type: 'post',
-        dataType:'json',
-        success: function (data) {
-            if (data.code==0) {
-                for(var i=0;i<data.data.length;i++){
-                    $("#select_factoryId").append("<option value='"+data.data[i].id+"'>"+data.data[i].factoryname+"</option>")
-                    $("#add_factoryId").append("<option value='"+data.data[i].id+"'>"+data.data[i].factoryname+"</option>")
-                }
-            } else {
-                alert(data.msg);
-            }
-        },
-        error:function(jqXHR, textStatus, errorThrown){
-            var status = jqXHR.status;//404,500等
-            var text = jqXHR.statusText;//404对应的Not found,500对应的error
-            alert("加载工厂信息失败：" + status + "  " + text);
-        }
-    });
-    //加载查询栏的线路
-    $.ajax({
-        url: 'currentRoute',
-        type: 'post',
-        dataType:'json',
-        success: function (data) {
-            if (data.code==0) {
-                for(var i=0;i<data.data.length;i++){
-                    $("#select_routeId").append("<option value='"+data.data[i].id+"'>"+data.data[i].routename+"</option>")
-                }
-            } else {
-                alert(data.msg);
-            }
-        },
-        error:function(jqXHR, textStatus, errorThrown){
-            var status = jqXHR.status;//404,500等
-            var text = jqXHR.statusText;//404对应的Not found,500对应的error
-            alert("加载线路信息失败：" + status + "  " + text);
-        }
-    });
-
     laydate.render({
         elem: '#input_date',//指定元素
         type: 'date'//日期
     });
-
     laydate.render({
-        elem: '#add_date',//指定元素
+        elem: '#input_overDate',//指定元素
         type: 'date'//日期
     });
-
-    laydate.render({
-        elem: '#update_date',//指定元素
-        type: 'date'//日期
-    });
-
     //查询
     findByLimit(1);
 
-    //添加模态框中输入物料名称的按键事件
-    $("#add_findGoodName").keyup(function (event) {
-        loadGood();
-    })
-})
-
-
-//----------------------------------------删除-----------------------------------
-function toDelete(a) {
-    //获取角色id
-    var id = a.parentNode.parentNode.childNodes[0].innerHTML;
-    var tips = confirm("确定删除吗？");
-    if (tips == true) {
-        $("#div_loading").css("display","block");
-        //ajax删除
-        $.ajax({
-            url: 'planCacheDelete',
-            type: 'post',
-            data: {'id': id},
-            success: function (data) {
-                if (data.code==0) {
-                    var currentPage=$("#span_currentPage").html();
-                    findByLimit(currentPage);
-                } else {
-                    alert(data.msg);
+    //加载车型
+    $.ajax({
+        url: 'carType',
+        type: 'post',
+        dataType:'json',
+        success: function (data) {
+            if (data.code==0) {
+                for(var i=0;i<data.data.length;i++){
+                    $("#select_carTypeName").append("<option>"+data.data[i].cartypename+"</option>")
                 }
-                $("#div_loading").css("display","none");
-            },
-            error:function(jqXHR, textStatus, errorThrown){
-                var status = jqXHR.status;//404,500等
-                var text = jqXHR.statusText;//404对应的Not found,500对应的error
-                alert("删除失败：" + status + "  " + text);
-                $("#div_loading").css("display","none");
+            } else {
+                alert(data.msg);
             }
-        });
-    }
-}
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+            var status = jqXHR.status;//404,500等
+            var text = jqXHR.statusText;//404对应的Not found,500对应的error
+            alert("加载车型信息失败：" + status + "  " + text);
+        }
+    });
+})
 
 //------------------------------------分页查询收货记录-------------------------------
 //时间格式化
@@ -120,29 +55,23 @@ function findByLimit(currentPage) {
     var goodName=$("#input_goodName").val();
     var supplierCode=$("#input_supplierCode").val();
     var supplierName=$("#input_supplierName").val();
-    var routeId=$("#select_routeId").val();
-    var factoryId=$("#select_factoryId").val();
     var date=$("#input_date").val();
-    var state=$("#select_state").val();
-    var type=$("#select_type").val();
-    var urgent=$("#select_urgent").val();
+    var carTypeName=$("#select_carTypeName").val();
+    var overDate=$("#input_overDate").val();
     //先清除旧数据
     $("#table_data").html("");
     //后台查询
     $.ajax({
-        url: 'planCache',
+        url: 'planTakeRecord',
         type: 'post',
         data: {
             'goodCode':goodCode,
             'goodName':goodName,
             'supplierCode':supplierCode,
             'supplierName':supplierName,
-            'routeId':routeId,
-            'factoryId':factoryId,
             'date':date,
-            'state':state,
-            'type':type,
-            'urgent':urgent,
+            'carTypeName':carTypeName,
+            'overDate':overDate,
             'currentPage': currentPage
         },
         dataType:'json',
@@ -167,68 +96,46 @@ function findByLimit(currentPage) {
                     $("#div_page").css("display", "block");
                     //五、把数据填入页面
                     var record = datas.list;
-                    var deleteBtn="";
-                    if(deleteData){
-                        deleteBtn="<td><button type='button' class='btn btn-danger btn-xs' onclick='toDelete(this)'>删除</button></td>";
-                    }
                     for (var i = 0; i < record.length; i++) {
-                        var background="";
-                        if(record[i].state=="未取货"){
-                            background="rgb(127,152,238)";
-                        }else if(record[i].state=="在途"){
-                            background="rgb(137,239,152)";
-                        }
-                        var color="";
-                        if(record[i].urgent=="特急"){
-                            color="rgb(245,3,51)";
-                        }else if(record[i].urgent=="紧急"){
-                            color="rgb(255,192,3)";
-                        }
                         var goodcode="";
                         var goodname="";
                         var suppliercode="";
                         var suppliername="";
-                        var factoryname="";
-                        var routename="";
-                        var transitDay="";
                         if(record[i].good!=null){
                             goodcode= record[i].good.goodcode;
                             goodname=record[i].good.goodname;
                             if(record[i].good.supplier!=null){
                                 suppliercode=record[i].good.supplier.suppliercode;
                                 suppliername=record[i].good.supplier.suppliername;
-                                transitDay=record[i].good.supplier.transitday;
-                                if(record[i].good.supplier.route!=null){
-                                    routename=record[i].good.supplier.route.routename;
-                                    if(record[i].good.supplier.route.factory!=null){
-                                        factoryname=record[i].good.supplier.route.factory.factoryname;
-                                    }
-                                }
                             }
                         }
-                        var str= "<tr style='background-color: "+background+";color: "+color+"'><td style='display: none'>" + record[i].id + "</td>"+
+                        var str = "<tr><td>" + record[i].plannumber +"</td>"+
                             "<td>" + goodcode +"</td>"+
                             "<td>" + goodname +"</td>"+
                             "<td>" + suppliercode +"</td>"+
                             "<td>" + suppliername +"</td>"+
                             "<td>" + record[i].boxcount +"</td>"+
                             "<td>" + record[i].count +"</td>"+
-                            "<td>" + record[i].maxcount +"</td>"+
-                            "<td>" + record[i].mincount +"</td>"+
-                            "<td>" + record[i].surecount +"</td>"+
-                            "<td>" + record[i].takecount +"</td>"+
-                            "<td>" + record[i].receivecount +"</td>"+
+                            "<td>" + record[i].realcount +"</td>"+
                             "<td>" + record[i].date +"</td>"+
-                            "<td>" + record[i].receivedate +"</td>"+
-                            "<td>" + transitDay +"</td>"+
-                            "<td>" + record[i].state +"</td>"+
-                            "<td>" + record[i].type +"</td>"+
-                            "<td>" + record[i].urgent +"</td>"+
-                            "<td>" + timeFormat(record[i].createtime) +"</td>"+
-                            "<td>" + routename +"</td>"+
-                            "<td>" + factoryname +"</td>"+
-                            "<td>" + record[i].remarks +"</td>"+
-                            deleteBtn+"</tr>";
+                            "<td>" + record[i].length +"</td>"+
+                            "<td>" + record[i].volume +"</td>"+
+                            "<td>" + record[i].weight +"</td>"+
+                            "<td>" + record[i].cartype +"</td>"+
+                            "<td>" + record[i].highlength +"</td>"+
+                            "<td>" + record[i].highheight +"</td>"+
+                            "<td>" + record[i].lowlength +"</td>"+
+                            "<td>" + record[i].lowheight +"</td>"+
+                            "<td>" + record[i].carwidth +"</td>"+
+                            "<td>" + record[i].startname +"</td>"+
+                            "<td>" + record[i].startnumber +"</td>"+
+                            "<td>" + record[i].endname +"</td>"+
+                            "<td>" + record[i].endnumber +"</td>"+
+                            "<td>" + record[i].routetype +"</td>"+
+                            "<td>" + record[i].createtime +"</td>"+
+                            "<td>" + timeFormat(record[i].overtime) +"</td>" +
+                            "<td>" + record[i].username +"</td>"+
+                            "</tr>";
                         $("#table_data").append(str);
                     }
                 } else {

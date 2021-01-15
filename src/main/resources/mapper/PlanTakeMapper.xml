@@ -171,7 +171,7 @@
   <select id="selectGroupPlannumberByPlancacheid" resultMap="BaseResultMap" >
     select <include refid="Base_Column_List" /> from plantake
     where plancacheid = #{plancacheid,jdbcType=INTEGER}
-    group by plannumber=#{plannumber}
+    group by plannumber
   </select>
   <!-- 根据在途计划id查询 -->
   <select id="selectByPlancacheid" resultMap="BaseResultMap" >

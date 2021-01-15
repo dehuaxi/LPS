@@ -12,7 +12,7 @@ public interface PlanCacheService {
     //根据id删除未确认的计划
     public Result delete(int id);
     //条件分页查询
-    public Result findAll(String goodCode,String goodName,String supplierCode, String supplierName, int routeId, int factoryId, String date,String state,String urgent,String type,int currentPage);
+    public Result findAll(String goodCode,String goodName,String supplierCode, String supplierName, int routeId, int factoryId, String date,String state,String type,String urgent,int currentPage);
     //根据id查询
     public Result planCacheUpdate(int id);
     //根据供应商编号查询所有的未取货计划

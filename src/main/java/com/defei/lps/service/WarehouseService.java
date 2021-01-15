@@ -17,4 +17,6 @@ public interface WarehouseService {
     public Result warehouseZtree();
     //查询当前账号能看到的所有中转仓
     public Result currentWarehouse();
+    //查询所有,为下拉框生成
+    public Result warehouseAll();
 }

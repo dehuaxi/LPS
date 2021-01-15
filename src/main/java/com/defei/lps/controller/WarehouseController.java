@@ -72,4 +72,11 @@ public class WarehouseController {
     public Result currentWarehouse(){
         return warehouseService.currentWarehouse();
     }
+
+    //查询所有
+    @RequestMapping(value = "warehouseAll", produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public Result warehouseAll() {
+        return warehouseService.warehouseAll();
+    }
 }

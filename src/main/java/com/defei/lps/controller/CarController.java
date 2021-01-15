@@ -36,8 +36,8 @@ public class CarController {
     @RequestMapping(value = "carAdd", produces = {"application/json;charset=UTF-8"})
     @RequiresPermissions("carAdd")
     @ResponseBody
-    public Result add(String carNumber, int carrierId, int carTypeId,String driver,String phone,int highLength,int highHeight,int lowLength,int lowHeight,int carWidth) {
-        return carService.add(carNumber, carrierId,carTypeId,driver,phone,highLength,highHeight,lowLength,lowHeight,carWidth);
+    public Result add(String carNumber, int carrierId, int carTypeId,int highLength,int highHeight,int lowLength,int lowHeight,int carWidth) {
+        return carService.add(carNumber, carrierId,carTypeId,highLength,highHeight,lowLength,lowHeight,carWidth);
     }
 
     //删除
@@ -52,8 +52,8 @@ public class CarController {
     @RequestMapping(value = "carUpdate", produces = {"application/json;charset=UTF-8"})
     @RequiresPermissions("carUpdate")
     @ResponseBody
-    public Result update(int id, int carrierId, int carTypeId,String driver,String phone,int highLength,int highHeight,int lowLength,int lowHeight,int carWidth) {
-        return carService.update(id,carrierId,carTypeId,driver,phone,highLength,highHeight,lowLength,lowHeight,carWidth);
+    public Result update(int id, int carrierId, int carTypeId,int highLength,int highHeight,int lowLength,int lowHeight,int carWidth) {
+        return carService.update(id,carrierId,carTypeId,highLength,highHeight,lowLength,lowHeight,carWidth);
     }
 
     //根据车型名称查询

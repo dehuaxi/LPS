@@ -805,14 +805,27 @@ public class PlanTakeServiceImp implements PlanTakeService {
     public Result planTakeByNumbers(String planNumbers) {
         String[] list=planNumbers.split(",");
         List<PlanTake> resultLit=new ArrayList<>();
+        //验证所选的几个取货计划是否是同一个取货日期，同一个出发地目的地的计划
+        //取货日期+出发地编号+目的地编号+
+        String key="";
         for(String planNumber:list){
             if(planNumber!=null){
                 List<PlanTake> planTakeList=planTakeMapper.selectByPlannumber(planNumber);
                 if(!planTakeList.isEmpty()){
+                    if(key.equals("")){
+                        key=planTakeList.get(0).getDate()+planTakeList.get(0).getStartnumber()+planTakeList.get(0).getEndnumber();
+                    }else {
+                        //如果key不为空，说明是第二个及以后的取货计划，需要判断和第一个取货计划是否是同样的发货日期、出发地、目的地
+                        if(!key.equals(planTakeList.get(0).getDate()+planTakeList.get(0).getStartnumber()+planTakeList.get(0).getEndnumber())){
+                            return ResultUtil.error(1,"取货计划"+planNumber+"与"+list[0]+"不是相同发货日期、相同出发地、相同目的地的计划");
+                        }
+                    }
+                    //如果相同了，才能互相拆拼
                     resultLit.addAll(planTakeList);
                 }
             }
         }
+        key=null;
         if(resultLit.isEmpty()){
             return ResultUtil.success();
         }
@@ -1315,10 +1328,13 @@ public class PlanTakeServiceImp implements PlanTakeService {
                     //取货计划的新数量
                     int newCount=(Integer) map.get("count");
                     totalCount+=newCount;
+                    System.out.println("原计划数量："+oldPlantake.getCount()+"--------新取货数量："+newCount);
                     //分条对原计划进行判断，如果新取货计划数量=原计划数量就删除原计划，否则就修改原计划信息
                     if(oldPlantake.getCount()==newCount){
+                        System.out.println("删除原计划");
                         planTakeMapper.deleteByPrimaryKey(oldPlantake.getId());
                     }else {
+                        System.out.println("修改原计划");
                         //对原计划的数量、箱数、长度、体积、重量修改
                         int oldNewCount=oldPlantake.getCount()-newCount;
                         oldPlantake.setCount(oldNewCount);
@@ -1337,6 +1353,7 @@ public class PlanTakeServiceImp implements PlanTakeService {
                 PlanTake oldPlanTake=(PlanTake)list1.get(0).get("planTake");
                 //多条计划。需要合并计算
                 PlanTake planTake=new PlanTake();
+                planTake.setPlancacheid(oldPlanTake.getPlancacheid());
                 planTake.setPlannumber(planNumber);
                 planTake.setGood(oldPlanTake.getGood());
                 planTake.setCount(totalCount);
@@ -1367,8 +1384,7 @@ public class PlanTakeServiceImp implements PlanTakeService {
             }else if(list1.size()==1){
                 //单条计划。无需计算，如果新取货数量=原取货数量直接修改，否则就要添加新取货计划并修改原计划
                 PlanTake oldPlanTake=(PlanTake) list1.get(0).get("planTake");
-                if((Integer)list1.get(0).get("count")==oldPlanTake.getCount()){
-                    System.out.println("修改原几乎："+oldPlanTake.getId());
+                if(new BigDecimal(oldPlanTake.getCount()).compareTo(new BigDecimal((Integer)list1.get(0).get("count")))==0){
                     //如果新计划的取货数量=原计划的取货数量，那么修改原计划的：计划编号、车型、车型相关高长、计算车高、车宽、长度
                     oldPlanTake.setPlannumber(planNumber);
                     //车型

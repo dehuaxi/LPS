@@ -299,4 +299,17 @@ public class WarehouseServiceImp implements WarehouseService {
         List<Warehouse> warehouses=warehouseList.stream().distinct().collect(Collectors.toList());
         return ResultUtil.success(warehouses);
     }
+
+    /**
+     * 查询所有,为下拉框生成
+     * @return
+     */
+    @Override
+    public Result warehouseAll() {
+        List<Warehouse> warehouses=warehouseMapper.selectAll();
+        if(warehouses.isEmpty()){
+            return ResultUtil.error(1,"无中转仓数据");
+        }
+        return ResultUtil.success(warehouses);
+    }
 }

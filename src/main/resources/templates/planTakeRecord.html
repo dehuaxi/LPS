@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
-    <title>缺件报表</title>
+    <title>取货计划完成记录</title>
     <!-- 导入bootstrap样式 -->
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
     <!-- title图标 -->
@@ -14,7 +14,7 @@
     <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
     <script th:src="@{/laydate/laydate.js}"></script>
     <script th:src="@{/js/ajaxAll.js}"></script>
-    <script th:src="@{/js/shortage.js}"></script>
+    <script th:src="@{/js/planTakeRecord.js}"></script>
     <style>
         #search-collapse input{
             height: 30px;
@@ -23,13 +23,19 @@
         #search-collapse select{
             height: 30px;
         }
+        table{
+            white-space: nowrap;
+        }
+        table th{
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
 <!-- 面包屑导航 -->
 <ul class="breadcrumb" style="margin:0">
     <li class="active">缺件计划</li>
-    <li class="active">缺件报表</li>
+    <li class="active">取货计划完成记录</li>
 </ul>
 <!-- 搜索导航 -->
 <div class="navbar-header">
@@ -42,59 +48,48 @@
     <input type="text" placeholder="物料名称" class="form-inline" id="input_goodName"/>
     <input type="text" placeholder="供应商编号" class="form-inline" id="input_supplierCode"/>
     <input type="text" placeholder="供应商名称" class="form-inline" id="input_supplierName"/>
-    <select class="form-inline" id="select_factoryId">
-        <option value="0">请选择工厂</option>
+    <input type="text" placeholder="发货日期" class="form-inline" id="input_date"/>
+    <select class="form-inline" id="select_carTypeName">
+        <option value="">选择车型</option>
     </select>
-    <select class="form-inline" id="select_routeId">
-        <option value="0">请选择线路</option>
-    </select>
-    <input type="text" placeholder="开始日期" class="form-inline" id="input_dateStart"/>
-    <input type="text" placeholder="结束日期" class="form-inline" id="input_dateEnd"/>
+    <input type="text" placeholder="计划完成日期" class="form-inline" id="input_overDate"/>
     <button class="btn btn-primary btn-sm form-inline" type="button" onclick="findByLimit(1)">查询<span
             class="glyphicon glyphicon-search"></span></button>
-    <shiro:hasPermission name="shortageAdd">
-    <button class="btn btn-info btn-sm form-inline" type="button" onclick="toUpload()">缺件报表上传<span
-            class="glyphicon glyphicon-plus"></span></button>
-    </shiro:hasPermission>
 </div>
 
 <table class="table table-condensed table-bordered table-hover">
-    <thead id="table_head"></thead>
-    <tbody id="table_data" style="overflow-y: scroll;"></tbody>
+    <thead>
+    <tr>
+        <th>取货计划编号</th>
+        <th>物料编号</th>
+        <th>物料名称</th>
+        <th>供应商编号</th>
+        <th>供应商名称</th>
+        <th>计划箱数</th>
+        <th>计划数量</th>
+        <th>实发数量</th>
+        <th>发货日期</th>
+        <th>长度(m)</th>
+        <th>体积()</th>
+        <th>重量(t)</th>
+        <th>车型</th>
+        <th>高板长(mm)</th>
+        <th>高板高(mm)</th>
+        <th>低板长(mm)</th>
+        <th>低板高(mm)</th>
+        <th>车宽(mm)</th>
+        <th>出发地</th>
+        <th>出发地编号</th>
+        <th>目的地</th>
+        <th>目的地编号</th>
+        <th>线路类型</th>
+        <th>取货计划创建时间</th>
+        <th>取货计划完结时间</th>
+        <th>完结人</th>
+    </tr>
+    </thead>
+    <tbody id="table_data"></tbody>
 </table>
-
-<!--批量添加模态框 -->
-<div class="modal fade" id="uploadModal" role="dialog" data-backdrop="static">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 align="center">批量添加</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <button type="button" onclick="window.open('shortageModalDownload')" class="btn btn-info">模板下载</button>
-                </div>
-                <div class="form-group">
-                    <form method="post" enctype="multipart/form-data" id="uploadForm" role="form">
-                        <input type="file" name="file" id="uploadFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" class="form-control">
-                    </form>
-                </div>
-                <div class="form-group">
-                    <select class="form-control" id="add_factoryId">
-                        <option value="0">请选择工厂</option>
-                    </select>
-                </div>
-                <p align="center" id="uploadResult" style="color: red"></p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-success" type="button" onclick="upload()">导入</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- 底部分页 -->
 <div id="div_page">

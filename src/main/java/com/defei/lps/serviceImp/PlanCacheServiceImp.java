@@ -226,8 +226,8 @@ public class PlanCacheServiceImp implements PlanCacheService {
         //只能删除发货日期大于今天的计划
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
         try {
-            if(simpleDateFormat.parse(oldPlanCache.getDate()).getTime()<=simpleDateFormat.parse(simpleDateFormat.format(new Date())).getTime()){
-                return ResultUtil.error(1,"只可删除发货日期大于今天的计划");
+            if(simpleDateFormat.parse(oldPlanCache.getDate()).getTime()<simpleDateFormat.parse(simpleDateFormat.format(new Date())).getTime()){
+                return ResultUtil.error(1,"只可删除发货日期大于等于今天的计划");
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -279,7 +279,7 @@ public class PlanCacheServiceImp implements PlanCacheService {
      * @return
      */
     @Override
-    public Result findAll(String goodCode,String goodName,String supplierCode, String supplierName, int routeId, int factoryId, String date,String state,String urgent,String type,int currentPage) {
+    public Result findAll(String goodCode,String goodName,String supplierCode, String supplierName, int routeId, int factoryId, String date,String state,String type,String urgent,int currentPage) {
         //校验参数
         if(!goodCode.matches("^[0-9A-Za-z#-]{0,30}$")){
             return ResultUtil.error(1,"物料编号只能是1-30位的数字、大小写字母、特殊字符(#-)");
@@ -293,10 +293,10 @@ public class PlanCacheServiceImp implements PlanCacheService {
         //查询起始下标
         int index=(currentPage-1)*30;
         //分页条件查询
-        List<PlanCache> list=planCacheMapper.selectLimitByCondition(goodCode,goodName,supplierCode,supplierName ,date,state,type,routeId,factoryId,index);
+        List<PlanCache> list=planCacheMapper.selectLimitByCondition(goodCode,goodName,supplierCode,supplierName ,date,state,type,urgent,routeId,factoryId,index);
         if(!list.isEmpty()) {
             //总数量
-            int totalCount=planCacheMapper.selectCountByCondition(goodCode,goodName,supplierCode,supplierName ,date,state,type,routeId,factoryId);
+            int totalCount=planCacheMapper.selectCountByCondition(goodCode,goodName,supplierCode,supplierName ,date,state,type,urgent,routeId,factoryId);
             int totalPage=0;
             if(totalCount%30==0) {
                 totalPage=totalCount/30;
@@ -2278,7 +2278,7 @@ public class PlanCacheServiceImp implements PlanCacheService {
         Date now=new Date();
         SimpleDateFormat simpleDateFormat1=new SimpleDateFormat("yyyy-MM-dd");
         try {
-            if(simpleDateFormat1.parse(date).getTime()<=simpleDateFormat1.parse(simpleDateFormat1.format(now)).getTime()){
+            if(simpleDateFormat1.parse(date).getTime()<simpleDateFormat1.parse(simpleDateFormat1.format(now)).getTime()){
                 return ResultUtil.error(1,"取货日期时间必须大于等于当前日期");
             }
         } catch (ParseException e) {
@@ -2307,6 +2307,28 @@ public class PlanCacheServiceImp implements PlanCacheService {
             return ResultUtil.error(1,"该物料没有"+date+"及以后几天的缺件报表，无法添加缺件计划");
         }
         String shortageStockChangeCount= params1.getParamvalue();
+        //运输周期
+        int transitDay=new BigDecimal(good.getSupplier().getTransitday()).intValue();
+        if(good.getSupplier().getTransitday().contains(".")){
+            //如果配送天数值含有.号，就说明是有小数的，那么统一给配送周期向上取整
+            transitDay++;
+        }
+        //当前日期的前一天是到货日期，在从到货日期往回推运输周期天
+        String receiveDate="";
+        Calendar calendar=Calendar.getInstance();
+        try {
+            calendar.setTime(simpleDateFormat1.parse(date));
+            calendar.add(Calendar.DATE,transitDay);
+            //到货日期
+            receiveDate=simpleDateFormat1.format(calendar.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //根据发货日期、到货日期、物料查询是否已经有计划了
+        PlanCache oldPlanCache=planCacheMapper.selectByGoodidAndDateAndReceivedate(good.getId(),date,receiveDate);
+        if(oldPlanCache!=null){
+            return ResultUtil.error(1,"添加失败，该物料已经有相同发货日期和到货日期的计划了");
+        }
         //添加缺件计划，直接为未取货状态
         PlanCache planCache=new PlanCache();
         planCache.setGood(good);
@@ -2322,24 +2344,9 @@ public class PlanCacheServiceImp implements PlanCacheService {
         }else {
             boxCount=count/good.getOneboxcount();
         }
-        planCache.setBoxcount(boxCount);
-        //运输周期
-        int transitDay=new BigDecimal(good.getSupplier().getTransitday()).intValue();
-        if(good.getSupplier().getTransitday().contains(".")){
-            //如果配送天数值含有.号，就说明是有小数的，那么统一给配送周期向上取整
-            transitDay++;
-        }
-        //当前日期的前一天是到后日期，在从到货日期往回推运输周期天
         planCache.setDate(date);
-        Calendar calendar=Calendar.getInstance();
-        try {
-            calendar.setTime(simpleDateFormat1.parse(date));
-            calendar.add(Calendar.DATE,transitDay);
-            //到货日期
-            planCache.setReceivedate(simpleDateFormat1.format(calendar.getTime()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        planCache.setReceivedate(receiveDate);
+        planCache.setBoxcount(boxCount);
         planCache.setState("未取货");
         planCache.setType("系统");
         planCache.setUrgent("正常");

@@ -174,7 +174,7 @@ function add() {
         $("#add_oneCarCount").focus();
     }else if(!str.test(maxStock)){
         $("#add_maxStock").focus();
-    }else if(!str.test(triggerStock)){
+    }else if(!str1.test(triggerStock)){
         $("#add_triggerStock").focus();
     }else if(!str1.test(quotaRatio)){
         $("#add_quotaRatio").focus();
@@ -541,7 +541,7 @@ function update() {
         $("#update_oneCarCount").focus();
     }else if(!str.test(maxStock)){
         $("#update_maxStock").focus();
-    }else if(!str.test(triggerStock)){
+    }else if(!str1.test(triggerStock)){
         $("#update_triggerStock").focus();
     }else if(!str1.test(quotaRatio)){
         $("#update_quotaRatio").focus();

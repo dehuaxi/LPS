@@ -54,6 +54,7 @@ public interface PlanCacheMapper {
             @Param("date") String date,
             @Param("state") String state,
             @Param("type") String type,
+            @Param("urgent") String urgent,
             @Param("routeid") int routeId,
             @Param("factoryid") int factoryId,
             @Param("index") int index
@@ -67,11 +68,12 @@ public interface PlanCacheMapper {
             @Param("date") String date,
             @Param("state") String state,
             @Param("type") String type,
+            @Param("urgent") String urgent,
             @Param("routeid") int routeId,
             @Param("factoryid") int factoryId
     );
     //条件查询
-    public List<PlanCache> selectByCondition(
+    /*public List<PlanCache> selectByCondition(
             @Param("goodcode") String goodCode,
             @Param("goodname") String goodName,
             @Param("suppliercode") String supplierCode,
@@ -79,9 +81,10 @@ public interface PlanCacheMapper {
             @Param("date") String date,
             @Param("state") String state,
             @Param("type") String type,
+            @Param("urgent") String urgent,
             @Param("routeid") int routeId,
             @Param("factoryid") int factoryId
-    );
+    );*/
     //根据物料id集合、状态查询最早日期的记录
     PlanCache selectEarlyByGoodidsAndState(@Param("goodList") String goodidList,
                                                   @Param("state") String state);

@@ -5,6 +5,33 @@ $(document).ready(function () {
     loadPlan();
     //加载承运商
     loadCarrier();
+    //加载司机信息
+    $.ajax({
+        url: 'driverAll',
+        type: 'post',
+        dataType:'json',
+        success: function (data) {
+            if(data.code==0){
+                if(data.data==null){
+                    alert("没有司机信息，请添加后再试");
+                    window.close();
+                }else {
+                    for(var i=0;i<data.data.length;i++){
+                        $("#select_driver").append("<option>"+data.data[i].phone+":"+data.data[i].name+"</option>")
+                    }
+                }
+            } else {
+                alert(data.msg);
+                window.close();
+            }
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+            var status = jqXHR.status;//404,500等
+            var text = jqXHR.statusText;//404对应的Not found,500对应的error
+            alert("加载司机信息失败：" + status + "  " + text);
+            window.close();
+        }
+    });
 })
 //----------------加载承运商------------------
 function loadCarrier(){
@@ -29,6 +56,25 @@ function loadCarrier(){
             window.close();
         }
     })
+}
+
+//----------------选择司机----------------
+function chooseDriver(){
+    var info=$("#select_driver").val();
+    if(info==""){
+        $("#input_driver").val("");
+        $("#input_driver").removeAttr("disabled");
+        $("#input_driver").focus();
+        $("#input_phone").val("");
+        $("#input_phone").removeAttr("disabled");
+    }else {
+        var name=info.split(":")[1];
+        var phone=info.split(":")[0];
+        $("#input_driver").val(name);
+        $("#input_phone").val(phone);
+        $("#input_driver").attr("disabled","disabled");
+        $("#input_phone").attr("disabled","disabled");
+    }
 }
 
 //----------------加载计划信息和车辆信息------------------
@@ -141,10 +187,6 @@ function chooseCarNumber(){
         $("#input_carWidth").removeAttr("disabled");
         $("#input_carNumber").val("");
         $("#input_carNumber").removeAttr("disabled");
-        $("#input_driver").val("");
-        $("#input_driver").removeAttr("disabled");
-        $("#input_phone").val("");
-        $("#input_phone").removeAttr("disabled");
         $("#select_carrierName").val("");
         $("#select_carrierName").removeAttr("disabled");
     }else {
@@ -168,10 +210,6 @@ function chooseCarNumber(){
                     $("#input_carWidth").attr("disabled","disabled");
                     $("#input_carNumber").val(datas.data.carnumber);
                     $("#input_carNumber").attr("disabled","disabled");
-                    $("#input_driver").val(datas.data.driver);
-                    $("#input_driver").attr("disabled","disabled");
-                    $("#input_phone").val(datas.data.phone);
-                    $("#input_phone").attr("disabled","disabled");
                     $("#select_carrierName").val(datas.data.carrier.carriername);
                     $("#select_carrierName").attr("disabled","disabled");
                 }else {

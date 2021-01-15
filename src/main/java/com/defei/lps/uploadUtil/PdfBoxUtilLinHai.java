@@ -7,6 +7,8 @@ import com.defei.lps.dao.GoodMapper;
 import com.defei.lps.entity.*;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +32,8 @@ public class PdfBoxUtilLinHai {
     private GeelyBillCacheMapper geelyBillCacheMapper;
     @Autowired
     private GeelyBillRecordMapper geelyBillRecordMapper;
+
+    //private final static Logger logger = LoggerFactory.getLogger(PdfBoxUtilLinHai.class);
 
     //静态初始化当前类
     private static PdfBoxUtilLinHai pdfBoxUtil;

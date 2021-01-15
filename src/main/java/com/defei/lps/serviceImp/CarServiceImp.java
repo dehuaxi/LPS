@@ -3,9 +3,11 @@ package com.defei.lps.serviceImp;
 import com.defei.lps.dao.CarMapper;
 import com.defei.lps.dao.CarTypeMapper;
 import com.defei.lps.dao.CarrierMapper;
+import com.defei.lps.dao.TransportBillCacheMapper;
 import com.defei.lps.entity.Car;
 import com.defei.lps.entity.CarType;
 import com.defei.lps.entity.Carrier;
+import com.defei.lps.entity.TransportBillCache;
 import com.defei.lps.result.Result;
 import com.defei.lps.result.ResultUtil;
 import com.defei.lps.service.CarService;
@@ -28,14 +30,14 @@ public class CarServiceImp implements CarService {
     private CarTypeMapper carTypeMapper;
     @Autowired
     private CarrierMapper carrierMapper;
+    @Autowired
+    private TransportBillCacheMapper transportBillCacheMapper;
 
     /**
      * 添加车辆信息
      * @param carNumber
      * @param carrierId
      * @param carTypeId
-     * @param driver
-     * @param phone
      * @param highLength
      * @param highHeight
      * @param lowLength
@@ -44,14 +46,10 @@ public class CarServiceImp implements CarService {
      * @return
      */
     @Override
-    public Result add(String carNumber, int carrierId, int carTypeId, String driver, String phone, int highLength, int highHeight, int lowLength, int lowHeight, int carWidth) {
+    public Result add(String carNumber, int carrierId, int carTypeId, int highLength, int highHeight, int lowLength, int lowHeight, int carWidth) {
         //参数检验
-        if(!driver.matches("^[0-9A-Za-z\\u4e00-\\u9fa5#@_-]{1,10}$")){
-            return ResultUtil.error(1,"司机姓名只能是1-10位的数字、大小写字母、汉字、特殊字符(@#_-)");
-        }else if(!carNumber.matches("^([京津晋冀蒙辽吉黑沪苏浙皖闽赣鲁豫鄂湘粤桂琼渝川贵云藏陕甘青宁新][ABCDEFGHJKLMNPQRSTUVWXY][1-9DF][1-9ABCDEFGHJKLMNPQRSTUVWXYZ]\\d{3}[1-9DF]|[京津晋冀蒙辽吉黑沪苏浙皖闽赣鲁豫鄂湘粤桂琼渝川贵云藏陕甘青宁新][ABCDEFGHJKLMNPQRSTUVWXY][\\dABCDEFGHJKLNMxPQRSTUVWXYZ]{5})$")){
+        if(!carNumber.matches("^([京津晋冀蒙辽吉黑沪苏浙皖闽赣鲁豫鄂湘粤桂琼渝川贵云藏陕甘青宁新][ABCDEFGHJKLMNPQRSTUVWXY][1-9DF][1-9ABCDEFGHJKLMNPQRSTUVWXYZ]\\d{3}[1-9DF]|[京津晋冀蒙辽吉黑沪苏浙皖闽赣鲁豫鄂湘粤桂琼渝川贵云藏陕甘青宁新][ABCDEFGHJKLMNPQRSTUVWXY][\\dABCDEFGHJKLNMxPQRSTUVWXYZ]{5})$")){
             return ResultUtil.error(1,"车牌格式不正确");
-        }else if(!phone.matches("^[1]{1}[0-9]{10}$")){
-            return ResultUtil.error(1,"手机号格式不正确");
         }
         Car car=carMapper.selectByCarNumber(carNumber);
         if(car!=null){
@@ -94,8 +92,6 @@ public class CarServiceImp implements CarService {
         car1.setCarnumber(carNumber);
         car1.setCarrier(carrier);
         car1.setCartype(carType);
-        car1.setDriver(driver);
-        car1.setPhone(phone);
         car1.setHighlength(highLength);
         car1.setHighheight(highHeight);
         car1.setLowlength(lowLength);
@@ -110,8 +106,6 @@ public class CarServiceImp implements CarService {
      * @param id
      * @param carrierId
      * @param carTypeId
-     * @param driver
-     * @param phone
      * @param highLength
      * @param highHeight
      * @param lowLength
@@ -120,12 +114,12 @@ public class CarServiceImp implements CarService {
      * @return
      */
     @Override
-    public Result update(int id, int carrierId, int carTypeId, String driver, String phone, int highLength, int highHeight, int lowLength, int lowHeight, int carWidth) {
-        if(!driver.matches("^[0-9A-Za-z\\u4e00-\\u9fa5#@_-]{1,10}$")){
+    public Result update(int id, int carrierId, int carTypeId,int highLength, int highHeight, int lowLength, int lowHeight, int carWidth) {
+        /*if(!driver.matches("^[0-9A-Za-z\\u4e00-\\u9fa5#@_-]{1,10}$")){
             return ResultUtil.error(1,"工厂名称只能是1-10位的数字、大小写字母、汉字、特殊字符(@#_-)");
         }else if(!phone.matches("^[1]{1}[0-9]{10}$")){
             return ResultUtil.error(1,"手机号格式不正确");
-        }
+        }*/
         Car car=carMapper.selectByPrimaryKey(id);
         if(car==null){
             return ResultUtil.error(1,"车辆信息不存在，刷新页面重试");
@@ -142,8 +136,6 @@ public class CarServiceImp implements CarService {
         }
         car.setCarrier(carrier);
         car.setCartype(carType);
-        car.setDriver(driver);
-        car.setPhone(phone);
         car.setHighlength(highLength);
         car.setHighheight(highHeight);
         car.setLowlength(lowLength);
@@ -199,7 +191,7 @@ public class CarServiceImp implements CarService {
     }
 
     /**
-     * 根据车型名称查询车辆信息
+     * 根据车型名称查询车辆信息,只能查询不是在途的车辆
      * @param carTypeName
      * @return
      */
@@ -212,6 +204,17 @@ public class CarServiceImp implements CarService {
         List<Car> carList=carMapper.selectByCartypeid(carType.getId());
         if(carList.isEmpty()){
             return ResultUtil.success();
+        }
+        //集合不为空，去掉集合中在途的车辆
+        //获取在途的车辆集合
+        List<TransportBillCache> transportBillCacheList=transportBillCacheMapper.selectGroupCarnumber();
+        //去掉车辆集合中的在途车辆
+        for(TransportBillCache transportBillCache:transportBillCacheList){
+            for(Car car:carList){
+                if(car.getCarnumber().equals(transportBillCache.getCarnumber())){
+                    carList.remove(car);
+                }
+            }
         }
         return ResultUtil.success(carList);
     }

@@ -76,8 +76,7 @@
   <!-- 条件分页查询总数量 -->
   <select id="selectCountByCondition" resultType="java.lang.Integer">
     select count(*) from (
-    select p.id, p.goodid, p.count,p.maxcount,p.mincount, p.boxcount,p.date, p.receivedate,p.type,p.urgent, p.remarks,p.createtime, p.overtime
-    from planrecord p,good g,supplier s
+    select p.id from planrecord p,good g,supplier s
     where p.goodid=g.id and g.supplierid=s.id
     <if test="goodcode!=null and goodcode!=''">
       and g.goodcode like '%${goodcode}%'
@@ -119,7 +118,7 @@
   </delete>
   <delete id="deleteOneYearAgo">
     delete from planrecord
-    where date &lt; date_sub(now(),interval 1 year)
+    where overtime &lt; date_sub(now(),interval 1 year)
   </delete>
 
   <insert id="insertSelective" parameterType="com.defei.lps.entity.PlanRecorde" >

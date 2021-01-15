@@ -96,6 +96,9 @@
       <if test="type!=null and type!=''">
           and p.type =#{type}
       </if>
+      <if test="urgent!=null and urgent!=''">
+          and p.urgent =#{urgent}
+      </if>
       order by s.routeid,p.goodid,p.date limit #{index},30
     </select>
     <!-- 条件分页查询总数量 -->
@@ -132,6 +135,9 @@
         <if test="type!=null and type!=''">
             and p.type =#{type}
         </if>
+        <if test="urgent!=null and urgent!=''">
+            and p.urgent =#{urgent}
+        </if>
         order by s.routeid,p.goodid,p.date
       ) as a
     </select>
@@ -167,6 +173,9 @@
         </if>
         <if test="type!=null and type!=''">
             and p.type =#{type}
+        </if>
+        <if test="urgent!=null and urgent!=''">
+            and p.urgent =#{urgent}
         </if>
         order by s.routeid,p.goodid,p.date
     </select>

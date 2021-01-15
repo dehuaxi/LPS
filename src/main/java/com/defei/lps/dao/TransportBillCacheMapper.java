@@ -72,4 +72,6 @@ public interface TransportBillCacheMapper {
     );
     //根据运输单查询
     List<TransportBillCache> selectByBillnumber(@Param("billnumber") String billNumber);
+    //查询在途的车辆，以车牌号分组
+    List<TransportBillCache> selectGroupCarnumber();
 }

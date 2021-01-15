@@ -326,7 +326,7 @@ public class ShortageExcelUpload {
                                 if (todayStockCell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
                                     //获取单元格内容,并去掉空格
                                     todayStock = todayStockCell.getStringCellValue().replace(" ", "");
-                                    if(!todayStock.matches("^[0-9]{1,11}$")){
+                                    if(!todayStock.matches("^[+-]{0,1}[0-9]{1,10}$")){
                                         result+=";第"+(i+1)+"行，“"+today+"结存”必须填入数字";
                                         continue;
                                     }
@@ -344,7 +344,7 @@ public class ShortageExcelUpload {
                                 if (yestodayStockCell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
                                     //获取单元格内容,并去掉空格
                                     yestodayStock = yestodayStockCell.getStringCellValue().replace(" ", "");
-                                    if(!yestodayStock.matches("^[0-9]{1,11}$")){
+                                    if(!yestodayStock.matches("^[+-]{0,1}[0-9]{1,10}$")){
                                         result+=";第"+(i+1)+"行，“前日结存”必须填入数字";
                                         continue;
                                     }
@@ -386,7 +386,7 @@ public class ShortageExcelUpload {
                                 if(stockCell!=null){
                                     if (stockCell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
                                         //获取单元格内容,并去掉空格
-                                        if(stockCell.getStringCellValue().replace(" ", "").matches("^[0-9]{1,11}$")){
+                                        if(stockCell.getStringCellValue().replace(" ", "").matches("^[+-]{0,1}[0-9]{1,10}$")){
                                             stock=stockCell.getStringCellValue().replace(" ", "");
                                         }else {
                                             result+=";第"+(i+1)+"行，“"+map.get("date")+"日结存”必须填入数字";

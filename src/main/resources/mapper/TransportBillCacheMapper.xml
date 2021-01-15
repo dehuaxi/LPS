@@ -196,6 +196,11 @@
     select <include refid="Base_Column_List" /> from transportbillcache
     where billnumber = #{billnumber,jdbcType=INTEGER}
   </select>
+  <!--查询在途的车辆，以车牌号分组-->
+  <select id="selectGroupCarnumber" resultMap="BaseResultMap" >
+    select carnumber from transportbillcache
+    group by carnumber
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from transportbillcache

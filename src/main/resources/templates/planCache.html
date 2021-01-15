@@ -76,6 +76,12 @@
         <option>系统</option>
         <option>手工</option>
     </select>
+    <select class="form-inline" id="select_urgent">
+        <option value="">紧急类型</option>
+        <option>正常</option>
+        <option>紧急</option>
+        <option>特急</option>
+    </select>
     <button class="btn btn-primary btn-sm form-inline" type="button" onclick="findByLimit(1)">查询<span
             class="glyphicon glyphicon-search"></span></button>
 </div>
@@ -100,7 +106,7 @@
         <th>运输周期</th>
         <th>状态</th>
         <th>类型</th>
-        <th>紧急</th>
+        <th>紧急程度</th>
         <th>创建时间</th>
         <th>所属线路</th>
         <th>所属工厂</th>

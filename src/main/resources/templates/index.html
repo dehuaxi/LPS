@@ -130,6 +130,9 @@
                             <shiro:hasPermission name="car">
                                 <li><a th:href="@{/toCar}" target="myframe">车辆信息</a></li>
                             </shiro:hasPermission>
+                            <shiro:hasPermission name="driver">
+                                <li><a th:href="@{/toDriver}" target="myframe">司机信息</a></li>
+                            </shiro:hasPermission>
                             <shiro:hasPermission name="supplier">
                                 <li><a th:href="@{/toSupplier}" target="myframe">供应商信息</a></li>
                             </shiro:hasPermission>

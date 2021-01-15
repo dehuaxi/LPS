@@ -5,7 +5,7 @@ $(document).ready(function () {
     $("#typeModal").modal("show");
     //加载出发地中转仓
     $.ajax({
-        url: 'currentWarehouse',
+        url: 'warehouseAll',
         type: 'post',
         dataType:'json',
         success: function (data) {
@@ -196,7 +196,7 @@ function chooseType(){
         $("#type").html("中转仓-中转仓");
         //加载中转仓
         $.ajax({
-            url: 'currentWarehouse',
+            url: 'warehouseAll',
             type: 'post',
             dataType:'json',
             success: function (data) {
@@ -226,6 +226,8 @@ function sureType(){
         alert("请选择出发地");
     }else if(endId==0){
         alert("请选择目的地");
+    }else if(startId==endId){
+        alert("目的地和出发地不可一样");
     }else {
         $("#route").html($("#select_startId option:selected").text()+" ->-> "+$("#select_endId option:selected").text());
         $("#typeModal").modal("hide");

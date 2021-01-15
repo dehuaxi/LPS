@@ -24,8 +24,8 @@ public class PlanCacheController {
     @RequestMapping(value = "planCache", produces = {"application/json;charset=UTF-8"})
     @RequiresPermissions("planCache")
     @ResponseBody
-    public Result findAll(String goodCode,String goodName,String supplierCode, String supplierName, int routeId, int factoryId, String date,String state,String urgent,String type,int currentPage) {
-        return planCacheService.findAll(goodCode,goodName,supplierCode,supplierName,routeId,factoryId,date,state,urgent,type,currentPage);
+    public Result findAll(String goodCode,String goodName,String supplierCode, String supplierName, int routeId, int factoryId, String date,String state,String type,String urgent,int currentPage) {
+        return planCacheService.findAll(goodCode,goodName,supplierCode,supplierName,routeId,factoryId,date,state,type,urgent,currentPage);
     }
 
     //删除

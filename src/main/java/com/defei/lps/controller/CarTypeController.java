@@ -23,7 +23,7 @@ public class CarTypeController {
         return "carType";
     }
 
-    //查询
+    //查询所有
     @RequestMapping(value = "carType", produces = {"application/json;charset=UTF-8"})
     @RequiresPermissions("carType")
     @ResponseBody
